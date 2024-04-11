@@ -167,7 +167,7 @@
                 <td class="w-25">
                     <div class="my-1 py-1">
                         <div class="position-relative">
-                            <img src="{{ asset('assets/images/signature.png') }}" alt="" srcset="" style="height:16rem; width:20rem; position:absolute; bottom:-60%; left: -45%;">
+                            <img src="{{ asset('assets/images/signature.png') }}" alt="" srcset="" style="height:16rem; width:20rem; position:absolute; bottom:-60%; left: -15%;">
                             <img src="{{ asset('assets/images/stamp.png') }}" alt="" srcset="" style="height:12rem; width:15rem;">
                         </div>
                     </div>
