@@ -18,6 +18,7 @@ $user = \Auth()->user()
                 <th>@lang('text.word_tution')</th>
                 <th>@lang('text.word_international')</th>
                 <th>@lang('text.first_instalment')</th>
+                <th>@lang('text.registration_fee')</th>
                 <th>@lang('text.word_bank')</th>
             </tr>
         </thead>
@@ -27,12 +28,12 @@ $user = \Auth()->user()
             @endphp
             
             @foreach ($data as $school)
-                <tr class="border-y text-center"><td colspan="6"> <span class="heading"> SCHOOL OF {{ ($school->first()->first()->first()['school']) ?? '----' }}</span> </td></tr>
+                <tr class="border-y text-center"><td colspan="7"> <span class="heading"> SCHOOL OF {{ ($school->first()->first()->first()['school']) ?? '----' }}</span> </td></tr>
                 @foreach ($school as $department)
-                    <tr class="border-y text-center"><td colspan="6"> <span class="heading"> DEPARTMENT OF {{ ($department->first()->first()['department']) ?? '----' }}</span> </td></tr>
+                    <tr class="border-y text-center"><td colspan="7"> <span class="heading"> DEPARTMENT OF {{ ($department->first()->first()['department']) ?? '----' }}</span> </td></tr>
                     @foreach ($department as $program)
                         <tr class="border-y text-center">
-                            <td colspan="5"> <span class="heading">{{ ($program->first()['program']) ?? '----' }}</span> </td>
+                            <td colspan="6"> <span class="heading">{{ ($program->first()['program']) ?? '----' }}</span> </td>
                             <td></td>
                         </tr>
                         @foreach ($program as $class)
@@ -42,6 +43,7 @@ $user = \Auth()->user()
                                 <td class="border">{{ $class['amount'] }}</td>
                                 <td class="border">{{ $class['international_amount'] }}</td>
                                 <td class="border">{{ $class['first_instalment'] }}</td>
+                                <td class="border">{{ $class['registration']??'----' }}</td>
                                 <td class="border">
                                     <span> bank: {{ $class['bank_name'] }}</span><br>
                                     <span> account name: {{ $class['bank_account_name'] }}</span><br>
