@@ -48,6 +48,7 @@ class CustomLoginController extends Controller
     
     
     public function createAccount(Request $request){
+        // dd($request->all());
         if (($stud = Students::where('matric', $request->username)->first()) != null) {  
             $update['phone'] = $request->phone;
             $update['password'] = Hash::make($request->password);

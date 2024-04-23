@@ -58,16 +58,21 @@
                             <b>@lang('text.offer_of_admission')</b>
                         </div>
                         <div class="my-1 py-1">
-                            <span>@lang('text.admission_letter_text_block1', [
-                                    'degree'=>($degree??'DEG'), 
-                                    'department'=>($fee['department']??'DEP'), 
-                                    'year'=>($year??'NO-YEAR'), 
-                                    'tution_fee'=>($fee['amount']??'FEE'), 
-                                    'first_installment'=>($fee['first_installment']??'1INST'), 
-                                    'reg_fee'=>($fee['registration']??'RG.FEE'), 
-                                    'fee_total'=>($fee['amount']??0)+($fee['registration']??0), 
-                                    'international'=>$fee['international_amount']
-                                ])
+                            <span> {{ 
+                                __(
+                                        'text.admission_letter_text_block1', 
+                                        [
+                                            'degree'=>($degree??'DEG'), 
+                                            'department'=>($fee['department']??'DEP'), 
+                                            'year'=>($year??'NO-YEAR'), 
+                                            'tution_fee'=>($fee['amount']??'FEE'), 
+                                            'first_installment'=>($fee['first_installment']??'1INST'), 
+                                            'reg_fee'=>($fee['registration']??'RG.FEE'), 
+                                            'fee_total'=>($fee['amount']??0)+($fee['registration']??0), 
+                                            'international'=>$fee['international_amount']
+                                        ]
+                                    )
+                                 }}
                             </span>
                         </div>
                         <div class="my-1 py-1">

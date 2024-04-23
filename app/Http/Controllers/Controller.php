@@ -99,22 +99,21 @@ class Controller extends BaseController
      }
 
     public function createAccount(Request $request){
-        
+        // dd($request->all());
         $request->validate([
-            'name'=>'required', 'email'=>'required|email', 'phone'=>'required',
+            'name'=>'required', 'phone'=>'required',
             'cpassword'=>'required',
             'password'=>'required_with:cpassword|same:cpassword|',
         ]);
-        if(Students::where('email', $request->email)->count() > 0){
-            return back()->with('error', __('text.error_email_exist'));
-        }
         if(Students::where('phone', $request->phone)->count() > 0){
             return back()->with('error', __('text.error_phone_exist'));
         }
         $account = new Students($request->all());
         $account->password = Hash::make($request->password);
         $account->save();
-        return redirect(route('login'))->with('success', 'Account successfully created');
+        auth('student')->login($account);
+        return redirect()->to(route('student.home'))->with('s','Account created successfully.'); 
+        // return redirect(route('login'))->with('success', 'Account successfully created');
     }
 
     public function reset_password(Request $request, $id= null)
