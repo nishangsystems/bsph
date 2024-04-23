@@ -137,7 +137,7 @@ $em_key = time().random_int(3000, 3099);
                             </div>
                         </div>
                         
-                        <input type="hidden"  name="email" value="{{ auth('student')->user()->email }}">
+                        {{-- <input type="hidden"  name="email" value="{{ auth('student')->user()->email }}"> --}}
                         
                         <input type="hidden" name="campus_id" value="{{ $application->campus_id }}">
                         <div class="py-2 col-sm-6 col-md-4 col-lg-4 col-xl-2">
