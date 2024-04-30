@@ -69,12 +69,10 @@ class Students extends Authenticatable
         $batch = Batch::find($year);
         if($batch->pay_charges == 0)
             return true;
-        if($batch->pay_charges == 0)
-            return true;
         $plcharge = PlatformCharge::where('year_id', $year)->first();
         if($plcharge == null || $plcharge->yearly_amount == null || $plcharge->yearly_amount <= 0)
             return true;
-        $charge = Charge::where(['student_id'=> $this->id, 'item_id'=>$plcharge->id, 'year_id'=>$year])->whereNotNull('amount')->first();
+        $charge = Charge::where(['student_id'=> $this->id, 'type'=>'PLATFORM', 'year_id'=>$year])->whereNotNull('amount')->first();
         if($charge == null)
             return false;
         return true;
