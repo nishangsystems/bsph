@@ -588,7 +588,7 @@ class HomeController extends Controller
         # code...
         $charge = PlatformCharge::first();
         if($charge == null || $charge->yearly_amount == null || $charge->yearly_amount == 0){return back()->with('error', 'Platform charges not set.');}
-        if(Charge::where(['item_id'=>$charge->id, 'student_id'=>auth('student')->id()])->count() > 0){return redirect(route('student.home'))->with('message', 'Platform charges already paid for this year.');}
+        if(Charge::where(['year_id'=>$request->year_id, 'student_id'=>auth('student')->id(), 'type'=>'PLATFORM'])->count() > 0){return redirect(route('student.home'))->with('message', 'Platform charges already paid for this year.');}
         $data['title'] = "Pay Platform Charges";
         $data['amount'] = $charge->yearly_amount;
         $data['purpose'] = 'PLATFORM';
