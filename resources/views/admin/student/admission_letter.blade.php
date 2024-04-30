@@ -58,7 +58,7 @@
                             <b>@lang('text.offer_of_admission')</b>
                         </div>
                         <div class="my-1 py-1">
-                            <span> {{ 
+                            <span> {!! 
                                 __(
                                         'text.admission_letter_text_block1', 
                                         [
@@ -72,7 +72,7 @@
                                             'international'=>$fee['international_amount']
                                         ]
                                     )
-                                 }}
+                                 !!}
                             </span>
                         </div>
                         <div class="my-1 py-1">
@@ -86,9 +86,9 @@
                         <div class="my-1 py-1">
                             <span>@lang('text.at_registration_you_will_be_expected_to_do_the_following'):</span><br>
                             <ul style="list-style-type: disc; margin-left:2rem; padding-left:2rem;">
-                                <li>@lang('text.present_receipts_of_payment_of_registration_fees', ['bank_name'=>$fee->bank_name??'----'])</li>
-                                <li>@lang('text.present_originals_of_certificates')</li>
-                                <li>@lang('text.present_fee_receipts')</li>
+                                <li>{!! __('text.present_receipts_of_payment_of_registration_fees', ['bank_name'=>$fee->bank_name??'----']) !!}</li>
+                                <li>{!! __('text.present_originals_of_certificates') !!}</li>
+                                <li>{!! __('text.present_fee_receipts') !!}</li>
                             </ul>
                         </div>
                         <div class="my-1 py-1">
@@ -114,7 +114,7 @@
                         <div class="my-1 py-1">
                             <b>N.B:</b><br>
                             <ul style="list-style-type: disc; margin-left:2rem; padding-left:4rem;">
-                                <li>@lang('text.admission_letter_NB1')</li>
+                                <li>{!! __('text.admission_letter_NB1') !!}</li>
                                 <li>@lang('text.only_registered_students_will_be_allowed_in_class')</li>
                                 <li>@lang('text.fee_paid_is_non_refundable')</li>
                             </ul>
