@@ -525,27 +525,7 @@ class HomeController extends Controller
         // dd($application_id);
         # code...
         try{
-            $application = ApplicationForm::find($application_id);
-            $data['campuses'] = json_decode($this->api_service->campuses())->data;
-            $data['application'] = ApplicationForm::find($application_id);
-            $data['degree'] = collect(json_decode($this->api_service->degrees())->data??[])->where('id', $data['application']->degree_id)->first();
-            $data['campus'] = collect($data['campuses'])->where('id', $data['application']->campus_id)->first();
-            $data['certs'] = json_decode($this->api_service->certificates())->data;
-            
-            $data['programs'] = json_decode($this->api_service->campusDegreeCertificatePrograms($data['application']->campus_id, $data['application']->degree_id, $data['application']->entry_qualification))->data;
-            $data['cert'] = collect($data['certs'])->where('id', $data['application']->entry_qualification)->first();
-            $data['program1'] = collect($data['programs'])->where('id', $data['application']->program_first_choice)->first();
-            $data['program2'] = collect($data['programs'])->where('id', $data['application']->program_second_choice)->first();
-            
-            // $title = $application->degree??''.' APPLICATION FOR '.$application->campus->name??' --- '.' CAMPUS';
-            $title = __('text.inst_tapplication_form', ['degree'=>$data['degree']->deg_name]);
-            $data['title'] = $title;
-
-            // if(in_array(null, array_values($data))){ return redirect(route('student.application.start', [0, $application_id]))->with('message', "Make sure your form is correctly filled and try again.");}
-            return view('student.online.form_dawnloadable', $data);
-            $pdf = PDF::loadView('student.online.form_dawnloadable', $data);
-            $filename = $title.' - '.$application->name.'.pdf';
-            return $pdf->download($filename);
+            return $this->appService->application_form($application_id);
         }catch(Throwable $th){
             return back()->with('error', "\nFile : {$th->getFile()}\nMessage : {$th->getMessage()} \nLine : {$th->getLine()}");
         }

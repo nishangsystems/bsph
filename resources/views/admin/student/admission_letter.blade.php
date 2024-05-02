@@ -65,11 +65,11 @@
                                             'degree'=>($degree??'DEG'), 
                                             'department'=>($fee['department']??'DEP'), 
                                             'year'=>($year??'NO-YEAR'), 
-                                            'tution_fee'=>($fee['amount']??'FEE'), 
-                                            'first_installment'=>($fee['first_installment']??'1INST'), 
-                                            'reg_fee'=>($fee['registration']??'RG.FEE'), 
-                                            'fee_total'=>($fee['amount']??0)+($fee['registration']??0), 
-                                            'international'=>$fee['international_amount']
+                                            'tution_fee'=>number_format($fee['amount']??0), 
+                                            'first_installment'=>number_format($fee['first_installment']??0), 
+                                            'reg_fee'=>number_format($fee['registration']??0), 
+                                            'fee_total'=>number_format(($fee['amount']??0)+($fee['registration']??0)), 
+                                            'international'=>number_format($fee['international_amount']??0)
                                         ]
                                     )
                                  !!}
