@@ -1224,11 +1224,11 @@ class ProgramController extends Controller
                     if($max_matric == null){
                         $max_count = 0;
                     }else{
-                        $max_count = intval(substr($max_matric, strlen($prefix)+4));
+                        $max_count = intval(substr($max_matric, -3));
                     }
 
                     NEXT_MATRIC:
-                    $next_count = substr('0000'.(++$max_count), -4);
+                    $next_count = substr('000'.(++$max_count), -3);
                     $student_matric = $prefix.$year.$suffix.$next_count;
                     // dd($student_matric);
                     if(ApplicationForm::where('matric', $student_matric)->where('id', '!=', $id)->count() == 0){

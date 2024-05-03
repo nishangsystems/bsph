@@ -41,15 +41,22 @@
                 </td>
                 <td colspan="3" class="w-75">
                     <div>
-                        <div class="d-flex my-1 py-1 justify-content-between">
-                            <b>
-                                <span class="text-capitalize">@lang('text.your_ref')</span>: _______________________ <br><br>
-                                <span class="text-capitalize">@lang('text.our_ref')</span>:  <span style="">BUIB/AL/{{ $_program->prefix??'' }}/{{ $matric_sn??'' }}</span>
-                            </b>
-                            <b>
-                                <span class="text-capitalize">@lang('text.word_date')</span>: <span style="text-decoration: underline;">{{ "  ".now()->format('d/m/Y')."  " }}</span>
-                            </b>
-                        </div>
+                        <table style="table-layout: fixed;">
+                            <thead>
+                                <th>
+                                    <b>
+                                        <span class="text-capitalize">@lang('text.your_ref')</span>: _________________ <br><br>
+                                        <span class="text-capitalize">@lang('text.our_ref')</span>:  <span style="">BUIB/AL/{{ $_program->prefix??'' }}/{{ $matric_sn??'' }}</span>
+                                    </b>
+                                </th>
+                                {{-- <th></th> --}}
+                                <th>
+                                    <b>
+                                        <span class="text-capitalize">@lang('text.word_date')</span>: <span style="text-decoration: underline;">{{ "  ".now()->format('d/m/Y')."  " }}</span>
+                                    </b>
+                                </th>
+                            </thead>
+                        </table>
                         <div class="my-1 py-1 text-capitalize">
                             <span>@lang('text.dear_titles') : <b>{{ $name??'' }}</b></span><br>
                             <span>@lang('text.matriculation_number') : <b>{{ $matric??'' }}</b></span>
@@ -169,15 +176,7 @@
             </tr>
             <tr style="display: table-row;">
                 <td class="border-right border-4 my-0 border-dark w-25"></td>
-                <td class="w-25">
-                    <div>
-                        <div class="text-center my-1 py-1">
-                            ______________ <br>
-                            <b class="my-1 py-1 d-block">{{ $registrar??'' }}</b> <br>
-                            <b class="text-capitalize">@lang('text.word_registrar')</b>
-                        </div>
-                    </div>
-                </td>
+                <td class="w-25"></td>
                 <td class="w-25"></td>
                 <td class="w-25">
                     <div class="my-1 py-1">
