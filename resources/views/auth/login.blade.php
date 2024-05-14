@@ -235,13 +235,7 @@
 											<form method="POST" action="{{ route('reset_password_without_token') }}" style="padding-block: 1rem !important;">
 											@csrf
 												<fieldset>
-													<label class="block clearfix">
-														<span class="text-capitalize">{{__('text.word_email')}}</span>
-														<span class="block input-icon input-icon-right">
-															<input type="email" required name="email" class="form-control"  style="border-radius: 0.5rem !important; background-color: white !important; color: black"/>
-														</span>
-													</label>
-
+													
 													<label class="block clearfix">
 														<span class="text-capitalize">{{__('text.phone_number')}}</span>
 														<span class="block input-icon input-icon-right">

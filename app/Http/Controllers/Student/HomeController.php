@@ -738,110 +738,11 @@ class HomeController extends Controller
             'payment_id'=>'required|numeric'
         ]);
         
-        // return cache('tranzak_credentials_token');
-
-        // // check if token exist and hasn't expired or get new token otherwise
-        // $student = auth('student')->user();
-        // switch($request->payment_purpose){
-        //     case "TRANSCRIPT":
-        //         $cache_token_key = config('tranzak.tranzak.transcript_token');
-        //         $tranzak_app_id = config('tranzak.tranzak.transcript_app_id');
-        //         $tranzak_api_key = config('tranzak.tranzak.transcript_api_key');
-        //         $transaction_data = config('tranzak.tranzak.transcript_transaction');
-        //         break;
-                
-        //     case "TUTION":
-        //         $cache_token_key = config('tranzak.tranzak.tution_token');
-        //         $tranzak_app_id = config('tranzak.tranzak.tution_app_id');
-        //         $tranzak_api_key = config('tranzak.tranzak.tution_api_key');
-        //         $transaction_data = config('tranzak.tranzak.tution_transaction');
-        //         break;
-
-        //     case "OTHERS":
-        //         $cache_token_key = config('tranzak.tranzak.others_token');
-        //         $tranzak_app_id = config('tranzak.tranzak.others_app_id');
-        //         $tranzak_api_key = config('tranzak.tranzak.others_api_key');
-        //         $transaction_data = config('tranzak.tranzak.others_transaction');
-        //         break;
-
-        //     case "RESIT":
-        //         $cache_token_key = config('tranzak.tranzak.resit_token');
-        //         $tranzak_app_id = config('tranzak.tranzak.resit_app_id');
-        //         $tranzak_api_key = config('tranzak.tranzak.resit_api_key');
-        //         $transaction_data = config('tranzak.tranzak.resit_transaction');
-        //         break;
-
-        //     case "PLATFORM":
-        //         $cache_token_key = config('tranzak.tranzak.platform_token');
-        //         $tranzak_app_id = config('tranzak.tranzak.platform_app_id');
-        //         $tranzak_api_key = config('tranzak.tranzak.platform_api_key');
-        //         $transaction_data = config('tranzak.tranzak.platform_transaction');
-        //         break;
-
-        //     case "_TRANSCRIPT":
-        //         $cache_token_key = config('tranzak.tranzak._transcript_token');
-        //         $tranzak_app_id = config('tranzak.tranzak._transcript_app_id');
-        //         $tranzak_api_key = config('tranzak.tranzak._transcript_api_key');
-        //         $transaction_data = config('tranzak.tranzak._transcript_transaction');
-        //         break;
-
-        // }
-        // // dd(1234124);
-        // $tranzak_credentials = TranzakCredential::where('campus_id', 7)->first();
-        // // dd($tranzak_credentials);
-        // if(!(\Cache::has($tranzak_credentials->cache_token_key)) or (\Cache::has($tranzak_credentials->cache_token_key.'_expiry') and Carbon::parse(cache($tranzak_credentials->cache_token_key.'_expiry'))->isAfter(now()))){
-        //     // get and cache different token
-        //     GEN_TOKEN:
-        //     // dd(config('tranzak.tranzak.base').config('tranzak.tranzak.token'));
-        //     $response = Http::post(
-        //         config('tranzak.tranzak.base').config('tranzak.tranzak.token'), 
-        //         [
-        //             'appId'=>$tranzak_credentials->tranzak_app_id, 
-        //             'appKey'=>$tranzak_credentials->tranzak_api_key
-        //         ]
-        //     );
-        //     dd($response->collect());
-        //     if($response->collect()['success'] == 1){
-        //         // cache token and token expirationtot session
-        //         cache([$tranzak_credentials->cache_token_key => json_decode($response->body())->data->token]);
-        //         cache([$tranzak_credentials->cache_token_key.'_expiry'=>Carbon::createFromTimestamp(time() + json_decode($response->body())->data->expiresIn)]);
-        //     }
-        // }
-        // // Assumed there is a valid api token
-        // // Moving to performing the payment request proper
-        // $tel = strlen($request->tel) >= 12 ? $request->tel : '237'.$request->tel;
-        // $headers = ['Authorization'=>'Bearer '.cache($tranzak_credentials->cache_token_key)];
-        // $request_data = ['mobileWalletNumber'=>$tel, 'mchTransactionRef'=>'_'.str_replace(' ', '_', $request->payment_purpose).'_payment_'.time().'_'.random_int(1, 9999), "amount"=> $request->amount, "currencyCode"=> "XAF", "description"=>"Payment for {$request->payment_purpose} - BIAKA UNIVERSITY INSTITUTE OF BUEA."];
-        // // dd($headers);
-        // $_response = Http::withHeaders($headers)->post(config('tranzak.tranzak.base').config('tranzak.tranzak.direct_payment_request'), $request_data);
-        // // dd($_response->collect());
-        // if($_response->status() == 200){
-        //     // save transaction and track it status
-        //     if($_response->collect()->toArray()['success'] == false){
-        //         goto GEN_TOKEN;
-        //     }
-        //     $resp_data = $_response->collect()->toArray()['data'];
-        //     $pending_tranzaktion = [
-        //         "request_id"=>$resp_data['requestId'],"amount"=>$resp_data['amount'],"currency_code"=>$resp_data['currencyCode'],"description"=>$resp_data['description'],"transaction_ref"=>$resp_data['mchTransactionRef'],"app_id"=>$resp_data['appId'], 'transaction_time'=>$resp_data['createdAt'],'user_type'=>'student', 'purpose'=>$request->payment_purpose,
-        //         "payment_id"=>$request->payment_id,"student_id"=>auth('student')->id(),"batch_id"=>$request->year_id,'unit_id'=>auth('student')->user()->_class()->id,"original_amount"=>$request->amount,"reference_number"=>'fee.tranzak_momo_payment_'.time().'_'.random_int(100000, 999999).'_'.auth('student')->id(), 'paid_by'=>'TRANZAK_MOMO'
-        //     ];
-        //     $pt_instance = new PendingTranzakTransaction($pending_tranzaktion);
-        //     $pt_instance->save();
-        //     // dd($_response->collect()->toArray()['data']);
-        //     // return $request->all();
-        //     session()->put($transaction_data, json_decode($_response->body())->data);
-        //     return redirect()->to(route('student.tranzak.processing', $purpose));
-        // }else{
-        //     goto GEN_TOKEN;
-        // }
-
-
-        //_______________________________________________________________________________________________
-
+        
         // MAKE API CALL TO PERFORM PAYMENT OF APPLICATION FEE
         // check if token exist and hasn't expired or get new token otherwise
         $application = auth('student')->user()->applicationForms()->where('year_id', Helpers::instance()->getCurrentAccademicYear())->first();
-        $tranzak_credentials = \App\Models\TranzakCredential::where('campus_id', 6)->first();
+        $tranzak_credentials = \App\Models\TranzakCredential::where('campus_id', 0)->first();
         if(cache($tranzak_credentials->cache_token_key) == null or Carbon::parse(cache($tranzak_credentials->cache_token_expiry_key))->isAfter(now())){
             GEN_TOKEN:
             $response = Http::post(config('tranzak.base').config('tranzak.token'), ['appId'=>$tranzak_credentials->app_id, 'appKey'=>$tranzak_credentials->api_key]);

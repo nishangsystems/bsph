@@ -30,16 +30,17 @@ class CustomForgotPasswordController extends Controller
 
     public function validatePasswordRequest(Request $request)
     {
-        $validator = Validator::make($request->all(), ['email'=>'required|email', 'phone'=>'required']);
+        $validator = Validator::make($request->all(), ['phone'=>'required']);
         if($validator->fails()){
             return back()->with('error', $validator->errors()->first());
         }
 
-        $record = Students::where(['email'=>$request->email, 'phone'=>$request->phone])->first();
+        $record = Students::where(['phone'=>$request->phone])->first();
         if($record != null){
             $record->password = \Illuminate\Support\Facades\Hash::make('12345678');
             $record->save();
-            return redirect(route('login'))->with('success', __('text.password_reset'));
+            auth('student')->login($record);
+            return redirect(route('student.home'))->with('success', "Done. New password 12345678");
         }
         return back()->with('error', __('text.missing_student'));
     }
