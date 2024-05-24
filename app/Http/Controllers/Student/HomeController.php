@@ -221,7 +221,8 @@ class HomeController extends Controller
             // $data['al_results'] = json_decode($application->al_results??'[]');
             // $data['ol_results'] = json_decode($application->ol_results??'[]');
             // dd($data);
-            $data['step'] = $step;
+            $data['step'] = ($application->transaction_id == null && $step >= 1) ? 6 : $step;
+
             $isMaster = in_array('degree', $data) and stristr($data['degree']->deg_name??"", "master");
             if ($step == 3) {
                 if(!$isMaster){
@@ -321,6 +322,7 @@ class HomeController extends Controller
             
         }
 
+
         if($validity->fails()){
             return back()->with('error', $validity->errors()->first());
         }
@@ -399,7 +401,9 @@ class HomeController extends Controller
             // dd('check point X4');
 
         }
-        $step = $request->step;
+        $step = (ApplicationForm::where('id', $application_id)->whereNotNull('transaction_id')->count() == 0 ) ? 6 : $request->step;
+        
+
         return redirect(route('student.application.start', [$step, $application_id]));
     }
 
