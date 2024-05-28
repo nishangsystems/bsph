@@ -786,7 +786,7 @@ class HomeController extends Controller
     {
         # code...
         $data['title'] = "Processing Payment Request";
-        $data['tranzak_credentials'] = TranzakCredential::where('campus_id', 6)->first();
+        $data['tranzak_credentials'] = TranzakCredential::where('campus_id', 0)->first();
         $data['transaction'] = json_decode(session('processing_tranzak_transaction_details'));
         // dd(1573);
         return view('student.momo.processing', $data);
