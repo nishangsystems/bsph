@@ -43,6 +43,9 @@
                 // check if status is completed or failed
                 response_data = data.data
                 console.log(response_data);
+                if(response_data.status == "PAYMENT_IN_PROGRESS"){
+                    return;
+                }
                 if((response_data.status == "SUCCESSFUL") || (response_data.status == "CANCELLED") || (response_data.status == "FAILED") || (response_data.status == "REVERSED")){
                     url = "{{route('student.tranzak.complete')}}";
                     let form_markup = `<form method="post" id="_temp_form" action="${url}" enctype="application/json">
@@ -60,7 +63,7 @@
                     form_markup += `</form>`;
                     
                     let form = $('#_temp_use').html(form_markup);
-                    //$('#_temp_form').submit();
+                    $('#_temp_form').submit();
                     // window.location = url;
                 }
             }
