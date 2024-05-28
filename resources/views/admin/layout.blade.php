@@ -297,6 +297,14 @@
 
                         <b class="arrow"></b>
                     </li>
+                    <li>
+                        <a href="{{route('admin.programs.p2.index')}}" class="text-capitalize">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            {{__('text.admission_letter')}}
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
                 </ul>
             </li>
             @endif

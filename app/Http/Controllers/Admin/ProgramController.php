@@ -1626,4 +1626,28 @@ class ProgramController extends Controller
         return back()->with('success', "Done");
     }
 
+    public function ad_letter_page2_index(Request $request){
+        $data['title'] = "Set Second Page Of Admission Letter Per Program";
+        $data['programs'] = json_decode($this->api_service->programs())->data;
+        return view('admin.programs.p2_index', $data);
+    }
+
+    public function set_ad_letter_page2(Request $request, $program_id){
+        $program = json_decode($this->api_service->programs($program_id))->data;
+        $data['title'] = "Create Second Page For ".$program->name;
+        $data['program'] = $program;
+        $data['page2'] = \App\Models\AdmissionLetterPage2::where('program_id', $program_id)->first();
+        return view('admin.programs.p2_create', $data);
+    }
+
+    public function save_ad_letter_page2(Request $request, $program_id){
+        $validity = Validator::make($request->all(), ['content'=>'required']);
+        if($validity->fails()){
+            session()->flash('error', $validity->errors()->first());
+            return back()->withInput();
+        }
+
+        \App\Models\AdmissionLetterPage2::upadteOrInsert(['program_id'=>$program_id], ['content'=>$request->content]);
+        return back()->with('success', 'Done');
+    }
 }

@@ -208,6 +208,9 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
         Route::post('set_admins/{prog_id?}', [AdminHomeController::class, 'save_admins']);
         Route::get('set_appliable', [ProgramController::class, 'configure_appliable_programs'])->name('set_appliable');
         Route::post('set_appliable', [ProgramController::class, 'save_appliable_programs']);
+        Route::get('p2/index', [ProgramController::class, 'ad_letter_page2_index'])->name('p2.index');
+        Route::get('p2/create/{program_id}', [ProgramController::class, 'set_ad_letter_page2'])->name('p2.create');
+        Route::post('p2/create/{program_id}', [ProgramController::class, 'save_ad_letter_page2']);
     });
 });
 
