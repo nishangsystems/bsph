@@ -206,6 +206,8 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
         Route::get('all', [AdminHomeController::class, 'all_programs'])->name('all');
         Route::get('set_admins/{prog_id?}', [AdminHomeController::class, 'set_admins'])->name('set_admins');
         Route::post('set_admins/{prog_id?}', [AdminHomeController::class, 'save_admins']);
+        Route::get('set_appliable', [ProgramController::class, 'configure_appliable_programs'])->name('set_appliable');
+        Route::post('set_appliable', [ProgramController::class, 'save_appliable_programs']);
     });
 });
 

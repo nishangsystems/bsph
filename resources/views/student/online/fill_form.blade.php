@@ -532,7 +532,7 @@ $em_key = time().random_int(3000, 3099);
                 @break
 
             @case(5)
-                <form enctype="multipart/form-data" id="application_form" method="post" action="{{ route('student.application.start', [6, $application->id]) }}">
+                <form enctype="multipart/form-data" id="application_form" method="post" action="{{ route('student.application.start', [8, $application->id]) }}">
                     @csrf
                     <div class="py-2 row text-capitalize bg-light">
                         <!-- hidden field for submiting application form -->
@@ -756,7 +756,7 @@ $em_key = time().random_int(3000, 3099);
                         
                         <div class="col-sm-12 col-md-12 col-lg-12 py-4 mt-5 d-flex justify-content-center text-uppercase">
                             <a href="{{ route('student.application.start', [$step-0.5, $application->id]) }}" class="px-4 py-1 btn btn-lg btn-danger">{{ __('text.word_back') }}</a>
-                            <a href="{{ route('student.home') }}" class="px-4 py-1 btn btn-lg btn-success">{{ __('text.pay_later') }}</a>
+                            {{-- <a href="{{ route('student.home') }}" class="px-4 py-1 btn btn-lg btn-success">{{ __('text.pay_later') }}</a> --}}
                             @if(!$application->is_filled())<button type="submit" class="px-4 py-1 btn btn-lg btn-primary text-uppercase">{{ __('text.word_submit') }}</button>@endif
                         </div>
                     </div>

@@ -143,4 +143,10 @@ class ApiService{
         return Http::get(Helpers::instance()->getApiRoot()."/school_program_structure")->collect();
 
     }
+    
+    public function set_appliable_programs($programs)
+    {
+        # code...
+        return Http::post(Helpers::instance()->getApiRoot()."/appliable_programs/set", ['programs'=>$programs])->collect();
+    }
 }

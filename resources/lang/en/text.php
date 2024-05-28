@@ -1072,5 +1072,7 @@ return [
     'emergency_name'=>'emergency name',
     'emergency_tel'=>'emergency tel',
     'registration_fee'=>'registration fee',
+    'set_appliable_programs'=>'set appliable programs',
+    'appliable_programs'=>'appliable programs',
     ''
 ]; 

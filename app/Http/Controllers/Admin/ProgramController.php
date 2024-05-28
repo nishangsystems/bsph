@@ -1609,4 +1609,21 @@ class ProgramController extends Controller
         return back()->withInput();
     }
 
+    public function configure_appliable_programs(Request $request){
+        $data['title'] = "Configure Appliable Programs";
+        $data['programs'] = json_decode($this->api_service->programs())->data;
+        return view('admin.setting.appliable_programs', $data);
+    }
+
+    public function save_appliable_programs(Request $request){
+        $validity = Validator::make($request->all(), ['programs'=>'required|array']);
+        if($validity->fails()){
+            session()->flash('error', $validity->errors()->first());
+            return back()->withInput();
+        }
+        // dd($request->all());
+        $this->api_service->set_appliable_programs($request->programs);
+        return back()->with('success', "Done");
+    }
+
 }

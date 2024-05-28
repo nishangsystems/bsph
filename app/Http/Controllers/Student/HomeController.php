@@ -167,9 +167,9 @@ class HomeController extends Controller
     {
         try {
 
-            // if(auth('student')->user()->applicationForms()->whereNotNull('transaction_id')->where('year_id', Helpers::instance()->getCurrentAccademicYear())->count() > 0){
-            //     return back()->with('error', "You are allowed to submit only one application form per year");
-            // }
+            if(auth('student')->user()->applicationForms()->where('submitted', 1)->where('year_id', Helpers::instance()->getCurrentAccademicYear())->count() > 0){
+                return back()->with('error', "You are allowed to submit only one application form per year");
+            }
 
             // check if application is open now
             if(!(Helpers::instance()->application_open())){
@@ -322,11 +322,26 @@ class HomeController extends Controller
             
         }
 
+        if($step == 8){
+            ApplicationForm::where('id', $application_id)->update(['submitted'=>1]);
+            // // SEND SMS
+            $phone_number = auth('student')->user()->phone;
+            if(str_starts_with($phone_number, '+')){
+                $phone_number = substr($phone_number, '1');
+            }
+            if(strlen($phone_number) <= 9){
+                $phone_number = '237'.$phone_number;
+            }
+            // dd($phone_number);
+            $message="Application form for BIAKA UNIVERSITY INSTITUTE submitted successfully.";
+            $sent = $this->sendSMS($phone_number, $message);
+            return redirect(route('student.application.form.download', ['id'=>$application_id]));
+        }
+
 
         if($validity->fails()){
             return back()->with('error', $validity->errors()->first());
         }
-        // return $request->all();
 
         // persist data
         $data = [];
@@ -402,8 +417,7 @@ class HomeController extends Controller
 
         }
         $step = (ApplicationForm::where('id', $application_id)->whereNotNull('transaction_id')->count() == 0 ) ? 6 : $request->step;
-        
-
+      
         return redirect(route('student.application.start', [$step, $application_id]));
     }
 
@@ -448,19 +462,7 @@ class HomeController extends Controller
                     $appl->transaction_id = $transaction_instance->id;
                     $appl->save();
     
-                    // // SEND SMS
-                    $phone_number = auth('student')->user()->phone;
-                    if(str_starts_with($phone_number, '+')){
-                        $phone_number = substr($phone_number, '1');
-                    }
-                    if(strlen($phone_number) <= 9){
-                        $phone_number = '237'.$phone_number;
-                    }
-                    // dd($phone_number);
-                    $message="Application form for BIAKA UNIVERSITY INSTITUTE submitted successfully.";
-                    $sent = $this->sendSMS($phone_number, $message);
-    
-                    return redirect(route('student.application.start', ['id'=>$appl->id, 'step'=>1]))->with('success', "Payment successful. ".($sent != true ? $sent : null));
+                    return redirect(route('student.application.start', ['id'=>$appl->id, 'step'=>1]))->with('success', "Payment successful.");
                     break;
                 
                 case 'CANCELLED':

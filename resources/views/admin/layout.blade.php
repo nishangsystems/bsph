@@ -289,6 +289,14 @@
 
                         <b class="arrow"></b>
                     </li>
+                    <li>
+                        <a href="{{route('admin.programs.set_appliable')}}" class="text-capitalize">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            {{__('text.appliable_programs')}}
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
                 </ul>
             </li>
             @endif
@@ -382,7 +390,6 @@
             </li>
             @endif
 
-            
             @if (\Auth::user()->hasPermissionTo('access_reports'))
             <li>
                 <a href="#" class="dropdown-toggle text-capitalize">
@@ -506,7 +513,6 @@
                 </ul>
             </li>
             @endif
-
             
             @if (\Auth::user()->hasPermissionTo('manage_user'))
             <li>
@@ -539,24 +545,26 @@
                 </ul>
             </li>
             @endif
-        
             
-            <li>
-                <a href="{{route('admin.applications.bypass')}}" class="text-capitalize">
-                    <i  style="color: {{$bg1}};" class="fa fa-dollar menu-icon"></i>
-                    {{__('text.application_bypass')}}
-                </a>
-                <b class="arrow"></b>
-            </li>
-        
+            @if(auth()->user()->hasPermissionTo('bypass_result'))
+                <li>
+                    <a href="{{route('admin.applications.bypass')}}" class="text-capitalize">
+                        <i  style="color: {{$bg1}};" class="fa fa-dollar menu-icon"></i>
+                        {{__('text.application_bypass')}}
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+            @endif
             
-            <li>
-                <a href="{{route('admin.platform.bypass')}}" class="text-capitalize">
-                    <i  style="color: {{$bg1}};" class="fa fa-dollar menu-icon"></i>
-                    {{__('text.platform_bypass')}}
-                </a>
-                <b class="arrow"></b>
-            </li>
+            @if (auth()->user()->hasPermissionTo('bypass_platform_charges'))
+                <li>
+                    <a href="{{route('admin.platform.bypass')}}" class="text-capitalize">
+                        <i  style="color: {{$bg1}};" class="fa fa-dollar menu-icon"></i>
+                        {{__('text.platform_bypass')}}
+                    </a>
+                    <b class="arrow"></b>
+                </li>
+            @endif
             <li>
                 <a href="{{route('admin.reset_password')}}" class="text-capitalize">
                     <i  style="color: {{$bg1}};" class="fa fa-refresh menu-icon   "></i>
@@ -577,9 +585,7 @@
                 {{ csrf_field() }}
             </form>
 
-
         </ul><!-- /.nav-list -->
-
 
         <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
             <i id="sidebar-toggle-icon" class="ace-icon f ace-save-state"></i>
