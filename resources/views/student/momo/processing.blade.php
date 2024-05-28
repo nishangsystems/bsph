@@ -60,7 +60,7 @@
                     form_markup += `</form>`;
                     
                     let form = $('#_temp_use').html(form_markup);
-                    $('#_temp_form').submit();
+                    //$('#_temp_form').submit();
                     // window.location = url;
                 }
             }
