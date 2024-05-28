@@ -460,7 +460,7 @@ class HomeController extends Controller
                     $message="Application form for BIAKA UNIVERSITY INSTITUTE submitted successfully.";
                     $sent = $this->sendSMS($phone_number, $message);
     
-                    return redirect(route('student.application.form.download'))->with('success', "Payment successful. ".($sent != true ? $sent : null));
+                    return redirect(route('student.application.start', ['id'=>$appl->id, 'step'=>1]))->with('success', "Payment successful. ".($sent != true ? $sent : null));
                     break;
                 
                 case 'CANCELLED':
