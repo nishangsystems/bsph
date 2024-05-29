@@ -1647,7 +1647,7 @@ class ProgramController extends Controller
             return back()->withInput();
         }
 
-        \App\Models\AdmissionLetterPage2::upadteOrInsert(['program_id'=>$program_id], ['content'=>$request->content]);
+        \App\Models\AdmissionLetterPage2::updateOrInsert(['program_id'=>$program_id], ['content'=>$request->content]);
         return back()->with('success', 'Done');
     }
 }
