@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Http\Services\AppService;
 use App\Http\Resources\AdmittedStudentResource;
 use App\Mail\AdmissionMail;
 use App\Models\ApplicationForm;
@@ -31,6 +32,11 @@ use Illuminate\Support\Facades\Validator;
 
 class ProgramController extends Controller
 {
+
+    protected $appService;
+    public function __construct(AppService $appService){
+        $this->appServce = $app_service;
+    }
 
     public function sections()
     {
@@ -996,9 +1002,6 @@ class ProgramController extends Controller
         
     }
 
-
-
-    
     public function print_application_form(Request $request, $id = null)
     {
         # code...
@@ -1074,6 +1077,7 @@ class ProgramController extends Controller
         return view('admin.student.edit_form', $data);
         
     }
+
     public function update_application_form(Request $request, $id)
     {
         # code...
@@ -1139,7 +1143,7 @@ class ProgramController extends Controller
         if($id == null){
             $data['title'] = "Send Student Admission Letter";
             $data['_this'] = $this;
-            $data['action'] = __('text.word_send');
+            // $data['action'] = __('text.word_send');
             $data['download'] = __('text.word_download');
             $data['applications'] = ApplicationForm::whereNotNull('transaction_id')->where('admitted', 1)->where('year_id', Helpers::instance()->getCurrentAccademicYear())->get();
             return view('admin.student.applications', $data);
@@ -1157,37 +1161,10 @@ class ProgramController extends Controller
     {
         // TEMPORARILY HALTING SENDING OF ADMISSION LETTERS
         // return true;
-
-        
+                
         $appl = ApplicationForm::find($id);
         if($appl != null){
-            $campus = collect(json_decode($this->api_service->campuses())->data)->where('id', $appl->campus_id)->first()??null;
-            $program = collect(json_decode($this->api_service->programs())->data)->where('id', $appl->program_first_choice)->first()??null;
-            $degree = collect(json_decode($this->api_service->degrees())->data)->where('id', $appl->degree_id)->first()??null;
-            $config = Config::where('year_id', Helpers::instance()->getCurrentAccademicYear())->first();
-
-            $data['platform_links'] = [
-                'BONABERI'=>'https://bnb.stlouissystems.org',
-                'BONAMOUSSADI'=>'https://bms.stlouissystems.org',
-                'YAOUNDE'=>'https://yde.stlouissystems.org',
-            ];
-
-            $data['title'] = "ADMISSION LETTER";
-            $data['name'] = $appl->name;
-            $data['matric'] =  $appl->matric;
-            $data['registrar'] = "Mandi Derick Ediange";
-            $data['dean_name'] = $config->dean??null;
-            $data['fee1_dateline'] = $config->fee1_latest_date;
-            $data['fee2_dateline'] = $config->fee2_latest_date;
-            $data['help_email'] =  $config->help_email;
-            $data['campus'] = $campus->name??null;
-            $data['degree'] = $degree->deg_name??null;
-            $data['program'] = str_replace($data['degree'], ' ', $program->name??"");
-    
-            $pdf = Pdf::loadView('admin.student.admission_letter', $data);
-            if($action == '_dld'){
-                return $pdf->download($appl->matric.'_ADMISSION_LETTER.pdf');
-            }
+            $this->appService->admission_letter($id);
             // $this->sendAdmissionEmails($appl->name, $appl->email, $appl->matric, $program->name??null, $campus->name??null, $config->fee1_latest_date, $config->fee2_latest_date, $config->director, $config->dean, $config->help_email, $pdf, $degree->deg_name??null);
             return true;
         }
