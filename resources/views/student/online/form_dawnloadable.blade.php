@@ -75,7 +75,7 @@
                     <td class="border p-2">
                         <div style="display: flex; flex-wrap:wrap; word-break:break-all;">
                             <span style="flex:auto; color:gray; text-transform:capitalize">@lang('text.word_email'):</span>
-                            <span style="flex:auto; color:black;">{{ $application->email??null }}</span>
+                            <span style="flex:auto; color:black;">{{ $application->email??auth('student')->user()->email??'' }}</span>
                         </div>
                     </td>
                     <td class="border p-2">
@@ -98,13 +98,13 @@
                     <td class="border p-2">
                         <div style="display: flex; flex-wrap:wrap; word-break:break-all;">
                             <span style="flex:auto; color:gray; text-transform:capitalize">@lang('text.emergency_name_bilang'):</span>
-                            <span style="flex:auto; color:black;">{{ $program1->emergency_name??null }}</span>
+                            <span style="flex:auto; color:black;">{{ $application->emergency_name??null }}</span>
                         </div>
                     </td>
                     <td class="border p-2">
                         <div style="display: flex; flex-wrap:wrap; word-break:break-all;">
                             <span style="flex:auto; color:gray; text-transform:capitalize">@lang('text.emergency_address_bilang'):</span>
-                            <span style="flex:auto; color:black;">{{ $program2->emergency_address??null }}</span>
+                            <span style="flex:auto; color:black;">{{ $application->emergency_address??null }}</span>
                         </div>
                     </td>
                     <td class="border p-2">
