@@ -1262,7 +1262,7 @@ class ProgramController extends Controller
 
         // dd($application);
         // POST STUDENT TO SCHOOL SYSTEM
-        $application->update(['matric' => $request->matric]);
+        // $application->update(['matric' => $request->matric]);
 
         // dd($request->matric);
         $student_data = [
