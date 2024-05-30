@@ -34,8 +34,8 @@ class ProgramController extends Controller
 {
 
     protected $appService;
-    public function __construct(AppService $appService){
-        $this->appServce = $app_service;
+    public function __construct(AppService $app_service){
+        $this->appService = $app_service;
     }
 
     public function sections()
@@ -1138,7 +1138,6 @@ class ProgramController extends Controller
     public function admission_letter(Request $request, $id = null)
     {
 
-        // return back();
         # code...
         if($id == null){
             $data['title'] = "Send Student Admission Letter";
@@ -1161,7 +1160,7 @@ class ProgramController extends Controller
     {
         // TEMPORARILY HALTING SENDING OF ADMISSION LETTERS
         // return true;
-                
+
         $appl = ApplicationForm::find($id);
         if($appl != null){
             $this->appService->admission_letter($id);

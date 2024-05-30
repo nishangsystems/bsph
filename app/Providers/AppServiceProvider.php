@@ -31,5 +31,6 @@ class AppServiceProvider extends ServiceProvider
         // $service = new ApiService();
         Schema::defaultStringLength(191);
         View::share('help_contacts', \App\Models\School::first()->help_contacts??'');
+        View::share('api_service', new \App\Http\Services\ApiService());
     }
 }

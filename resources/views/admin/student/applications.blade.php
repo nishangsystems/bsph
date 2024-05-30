@@ -1,9 +1,9 @@
 @extends('admin.layout')
 @section('section')
     @php
-        $campuses = collect(json_decode($_this->api_service->campuses())->data);
-        $degrees = collect(json_decode($_this->api_service->degrees())->data);
-        $programs = collect(json_decode($_this->api_service->programs())->data);
+        $campuses = collect(json_decode($api_service->campuses())->data);
+        $degrees = collect(json_decode($api_service->degrees())->data);
+        $programs = collect(json_decode($api_service->programs())->data);
     @endphp
     <div class="py-3">
         <div class="py-2">
@@ -37,9 +37,9 @@
                             <td class="border-left border-right">{{ $programs->where('id', $appl->program_first_choice)->first()->name??null }}</td>
                             <td class="border-left border-right">{{ $programs->where('id', $appl->program_second_choice)->first()->name??null }}</td>
                             <td class="border-left border-right">
-                                @if(isset($action))
+                                @isset($action)
                                     <a href="{{ Request::url().'/'.$appl->id }}" class="btn btn-xs btn-primary mt-1">{{ $action }}</a>
-                                @endif
+                                @endisset
                                 @if(isset($download))
                                    <a href="{{ Request::url() }}/{{  $appl->id }}?_atn=_dld" class="btn btn-xs btn-primary mt-1">{{ $download }}</a>
                                 @endif
