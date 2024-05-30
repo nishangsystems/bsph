@@ -126,51 +126,7 @@
                                 <li>@lang('text.fee_paid_is_non_refundable')</li>
                             </ul>
                         </div>
-                        <div class="my-1 py-1">
-                            <b class="text-uppercase" style="text-decoration:underline; ">@lang('text.word_uniforms')</b><br>
-                            <ul style="list-style-type: disc; margin-left:2rem; padding-left:4rem;">
-                                <li>@lang('text.see_school_for_design')</li>
-                            </ul>
-                        </div>
-                        <div class="my-1 py-1">
-                            <b class="text-uppercase" style="text-decoration:underline; ">@lang('text.word_shoe')</b><br>
-                            <ul style="list-style-type: disc; margin-left:2rem; padding-left:4rem;">
-                                <li>@lang('text.shoe_specification1')</li>
-                            </ul>
-                        </div>
-                        <div class="my-1 py-1">
-                            <b class="text-uppercase" style="text-decoration:underline; ">@lang('text.school_needs')</b><br>
-                            <ul style="list-style-type: disc; margin-left:2rem; padding-left:4rem;">
-                                <li>@lang('text.two_ream_of_papers_to_submit')</li>
-                            </ul>
-                        </div>
-                        <div class="my-1 py-1">
-                            <b class="text-uppercase" style="text-decoration:underline; ">@lang('text.sport_out_fit')</b><br>
-                            <ul style="list-style-type: disc; margin-left:2rem; padding-left:4rem;">
-                                <li>@lang('text.white_tshirts')</li>
-                                <li>@lang('text.tennis_shoe')</li>
-                                <li>@lang('text.blue_shorts')</li>
-                            </ul>
-                        </div>
-                        <div class="my-1 py-1">
-                            <b class="text-uppercase" style="text-decoration:underline; ">@lang('text.practical_equipment')</b><br>
-                            <ul style="list-style-type: disc; margin-left:2rem; padding-left:4rem;">
-                                <li>@lang('text.bp_therm')</li>
-                                <li>@lang('text.surgical_sss')</li>
-                            </ul>
-                        </div>
-                        <div class="my-1 py-1">
-                            <b class="text-uppercase" style="text-decoration:underline; ">@lang('text.book_list')</b><br>
-                            <ul style="list-style-type: disc; margin-left:2rem; padding-left:4rem;">
-                                <li>@lang('text.to_be_obtained_from_the_department')</li>
-                            </ul>
-                        </div>
-                        <div class="my-1 py-1">
-                            <span>@lang('text.admission_letter_summary_welcome_phrase')</span>
-                        </div>
-                        <div class="my-1 py-1">
-                            <span class="text-capitalize">@lang('text.yours_sincerely')</span>,
-                        </div>
+                        {!! $page2->content??'' !!}
                     </div>
                 </td>
             </tr>
@@ -184,7 +140,7 @@
                             <div id="sign_box">
                                 <img src="{{ asset('assets/images/stamp.png') }}" alt="" srcset="" style="height:12rem; width:15rem;">
                             </div>
-                            {{-- <img src="{{ asset('assets/images/signature.png') }}" alt="" srcset="" style="height:16rem; width:20rem; position:absolute; bottom:-60%; left: -15%;"> --}}
+                            <img src="{{ asset('assets/images/signature.png') }}" alt="" srcset="" style="height:16rem; width:20rem; position:absolute; bottom:-60%; left: -15%;">
                         </div>
                     </div>
                 </td>

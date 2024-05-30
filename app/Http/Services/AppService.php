@@ -3,6 +3,7 @@ namespace App\Http\Services;
 use App\Helpers\Helpers;
 use Illuminate\Support\Facades\Http;
 use App\Http\Services\ApiService;
+use App\Models\AdmissionLetterPage2;
 use App\Models\ApplicationForm;
 use App\Models\Config;
 use App\Models\ProgramAdmin;
@@ -70,6 +71,7 @@ class AppService{
             $data['matric_sn'] = substr($appl->matric, -3);
             $data['department'] = $department->name??'-------';
             $data['fee'] = $fees[0]??$fees;
+            $data['page2'] = AdmissionLetterPage2::where('program_id', $program->id??0)->first();
             // dd($program);
             if($data['degree'] ==  null){
                 session()->flash('error', 'Program Degree Name not set');

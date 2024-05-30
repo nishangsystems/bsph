@@ -568,7 +568,7 @@ class HomeController extends Controller
         return $this->appService->admission_letter($appl_id);
     }
 
-    
+    //---------
     public function pay_platform_charges(Request $request)
     {
         # code...
@@ -585,7 +585,7 @@ class HomeController extends Controller
     }
 
 
-    
+    //---------
     public function pay_charges_save(Request $request)
     {
         # code...
@@ -647,6 +647,7 @@ class HomeController extends Controller
         
     }
 
+    //----------
     public function complete_charges_transaction(Request $request, $ts_id)
     {
         # code...
@@ -705,6 +706,7 @@ class HomeController extends Controller
         }
     }
 
+    //-----------
     public function failed_charges_transaction(Request $request, $ts_id)
     {
         # code...
@@ -730,7 +732,7 @@ class HomeController extends Controller
     }
 
 
-    
+    //--------------    
     public function tranzak_pay(string $purpose, Request $request){
 
         $validator = Validator::make($request->all(),
@@ -784,6 +786,7 @@ class HomeController extends Controller
 
     }
 
+    //-----------------
     public function tranzak_payment_processing()
     {
         # code...
@@ -794,7 +797,7 @@ class HomeController extends Controller
         return view('student.momo.processing', $data);
     }
 
-
+    //----------------
     public function tranzak_complete(Request $request)
     {
         # code...

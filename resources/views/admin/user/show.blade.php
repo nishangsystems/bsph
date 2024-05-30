@@ -92,9 +92,6 @@
         </div>
     </div>
     <div class="col-sm-12">
-        <p class="text-muted">
-            <a href="{{route('admin.users.subjects.add', $user->id)}}" class="btn btn-info btn-xs text-capitalize">{{__('text.assign_course')}}</a>
-        </p>
 
         <div class="content-panel">
             <div class="adv-table table-responsive">
@@ -119,12 +116,7 @@
                             <td>{{$value->name()}}</td>
                             <td>{{\App\Models\Campus::find($subject->campus_id)->name ?? '----'}}</td>
                             <td style="float: right;">
-                                <a onclick="event.preventDefault();
-                                            $('#delete{{$subject->id}}').submit();" class=" btn btn-danger btn-xs m-2">DROP</a>
-                                <form id="delete{{$subject->id}}" action="{{route('admin.users.subjects.drop',$subject->teacher_subject_id)}}" method="POST" style="display: none;">
-                                    @method('DELETE')
-                                    @csrf
-                                </form>
+                                
                             </td>
                         </tr>
                     @endforeach
