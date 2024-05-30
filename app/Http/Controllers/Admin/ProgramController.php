@@ -1163,9 +1163,8 @@ class ProgramController extends Controller
 
         $appl = ApplicationForm::find($id);
         if($appl != null){
-            $this->appService->admission_letter($id);
+            return $this->appService->admission_letter($id);
             // $this->sendAdmissionEmails($appl->name, $appl->email, $appl->matric, $program->name??null, $campus->name??null, $config->fee1_latest_date, $config->fee2_latest_date, $config->director, $config->dean, $config->help_email, $pdf, $degree->deg_name??null);
-            return true;
         }
         return false;
     }
