@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Services\ApiService;
 // use App\Http\Services\ApiService;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
@@ -19,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
+        $this->app->bindIf(ApiService::class, function($app){return new ApiService();});
     }
 
     /**

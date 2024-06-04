@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
 use App\Http\Services\AppService;
+use App\Http\Services\ApiService;
 use App\Http\Resources\AdmittedStudentResource;
 use App\Mail\AdmissionMail;
 use App\Models\ApplicationForm;
@@ -33,9 +34,10 @@ use Illuminate\Support\Facades\Validator;
 class ProgramController extends Controller
 {
 
-    protected $appService;
-    public function __construct(AppService $app_service){
+    protected $appService, $api_service;
+    public function __construct(AppService $app_service, ApiService $api_service){
         $this->appService = $app_service;
+        $this->api_service = $api_service;
     }
 
     public function sections()

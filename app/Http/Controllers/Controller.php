@@ -37,7 +37,7 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     var $current_accademic_year;
-    var $api_service;
+    protected $api_service;
     public function __construct(ApiService $apiService)
     {
         # code...
@@ -75,6 +75,7 @@ class Controller extends BaseController
         // $pls->where('id')
         return $pls;
     }
+
     public static function sorted_campus_program_levels($campus)
     {
         $pls = [];
