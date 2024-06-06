@@ -310,6 +310,10 @@ Route::prefix('student')->name('student.')->middleware('isStudent')->middleware(
     Route::get('application/payment/processing/{form_id}', [StudentHomeController::class, 'pending_payment'])->name('application.payment.processing');
     Route::get('application/payment/complete/{form_id}', [StudentHomeController::class, 'pending_complete'])->name('application.payment.complete');
     Route::post('application/payment/complete/{form_id}', [StudentHomeController::class, 'pending_complete']);
+    
+    // processing direct momo payment of application fee
+    Route::get('momo/processing/{transaction_id}', [StudentHomeController::class, 'raw_momo_processing'])->name('momo.processing');
+    Route::post('momo/processing/{transaction_id}', [StudentHomeController::class, 'raw_momo_complete']);
 });
 Route::post('student/charges/pay', 'Student\HomeController@pay_charges_save')->name('student.charge.pay');
 Route::get('student/platform/pay', 'Student\HomeController@pay_platform_charges')->name('student.platform_charge.pay');

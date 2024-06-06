@@ -372,40 +372,68 @@ class HomeController extends Controller
         elseif($step == 7){
             
             // dd('check point');
-            // MAKE API CALL TO PERFORM PAYMENT OF APPLICATION FEE
-            // check if token exist and hasn't expired or get new token otherwise
-            $token_refreshed = 0;
+            $pay_channel = 'momo';
             $application = auth('student')->user()->applicationForms()->where('year_id', Helpers::instance()->getCurrentAccademicYear())->first();
-            $tranzak_credentials = TranzakCredential::where('campus_id', $application->campus_id)->first();
-            if(cache($tranzak_credentials->cache_token_key) == null or Carbon::parse(cache($tranzak_credentials->cache_token_expiry_key))->isAfter(now())){
+            switch($pay_channel){
+                case 'momo':
 
-                GEN_TOKEN:
-                $response = Http::post(config('tranzak.base').config('tranzak.token'), ['appId'=>$tranzak_credentials->app_id, 'appKey'=>$tranzak_credentials->api_key]);
-                $token_refreshed++;
-                if($response->status() == 200){
-                    cache([$tranzak_credentials->cache_token_key => json_decode($response->body())->data->token]);
-                    cache([$tranzak_credentials->cache_token_expiry_key=>Carbon::createFromTimestamp(time() + json_decode($response->body())->data->expiresIn)]);
-                }
+                    // MAKE CALLS TO DIRECT MOMO API, REQUEST TO PAY
+                    $req_data = [
+                        'student_id'=>$application->student_id, 
+                        'year_id'=>$application->year_id, 
+                        'amount'=>$request->amount, 
+                        'payment_id'=>$application->degree_id, 
+                        'payment_purpose'=>'APPLICATION FEE', 
+                        'tel'=> (strlen($request->momo_number) ==  9 ? '237'.$request->momo_number : $request->momo_number)
+                    ];
+                    $response = Http::post(env('PAYMENT_URL', "https://students.buibsystems.org/api/make-payments"), $req_data);
+                    $resp_data = $response->collect();
+                    // dd($response->body());
+                    if($resp_data->count() > 0 and $resp_data->first() != null){
+                        return redirect(route('student.momo.processing', $resp_data->first()));
+                    }else{
+                        return back()->with('error', "Payment request failed");
+                    }
+                    break;
 
+                case 'tranzak':
+                    // MAKE API CALL TO PERFORM PAYMENT OF APPLICATION FEE
+                    // check if token exist and hasn't expired or get new token otherwise
+        
+                    $token_refreshed = 0;
+                    $tranzak_credentials = TranzakCredential::where('campus_id', $application->campus_id)->first();
+                    if(cache($tranzak_credentials->cache_token_key) == null or Carbon::parse(cache($tranzak_credentials->cache_token_expiry_key))->isAfter(now())){
+        
+                        GEN_TOKEN:
+                        $response = Http::post(config('tranzak.base').config('tranzak.token'), ['appId'=>$tranzak_credentials->app_id, 'appKey'=>$tranzak_credentials->api_key]);
+                        $token_refreshed++;
+                        if($response->status() == 200){
+                            cache([$tranzak_credentials->cache_token_key => json_decode($response->body())->data->token]);
+                            cache([$tranzak_credentials->cache_token_expiry_key=>Carbon::createFromTimestamp(time() + json_decode($response->body())->data->expiresIn)]);
+                        }
+        
+                    }
+                    // dd('check point X1');
+                    
+                    $headers = ['Authorization'=>'Bearer '.cache($tranzak_credentials->cache_token_key)];
+                    $request_data = ['mobileWalletNumber'=>'237'.$request->momo_number, 'mchTransactionRef'=>'_apl_fee_'.time().'_'.random_int(1, 9999), "amount"=> $request->amount, "currencyCode"=> "XAF", "description"=>"Payment for application fee into BIAKA UNIVERSITY INSTITUTE OF BUEA"];
+                    $_response = Http::withHeaders($headers)->post(config('tranzak.base').config('tranzak.direct_payment_request'), $request_data);
+                    // dd($_response->collect());
+                    if($_response->status() == 200){
+        
+                        session()->put('processing_tranzak_transaction_details', json_encode(json_decode($_response->body())->data));
+                        session()->put('tranzak_credentials', json_encode($tranzak_credentials));
+                        return redirect()->to(route('student.application.payment.processing', $application_id));
+                    }elseif($token_refreshed < 2){
+                        // considering the existing token is no longer valid
+                        goto GEN_TOKEN;
+                    }
+        
+                    session()->flash('error', 'Payment Failed. Make sure you have an internet connection and try again later.');
+                    return back()->withInput();
+                    break;
             }
-            // dd('check point X1');
-            
-            $headers = ['Authorization'=>'Bearer '.cache($tranzak_credentials->cache_token_key)];
-            $request_data = ['mobileWalletNumber'=>'237'.$request->momo_number, 'mchTransactionRef'=>'_apl_fee_'.time().'_'.random_int(1, 9999), "amount"=> $request->amount, "currencyCode"=> "XAF", "description"=>"Payment for application fee into BIAKA UNIVERSITY INSTITUTE OF BUEA"];
-            $_response = Http::withHeaders($headers)->post(config('tranzak.base').config('tranzak.direct_payment_request'), $request_data);
-            // dd($_response->collect());
-            if($_response->status() == 200){
 
-                session()->put('processing_tranzak_transaction_details', json_encode(json_decode($_response->body())->data));
-                session()->put('tranzak_credentials', json_encode($tranzak_credentials));
-                return redirect()->to(route('student.application.payment.processing', $application_id));
-            }elseif($token_refreshed < 2){
-                // considering the existing token is no longer valid
-                goto GEN_TOKEN;
-            }
-
-            session()->flash('error', 'Payment Failed. Make sure you have an internet connection and try again later.');
-            return back()->withInput();
 
             // dd('check point X2');
         }else{
@@ -865,6 +893,46 @@ class HomeController extends Controller
             session()->flash('error', "F::{$th->getFile()}, L::{$th->getLine()}, M::{$th->getMessage()}");
             return back();
         }
+    }
+
+    public function raw_momo_processing($transaction_id){
+        $data['title'] = "Processing Direct Momo Transaction";
+        $data['transaction_id'] = $transaction_id;
+        // return view('student.momo.processing', $data);
+        return view('student.payment_waiter', $data);
+    }
+
+    
+    public function complete_transaction(Request $request, $ts_id)
+    {
+        # code...
+
+        $transaction = Transaction::where(['transaction_id'=>$ts_id])->first();
+        // dd($transaction);
+        if($transaction != null){
+            // update transaction
+            $transaction->status = "SUCCESSFUL";
+            $transaction->financialTransactionId = $request->financialTransactionId;
+            $transaction->save();
+
+            $form = ApplicationForm::where(['year_id'=>$transaction->year_id, 'student_id'=>$transaction->student_id])->first();
+            if($form == null){
+                return redirect(route('student.home'))->with('error', "Application form could not be found");
+            }
+            $form->update(['transaction_id'=>$transaction->id]);
+            return redirect(route('student.application.start', ['id'=>$form->id, 'step'=>1]))->with('success', "Payment complete");
+        }
+    }
+
+    public function failed_transaction(Request $request, $ts_id)
+    {
+        # code...
+        $transaction = Transaction::where(['transaction_id'=>$ts_id])->first();
+        if($transaction != null){
+            // update transaction
+            // $transaction->delete();
+        }
+        return redirect(route('student.home'))->with('error', 'Operation failed.');
     }
 
 }

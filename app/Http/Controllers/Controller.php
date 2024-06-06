@@ -37,7 +37,7 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     var $current_accademic_year;
-    protected $api_service;
+    public $api_service;
     public function __construct(ApiService $apiService)
     {
         # code...

@@ -45,15 +45,11 @@
                 // check if status is completed or failed
                 console.log(data);
                 if(data.status == "SUCCESSFUL"){
-                    action = "{{route('complete_transaction', '__TID__')}}";
-                    action = action.replace('__TID__', ts_id);
-                    action = action+'?financialTransactionId='+data.financialTransactionId;
+                    action = "{{route('complete_transaction', '__TID__')}}".replace('__TID__', ts_id);
                     window.location = action;
                 }
                 if(data.status == "FAILED"){
-                    action = "{{route('failed_transaction', '__TID__')}}";
-                    action = action.replace('__TID__', ts_id);
-                    action = action+'?financialTransactionId='+data.financialTransactionId;
+                    action = "{{route('failed_transaction', '__TID__')}}".replace('__TID__', ts_id);
                     window.location = action;
                 }
             }
