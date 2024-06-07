@@ -219,15 +219,6 @@ class HomeController extends Controller
                 // return $data;
             }
 
-
-            // Assuming we are using direct momo payment
-            $transaction = $application->transaction;
-            if($transaction == null){
-                $data['step'] = ($application->transaction_id == null && $step >= 1) ? 6 : $step;
-            }elseif($transaction->payment_id != $application->degree_id){
-                $data['step'] = ($application->transaction_id == null && $step >= 1) ? 6 : $step;
-            }
-
             $isMaster = in_array('degree', $data) and stristr($data['degree']->deg_name??"", "master");
             if ($step == 3) {
                 if(!$isMaster){
@@ -237,6 +228,18 @@ class HomeController extends Controller
             }
             
             $data['title'] = (isset($data['degree']) and ($data['degree'] != null)) ? $data['degree']->deg_name." APPLICATION" : "APPLICATION";
+            
+
+            // Assuming we are using direct momo payment
+            $transaction = $application->transaction;
+            if($transaction == null){
+                $data['step'] = 6;
+            }elseif($transaction->payment_id != $application->degree_id){
+                $data['step'] = 6;
+            }else{
+                $data['step'] = $step;
+            }
+            
             return view('student.online.fill_form', $data);
         } catch (\Throwable $th) {
             throw $th;
