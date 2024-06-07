@@ -4,11 +4,8 @@
         <form enctype="multipart/form-data" id="application_form" method="post">
             @csrf
             <div class="py-2 row text-capitalize bg-light">
-                <!-- hidden field for submiting application form -->
-                {{-- <h4 class="py-3 border-bottom border-top bg-white text-primary my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:800;">{{ __('text.word_stage') }} 5: {{ __('text.preview_and_submit_form_bilang') }} : <span class="text-danger">APPLYING FOR A(AN) {{ $degree->deg_name }}</span></h4> --}}
-                
                 <!-- STAGE 1 PREVIEW -->
-                <h4 class="py-1 border-bottom border-top border-warning bg-white text-danger my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:500;">{{ __('text.word_stage') }} 1: <a href="{{ route('student.application.start', [1, $application->id]) }}" class="text-white btn py-1 px-2 btn-sm" onclick="event.preventDefault(); window.location={{ route('student.application.start', [1, $application->id]) }}">{{ __('text.view_and_or_edit_stage') }} 1</a></h4>
+                <h4 class="py-1 border-bottom border-top border-warning bg-white text-danger my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:500;">{{ __('text.word_stage') }} 1</h4>
                 <div class="py-2 col-sm-6 col-md-4 col-lg-5">
                     <label class="text-secondary  text-capitalize">{{ __('text.word_name') }}</label>
                     <div class="">
@@ -90,7 +87,7 @@
 
 
                 <!-- STAGE 2 -->
-                <h4 class="py-1 border-bottom border-top border-warning bg-white text-danger my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:500;">{{ __('text.word_stage') }} 2: <a href="{{ route('student.application.start', [2, $application->id]) }}" class="text-white btn py-1 px-2 btn-sm"  onclick="event.preventDefault(); window.location={{ route('student.application.start', [2, $application->id]) }}">{{ __('text.view_and_or_edit_stage') }} 2</a></h4>
+                <h4 class="py-1 border-bottom border-top border-warning bg-white text-danger my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:500;">{{ __('text.word_stage') }} 2</h4>
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <label class="text-secondary  text-capitalize">{{ __('text.first_choice_bilang') }}</label>
                     <div class="">
@@ -179,7 +176,7 @@
 
                 @if($degree->deg_name == 'MASTER DEGREE PROGRAMS')
                     <!-- STAGE 3 -->
-                    <h4 class="py-1 border-bottom border-top border-warning bg-white text-danger my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:500;">{{ __('text.word_stage') }} 3: <a href="{{ route('student.application.start', [3, $application->id]) }}" class="text-white btn py-1 px-2 btn-sm" onclick="event.preventDefault(); window.location={{ route('student.application.start', [3, $application->id]) }}">{{ __('text.view_and_or_edit_stage') }} 3</a></h4>
+                    <h4 class="py-1 border-bottom border-top border-warning bg-white text-danger my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:500;">{{ __('text.word_stage') }} 3</h4>
                     <h4 class="py-3 border-bottom border-top bg-white text-dark my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:500;"> {{ __('text.previous_higher_education_training_bilang') }}</h4>
                     <div class="col-sm-12 col-md-12 col-lg-12 py-2">
                         <table class="border">
@@ -232,7 +229,7 @@
                 @endif
 
                 <!-- STAGE 4 -->
-                <h4 class="py-1 border-bottom border-top border-warning bg-white text-danger my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:500;">{{ __('text.word_stage') }} 4: <a href="{{ route('student.application.start', [4, $application->id]) }}" class="text-white btn py-1 px-2 btn-sm" onclick="event.preventDefault(); window.location={{ route('student.application.start', [4, $application->id]) }}">{{ __('text.view_and_or_edit_stage') }} 4</a></h4>
+                <h4 class="py-1 border-bottom border-top border-warning bg-white text-danger my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:500;">{{ __('text.word_stage') }} 4</h4>
                 <div class="col-sm-12 col-md-8 col-lg-8">
                     <label class="text-secondary  text-capitalize">{{ __('text.who_is_responsible_for_your_fee_bilang') }}</label>
                     <div class="">

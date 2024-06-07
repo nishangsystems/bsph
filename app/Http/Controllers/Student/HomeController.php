@@ -218,10 +218,15 @@ class HomeController extends Controller
                 $data['program2'] = collect($data['programs'])->where('id', $data['application']->program_second_choice)->first();
                 // return $data;
             }
-            // $data['al_results'] = json_decode($application->al_results??'[]');
-            // $data['ol_results'] = json_decode($application->ol_results??'[]');
-            // dd($data);
-            $data['step'] = ($application->transaction_id == null && $step >= 1) ? 6 : $step;
+
+
+            // Assuming we are using direct momo payment
+            $transaction = $application->transaction;
+            if($transaction == null){
+                $data['step'] = ($application->transaction_id == null && $step >= 1) ? 6 : $step;
+            }elseif($transaction->payment_id != $application->degree_id){
+                $data['step'] = ($application->transaction_id == null && $step >= 1) ? 6 : $step;
+            }
 
             $isMaster = in_array('degree', $data) and stristr($data['degree']->deg_name??"", "master");
             if ($step == 3) {
@@ -345,6 +350,16 @@ class HomeController extends Controller
 
         // persist data
         $data = [];
+        $appl = ApplicationForm::find($application_id);
+        $transaction = $appl->transaction;
+        if($transaction == null and $step != 7){
+            $step = 6; 
+            goto GOPAY;
+        }elseif($transaction->payment_id != $appl->degree_id){
+            $step = 6;
+            goto GOPAY;
+        }
+        
         if($step == 4){
             $data_p1=[];
             $_data = $request->previous_training;
@@ -368,7 +383,6 @@ class HomeController extends Controller
             $data = collect($data)->filter(function($value, $key){return $key != '_token';})->toArray();
             $application = ApplicationForm::updateOrInsert(['id'=> $application_id, 'student_id'=>auth('student')->id()], $data);
         }
-        
         elseif($step == 7){
             
             // dd('check point');
@@ -445,8 +459,9 @@ class HomeController extends Controller
             // dd('check point X4');
 
         }
+        
         $step = (ApplicationForm::where('id', $application_id)->whereNotNull('transaction_id')->count() == 0 ) ? 6 : $request->step;
-      
+        GOPAY:
         return redirect(route('student.application.start', [$step, $application_id]));
     }
 
