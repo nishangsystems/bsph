@@ -138,14 +138,9 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
     Route::post('roles/destroy/{id}', 'Admin\RolesController@destroy')->name('roles.destroy');
 
     Route::prefix('statistics')->name('stats.')->group(function(){
-        Route::get('sudents', 'Admin\StatisticsController@students')->name('students');
-        Route::get('fees', 'Admin\StatisticsController@fees')->name('fees');
-        Route::get('results', 'Admin\StatisticsController@results')->name('results');
-        Route::get('income', 'Admin\StatisticsController@income')->name('income');
-        Route::get('expenditure', 'Admin\StatisticsController@expenditure')->name('expenditure');
-        Route::get('fees/{class_id}', 'Admin\StatisticsController@unitFees')->name('unit-fees');
-        Route::get('ie_report', 'Admin\StatisticsController@ie_report')->name('ie_report');
-        Route::get('ie_report/monthly', 'Admin\StatisticsController@ie_monthly_report')->name('ie.report');
+        Route::get('application', 'Admin\StatisticsController@application_stats')->name('application');
+        Route::get('admission', 'Admin\StatisticsController@admission_stats')->name('admission');
+        Route::get('bypass', 'Admin\StatisticsController@fee_bypass_stats')->name('bypass');
     });
     
     Route::get('set_letter_head', [AdminHomeController::class, 'set_letter_head'])->name('set_letter_head');

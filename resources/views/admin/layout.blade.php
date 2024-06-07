@@ -495,14 +495,14 @@
 
                 <ul class="submenu">
                     <li>
-                        <a href="{{route('admin.stats.students')}}" class="text-capitalize">
+                        <a href="{{route('admin.stats.application')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
                             {{__('text.application_statistics')}}
                         </a>
                         <b class="arrow"></b>
                     </li>
                     <li>
-                        <a href="{{route('admin.stats.results')}}" class="text-capitalize">
+                        <a href="{{route('admin.stats.admission')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
                             {{__('text.admission_statistics')}}
                         </a>
@@ -510,9 +510,9 @@
                         <b class="arrow"></b>
                     </li>
                     <li>
-                        <a href="{{route('admin.stats.results')}}" class="text-capitalize">
+                        <a href="{{route('admin.stats.bypass')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
-                            {{__('text.Application_bypass')}}
+                            {{__('text.application_bypass')}}
                         </a>
 
                         <b class="arrow"></b>

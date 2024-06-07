@@ -34,7 +34,7 @@ use Illuminate\Support\Facades\Validator;
 class ProgramController extends Controller
 {
 
-    protected $appService, $api_service;
+    public $appService, $api_service;
     public function __construct(AppService $app_service, ApiService $api_service){
         $this->appService = $app_service;
         $this->api_service = $api_service;

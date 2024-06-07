@@ -1074,5 +1074,8 @@ return [
     'registration_fee'=>'registration fee',
     'set_appliable_programs'=>'set appliable programs',
     'appliable_programs'=>'appliable programs',
+    'application_statistics'=>'application statistics',
+    'admission_statistics'=>'admission statistics',
+    'application_bypass'=>'application bypass',
     ''
 ]; 
