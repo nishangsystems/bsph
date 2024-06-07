@@ -357,12 +357,14 @@ class HomeController extends Controller
         $data = [];
         $appl = ApplicationForm::find($application_id);
         $transaction = $appl->transaction;
-        if($transaction == null and $step != 7){
-            $step = 6; 
-            goto GOPAY;
-        }elseif($transaction->payment_id != $appl->degree_id){
-            $step = 6;
-            goto GOPAY;
+        if($step != 1){
+            if($transaction == null and $step != 7){
+                $step = 6; 
+                goto GOPAY;
+            }elseif($transaction->payment_id != $appl->degree_id){
+                $step = 6;
+                goto GOPAY;
+            }
         }
         
         if($step == 4){

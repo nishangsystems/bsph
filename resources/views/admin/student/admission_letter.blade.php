@@ -131,9 +131,6 @@
                 </td>
             </tr>
             <tr style="display: table-row;">
-                <td class="border-right border-4 my-0 border-dark w-25"></td>
-                <td class="w-25"></td>
-                <td class="w-25"></td>
                 <td class="w-25">
                     <div class="my-1 py-1">
                         <div class="position-relative">
@@ -144,6 +141,9 @@
                         </div>
                     </div>
                 </td>
+                <td class="border-right border-4 my-0 border-dark w-25"></td>
+                <td class="w-25"></td>
+                <td class="w-25"></td>
             </tr>
         </table>
     </div>
