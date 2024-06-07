@@ -76,7 +76,7 @@ class StatisticsController extends Controller
         }
         $programs = json_decode($this->apiService->programs())->data;
         $degrees = json_decode($this->apiService->degrees())->data;
-        switch($$request->filter){
+        switch($request->filter){
             case 'degree':
                 $data['title'] = "Admission Statistics Filtered By Degree";
                 $forms = ApplicationForm::where(['year_id'=>$this->current_year, 'submitted'=> 1, 'admitted'=>1])->whereNotNull('matric')->groupBy('degree_id')
@@ -108,7 +108,7 @@ class StatisticsController extends Controller
         }
         $programs = json_decode($this->apiService->programs())->data;
         $degrees = json_decode($this->apiService->degrees())->data;
-        switch($$request->filter){
+        switch($request->filter){
             case 'degree':
                 $data['title'] = "Application Fee Bypass Statistics Filtered By Degree";
                 $forms = ApplicationForm::where(['year_id'=>$this->current_year])->whereNotNull('transaction_id')->whereNotNull('bypass_reason')->groupBy('degree_id')
