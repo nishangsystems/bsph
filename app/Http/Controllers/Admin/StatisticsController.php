@@ -41,8 +41,8 @@ class StatisticsController extends Controller
         if($validator->fails()){
             session()->flash('error', $validator->errors()->first());
         }
-        $programs = json_decode($this->apiService->programs())->data;
-        $degrees = json_decode($this->apiService->degrees())->data;
+        $programs = collect(json_decode($this->apiService->programs())->data);
+        $degrees = collect(json_decode($this->apiService->degrees())->data);
         switch($request->filter){
             case 'degree':
                 $data['title'] = "Application Statistics Filtered By Degree";
@@ -74,8 +74,8 @@ class StatisticsController extends Controller
         if($validator->fails()){
             session()->flash('error', $validator->errors()->first());
         }
-        $programs = json_decode($this->apiService->programs())->data;
-        $degrees = json_decode($this->apiService->degrees())->data;
+        $programs = collect(json_decode($this->apiService->programs())->data);
+        $degrees = collect(json_decode($this->apiService->degrees())->data);
         switch($request->filter){
             case 'degree':
                 $data['title'] = "Admission Statistics Filtered By Degree";
@@ -106,8 +106,8 @@ class StatisticsController extends Controller
         if($validator->fails()){
             session()->flash('error', $validator->errors()->first());
         }
-        $programs = json_decode($this->apiService->programs())->data;
-        $degrees = json_decode($this->apiService->degrees())->data;
+        $programs = collect(json_decode($this->apiService->programs())->data);
+        $degrees = collect(json_decode($this->apiService->degrees())->data);
         switch($request->filter){
             case 'degree':
                 $data['title'] = "Application Fee Bypass Statistics Filtered By Degree";
