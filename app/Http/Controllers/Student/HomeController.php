@@ -232,10 +232,12 @@ class HomeController extends Controller
 
             // Assuming we are using direct momo payment
             $transaction = $application->transaction;
-            if($transaction == null and $application->degree_id != null){
-                $data['step'] = 6;
-            }elseif($transaction->payment_id != $application->degree_id and $application->degree_id != null){
-                $data['step'] = 6;
+            if($application->degree_id != null){
+                if($transaction == null){
+                    $data['step'] = 6;
+                }elseif($transaction->payment_id != $application->degree_id){
+                    $data['step'] = 6;
+                }else{$data['step'] = $step;}
             }else{
                 $data['step'] = $step;
             }
