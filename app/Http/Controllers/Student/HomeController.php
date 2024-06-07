@@ -392,7 +392,7 @@ class HomeController extends Controller
                     if($resp_data->count() > 0 and $resp_data->first() != null){
                         return redirect(route('student.momo.processing', $resp_data->first()));
                     }else{
-                        return back()->with('error', "Payment request failed");
+                        return back()->with('error', "Payment request failed")->with('message', $respone->body());
                     }
                     break;
 
