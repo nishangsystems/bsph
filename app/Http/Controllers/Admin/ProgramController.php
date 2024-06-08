@@ -1427,7 +1427,7 @@ class ProgramController extends Controller
         # code...
         $data['title'] = "Application Fee Bypass Report";
         $data['_this'] = $this;
-        $data['applications'] = ApplicationForm::where(['year_id'=>$this->current_year])->whereNotNull('transaction_id')->whereNotNull('bypass_reason')->get();
+        $data['applications'] = ApplicationForm::where(['year_id'=>$this->current_year])->whereNotNull('transaction_id')->whereNotNull('bypass_reason')->get()->filter(function($rec){return strlen($rec->bypass_reason) > 0;});
         // dd($data);
         return view('admin.student.application_bypass_report', $data);
     }
