@@ -34,10 +34,11 @@ use Illuminate\Support\Facades\Validator;
 class ProgramController extends Controller
 {
 
-    public $appService, $api_service;
+    public $appService, $api_service, $current_year;
     public function __construct(AppService $app_service, ApiService $api_service){
         $this->appService = $app_service;
         $this->api_service = $api_service;
+        $this->current_year = Helpers::instance()->getCurrentAccademicYear();
     }
 
     public function sections()
@@ -1426,7 +1427,7 @@ class ProgramController extends Controller
         # code...
         $data['title'] = "Application Fee Bypass Report";
         $data['_this'] = $this;
-        $data['applications'] = ApplicationForm::whereNotNull('transaction_id')->whereNotNull('bypass_reason')->where('year_id', Helpers::instance()->getCurrentAccademicYear())->get();
+        $data['applications'] = ApplicationForm::where(['year_id'=>$this->current_year])->whereNotNull('transaction_id')->whereNotNull('bypass_reason')->get();
         // dd($data);
         return view('admin.student.application_bypass_report', $data);
     }
