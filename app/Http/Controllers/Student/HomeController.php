@@ -224,7 +224,8 @@ class HomeController extends Controller
             $data['step'] = $step;
             if(($application->degree_id == null) and ($step != 0)){$data['step'] = 0;}
             elseif(($transaction == null and $application->degree_id != null) and !in_array($step, [0, 6])){$data['step'] = 6;}
-            elseif(($application->degree_id != null) and ($transaction != null) and ($transaction->payment_id != $application->degree_id)){$data['step'] = 6;}
+            elseif(($application->degree_id != null) and ($transaction != null) and ($transaction->payment_id != $application->degree_id) and $step == 1 ){$data['step'] = 6;}
+            elseif(($application->degree_id != null) and ($transaction != null) and ($transaction->payment_id != $application->degree_id) and !in_array($step, [0, 6])){$data['step'] = 0;}
             
             $isMaster = in_array('degree', $data) and stristr($data['degree']->deg_name??"", "master");
             $data['isMaster'] = $isMaster;
@@ -354,7 +355,7 @@ class HomeController extends Controller
         $transaction = $appl->transaction;
         if(($appl->degree_id == null) and ($step != 1)){$step = 1;}
         elseif(($transaction == null and $appl->degree_id != null) and !in_array($step, [1, 7])){$step = 7;}
-        elseif(($appl->degree_id != null) and ($transaction != null) and ($transaction->payment_id != $appl->degree_id)){$step = 7;}
+        elseif(($appl->degree_id != null) and ($transaction != null) and ($transaction->payment_id != $appl->degree_id) and !in_array($step, [1,7])){$step = 7;}
             
         
         if($step == 4){
@@ -402,8 +403,8 @@ class HomeController extends Controller
                     if($resp_data->count() > 0 and $resp_data->first() != null){
                         return redirect(route('student.momo.processing', $resp_data->first()));
                     }else{
-                        // return back()->with('error', $response->body());
-                        dd($response->body());
+                        return back()->with('error', $response->body());
+                        // dd($response->body());
                     }
                     break;
 
@@ -456,7 +457,7 @@ class HomeController extends Controller
 
         }
         
-        $step = (ApplicationForm::where('id', $application_id)->whereNotNull('transaction_id')->count() == 0 ) ? 6 : $request->step;
+        // $step = (ApplicationForm::where('id', $application_id)->whereNotNull('transaction_id')->count() == 0 ) ? 6 : $request->step;
         GOPAY:
         return redirect(route('student.application.start', [$step, $application_id]));
     }
