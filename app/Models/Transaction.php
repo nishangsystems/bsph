@@ -11,5 +11,5 @@ class Transaction extends Model
 
     protected $table = "transactions";
     protected $connection = 'mysql2';
-    protected $fillable = ['request_id', 'amount', 'currency_code', 'purpose', 'mobile_wallet_number', 'transaction_ref', 'app_id', 'transaction_id', 'transaction_time', 'payment_method', 'payer_user_id', 'payer_name', 'payer_account_id', 'merchant_fee', 'merchant_account_id', 'net_amount_recieved'];
+    protected $fillable = ['student_id', 'amount', 'year_id', 'tel', 'status','payment_purpose','payment_method','reference', 'transaction_id', 'payment_id', 'financialTransactionId', 'used', 'is_charges', 'semester_id'];
 }

@@ -1413,7 +1413,7 @@ class ProgramController extends Controller
         # code...
         $data['title'] = __('text.bypass_application_fee');
         $data['_this'] = $this;
-        $data['applications'] = ApplicationForm::whereNull('transaction_id')->where('year_id', Helpers::instance()->getCurrentAccademicYear())->get();
+        $data['applications'] = ApplicationForm::whereNull('transaction_id')->whereNotNull('degree_id')->where('year_id', Helpers::instance()->getCurrentAccademicYear())->get();
         if($application_id != null){
             $data['application'] = ApplicationForm::find($application_id);
         }
@@ -1441,12 +1441,19 @@ class ProgramController extends Controller
             session()->flash('error', 'Bypass reason required');
             return back()->withInput();
         }
+        $application = ApplicationForm::find($id);
+        $degree = collect(json_decode($this->api_service->degrees())->data)->where('id', $application->degree_id)->first();
 
-        $data = ['request_id'=>auth()->id(), 'amount'=>0, 'currency_code'=>'_____', 'purpose'=>'_____', 'mobile_wallet_number'=>'_______', 'transaction_ref'=>'_______', 'app_id'=>'_______', 'transaction_id'=>'_________', 'transaction_time'=>now()->toDateTimeString(), 'payment_method'=>'______', 'payer_user_id'=>'_________', 'payer_name'=>'_________', 'payer_account_id'=>'________', 'merchant_fee'=>0, 'merchant_account_id'=>'___________', 'net_amount_recieved'=>0];
+
+        // $data = ['transaction_ref'=>'_______', 'app_id'=>'_______', 'transaction_id'=>'_________', 'payment_method'=>'______', 'payer_user_id'=>'_________', 'payer_name'=>'_________', 'payer_account_id'=>'________', 'merchant_fee'=>0, 'merchant_account_id'=>'___________', 'net_amount_recieved'=>0];
+        $data = [
+            'student_id'=>$application->student_id, 'amount'=>$degree->amount??0, 'year_id'=>$application->year_id,
+            'tel'=>($application->phone == null ? $application->student->phone : $application->phone), 'status'=>'SUCCESSFUL','payment_purpose'=>'____________','payment_method'=>'_________',
+            'reference'=>'________', 'transaction_id'=>'_________', 'payment_id'=>$application->degree_id, 'financialTransactionId'=>'_________',
+            ];
         $transaction = new Transaction($data);
         $transaction->save();
 
-        $application = ApplicationForm::find($id);
         $application->update(['transaction_id'=>$transaction->id, 'bypass_reason'=>$request->bypass_reason]);
         return redirect(route('admin.applications.uncompleted'))->with('success', __('text.word_done'));
     }

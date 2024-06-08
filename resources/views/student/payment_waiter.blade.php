@@ -33,7 +33,7 @@
     }, 200);
 
     // check for the transaction status every 3s
-    $set_interval = setInterval(() => {
+    set_interval = setInterval(() => {
         ts_id = '{{$transaction_id}}';
         _url = "{{env('TRANSACTION_STATUS_URL')}}";
         $.ajax({
@@ -46,10 +46,12 @@
                 console.log(data);
                 if(data.status == "SUCCESSFUL"){
                     action = "{{route('complete_transaction', '__TID__')}}".replace('__TID__', ts_id);
+                    clearInterval(set_interval);
                     window.location = action;
                 }
                 if(data.status == "FAILED"){
                     action = "{{route('failed_transaction', '__TID__')}}".replace('__TID__', ts_id);
+                    clearInterval(set_interval);
                     window.location = action;
                 }
             }

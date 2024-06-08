@@ -168,7 +168,7 @@ class HomeController extends Controller
         try {
 
             if(auth('student')->user()->applicationForms()->where('submitted', 1)->where('year_id', Helpers::instance()->getCurrentAccademicYear())->count() > 0){
-                return back()->with('error', "You are allowed to submit only one application form per year");
+                return redirect()->route('student.home')->with('error', "You are allowed to submit only one application form per year");
             }
 
             // check if application is open now
@@ -219,29 +219,23 @@ class HomeController extends Controller
                 // return $data;
             }
 
+            // Assuming we are using direct momo payment
+            $transaction = $application->transaction;
+            $data['step'] = $step;
+            if(($application->degree_id == null) and ($step != 0)){$data['step'] = 0;}
+            elseif(($transaction == null and $application->degree_id != null) and !in_array($step, [0, 6])){$data['step'] = 6;}
+            elseif(($application->degree_id != null) and ($transaction != null) and ($transaction->payment_id != $application->degree_id)){$data['step'] = 6;}
+            
             $isMaster = in_array('degree', $data) and stristr($data['degree']->deg_name??"", "master");
+            $data['isMaster'] = $isMaster;
             if ($step == 3) {
                 if(!$isMaster){
                     $data['step'] = 4;
-                    $data['isMaster'] = $isMaster;
                 }
             }
             
             $data['title'] = (isset($data['degree']) and ($data['degree'] != null)) ? $data['degree']->deg_name." APPLICATION" : "APPLICATION";
-            
 
-            // Assuming we are using direct momo payment
-            $transaction = $application->transaction;
-            if($application->degree_id != null){
-                if($transaction == null){
-                    $data['step'] = 6;
-                }elseif($transaction->payment_id != $application->degree_id){
-                    $data['step'] = 6;
-                }else{$data['step'] = $step;}
-            }else{
-                $data['step'] = $step;
-            }
-            
             return view('student.online.fill_form', $data);
         } catch (\Throwable $th) {
             throw $th;
@@ -357,15 +351,11 @@ class HomeController extends Controller
         $data = [];
         $appl = ApplicationForm::find($application_id);
         $transaction = $appl->transaction;
-        if($step != 1){
-            if($transaction == null and $step != 7){
-                $step = 6; 
-                goto GOPAY;
-            }elseif($transaction->payment_id != $appl->degree_id){
-                $step = 6;
-                goto GOPAY;
-            }
-        }
+        $transaction = $appl->transaction;
+        if(($appl->degree_id == null) and ($step != 1)){$step = 1;}
+        elseif(($transaction == null and $appl->degree_id != null) and !in_array($step, [1, 7])){$step = 7;}
+        elseif(($appl->degree_id != null) and ($transaction != null) and ($transaction->payment_id != $appl->degree_id)){$step = 7;}
+            
         
         if($step == 4){
             $data_p1=[];
@@ -389,8 +379,7 @@ class HomeController extends Controller
             }
             $data = collect($data)->filter(function($value, $key){return $key != '_token';})->toArray();
             $application = ApplicationForm::updateOrInsert(['id'=> $application_id, 'student_id'=>auth('student')->id()], $data);
-        }
-        elseif($step == 7){
+        }elseif($step == 7){
             
             // dd('check point');
             $pay_channel = 'momo';
@@ -407,14 +396,14 @@ class HomeController extends Controller
                         'payment_purpose'=>'APPLICATION FEE', 
                         'tel'=> (strlen($request->momo_number) ==  9 ? '237'.$request->momo_number : $request->momo_number)
                     ];
-                    $response = Http::post(env('PAYMENT_URL', "https://students.buibsystems.org/api/make-payments"), $req_data);
+                    $response = Http::post(env('PAYMENT_URL'), $req_data);
                     $resp_data = $response->collect();
                     // dd($response->body());
                     if($resp_data->count() > 0 and $resp_data->first() != null){
                         return redirect(route('student.momo.processing', $resp_data->first()));
                     }else{
                         // return back()->with('error', $response->body());
-                        return back()->with('error', "Payment request failed");
+                        dd($response->body());
                     }
                     break;
 
@@ -922,7 +911,7 @@ class HomeController extends Controller
         $data['title'] = "Processing Direct Momo Transaction";
         $data['transaction_id'] = $transaction_id;
         // return view('student.momo.processing', $data);
-        return view('student.payment_waiter', $data);
+        return view('student.raw_payment_waiter', $data);
     }
 
     
@@ -943,7 +932,7 @@ class HomeController extends Controller
                 return redirect(route('student.home'))->with('error', "Application form could not be found");
             }
             $form->update(['transaction_id'=>$transaction->id]);
-            return redirect(route('student.application.start', ['id'=>$form->id, 'step'=>1]))->with('success', "Payment complete");
+            return redirect()->to(route('student.application.start', ['id'=>$form->id, 'step'=>1]))->with('success', "Payment complete");
         }
     }
 
@@ -953,9 +942,42 @@ class HomeController extends Controller
         $transaction = Transaction::where(['transaction_id'=>$ts_id])->first();
         if($transaction != null){
             // update transaction
-            // $transaction->delete();
+            $transaction->delete();
         }
-        return redirect(route('student.home'))->with('error', 'Operation failed.');
+        return redirect()->to(route('student.home'))->with('error', 'Operation failed.');
+    }
+
+    
+    public function _complete_transaction(Request $request, $ts_id)
+    {
+        # code...
+
+        $transaction = Transaction::where(['transaction_id'=>$ts_id])->first();
+        // dd($transaction);
+        if($transaction != null){
+            // update transaction
+            $transaction->status = "SUCCESSFUL";
+            $transaction->financialTransactionId = $request->financialTransactionId;
+            $transaction->save();
+
+            $form = ApplicationForm::where(['year_id'=>$transaction->year_id, 'student_id'=>$transaction->student_id])->first();
+            if($form == null){
+                return redirect(route('student.home'))->with('error', "Application form could not be found");
+            }
+            $form->update(['transaction_id'=>$transaction->id]);
+            return redirect()->to(route('student.application.start', ['id'=>$form->id, 'step'=>1]))->with('success', "Payment complete");
+        }
+    }
+
+    public function _failed_transaction(Request $request, $ts_id)
+    {
+        # code...
+        $transaction = Transaction::where(['transaction_id'=>$ts_id])->first();
+        if($transaction != null){
+            // update transaction
+            $transaction->delete();
+        }
+        return redirect()->to(route('student.home'))->with('error', 'Operation failed.');
     }
 
 }

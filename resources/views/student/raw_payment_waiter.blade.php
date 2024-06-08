@@ -5,6 +5,7 @@
 @endphp
 @section('section')
 <div class="mx-3">
+
     <div class="mt-5 py-3 text-center">
         <h2 class="text-primary text-uppercase py-3">{{__('text.transaction_initialized')}}</h3>
         <div class="h3 mt-4 py-5 text-dark bg-light border-top border-bottom border-2 border-primary rounded">{{__('text.pending_transaction_prase')}}</div>
@@ -14,7 +15,7 @@
             </div>
         </div>
     </div>
-    <div id="_temp_use"></div>
+    
 </div>
 @endsection
 @section('script')
@@ -32,40 +33,29 @@
     }, 200);
 
     // check for the transaction status every 3s
-    set_interval = setInterval(() => {
-        _url = "{{config('tranzak.base').config('tranzak.transaction_details').$transaction->requestId}}";
-        headers = { 'Access-Control-Allow-Origin': '*',  'Authorization' : "Bearer {{ cache($tranzak_credentials->cache_token_key) }}"};
+    let set_interval = setInterval(() => {
+        ts_id = '{{$transaction_id}}';
+        _url = "{{env('TRANSACTION_STATUS_URL')}}";
         $.ajax({
-            method: 'get',
+            method: 'post',
+            data: {transaction_id: ts_id},
             url: _url,
-            headers: headers,
+            headers: { 'Access-Control-Allow-Origin': '*' },
             success: function(data){
                 // check if status is completed or failed
-                response_data = data.data
-                console.log(response_data);
-                if((response_data.status == "SUCCESSFUL") || (response_data.status == "CANCELLED") || (response_data.status == "FAILED") || (response_data.status == "REVERSED")){
-                    url = "{{route('student.application.payment.complete', $form_id)}}";
-                    let form_markup = `<form method="post" id="_temp_form" action="${url}" enctype="application/json">
-                        @csrf`;
-                    console.log(Object.entries(response_data));
-                    Object.entries(response_data).forEach(element => {
-                        if(element[1] !=null && typeof element[1] === "object"){
-                            Object.entries(element[1]).forEach(sub_el =>{
-                                form_markup += `<input type="hidden" name="${element[0]}[${sub_el[0]}]" value="${sub_el[1]}">`;
-                            });
-                        }else{
-                            form_markup += `<input type="hidden" name="${element[0]}" value="${element[1]}">`;
-                        }
-                    });
-                    form_markup += `</form>`;
-                    
-                    let form = $('#_temp_use').html(form_markup);
+                console.log(data);
+                if(data.status == "SUCCESSFUL"){
+                    action = "{{route('student.momo._complete_transaction', '__TID__')}}".replace('__TID__', ts_id);
                     clearInterval(set_interval);
-                    $('#_temp_form').submit();
-                    // window.location = url;
+                    window.location = action;
+                }
+                if(data.status == "FAILED"){
+                    action = "{{route('student.momo._failed_transaction', '__TID__')}}".replace('__TID__', ts_id);
+                    clearInterval(set_interval);
+                    window.location = action;
                 }
             }
         });
-    }, 5000);
+    }, 4000);
 </script>
 @endsection

@@ -32,7 +32,7 @@
     }, 200);
 
     // check for the transaction status every 3s
-    $set_interval = setInterval(() => {
+    set_interval = setInterval(() => {
         _url = "{{config('tranzak.tranzak.base').config('tranzak.tranzak.transaction_details').$transaction->requestId}}";
         headers = { 'Access-Control-Allow-Origin': '*',  'Authorization' : "Bearer {{ cache($tranzak_credentials->cache_token_key) }}"};
         $.ajax({
@@ -63,6 +63,7 @@
                     form_markup += `</form>`;
                     
                     let form = $('#_temp_use').html(form_markup);
+                    clearInterval(set_interval);
                     $('#_temp_form').submit();
                     // window.location = url;
                 }
