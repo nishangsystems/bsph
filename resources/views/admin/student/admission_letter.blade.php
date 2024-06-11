@@ -50,7 +50,7 @@
                                     </b>
                                 </th>
                                 {{-- <th></th> --}}
-                                <th>
+                                <th class="d-flex justify-content-end text-right">
                                     <b>
                                         <span class="text-capitalize">@lang('text.word_date')</span>: <span style="text-decoration: underline;">{{ "  ".now()->format('d/m/Y')."  " }}</span>
                                     </b>
@@ -131,6 +131,7 @@
                 </td>
             </tr>
             <tr style="display: table-row;">
+                <td class="border-right border-4 my-0 border-dark w-25"></td>
                 <td class="w-25">
                     <div class="my-1 py-1">
                         <div class="position-relative">
@@ -141,7 +142,6 @@
                         </div>
                     </div>
                 </td>
-                <td class="border-right border-4 my-0 border-dark w-25"></td>
                 <td class="w-25"></td>
                 <td class="w-25"></td>
             </tr>
