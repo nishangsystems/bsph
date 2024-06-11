@@ -1356,6 +1356,7 @@ class ProgramController extends Controller
 
                 $year = substr(Batch::find(Helpers::instance()->getCurrentAccademicYear())->name, 2, 2);
                 $prefix = $program->prefix;//3 char length
+                $suffix = $program->suffix;//3 char length
                 $max_count = '';
                 if($prefix == null){
                     return back()->with('error', 'Matricule generation prefix not set.');
@@ -1364,10 +1365,10 @@ class ProgramController extends Controller
                 if($max_matric == null){
                     $max_count = 0;
                 }else{
-                    $max_count = intval(substr($max_matric, strlen($prefix)+4));
+                    $max_count = intval(substr($max_matric, strlen($prefix)+3));
                 }
-                $next_count = substr('0000'.($max_count+1), -4);
-                $student_matric = $prefix.$year.$next_count;
+                $next_count = substr('000'.($max_count+1), -3);
+                $student_matric = $prefix.$year.$suffix.$next_count;
 
                 if(ApplicationForm::where('matric', $student_matric)->count() == 0){
                     $data['title'] = "Change Student Program";
