@@ -1249,7 +1249,7 @@ class ProgramController extends Controller
             'phone'=>$application->phone??null,
             'residence'=>$application->residence??null, 
             'gender'=>$application->gender??null,
-            'matric'=>$application->matric??null, 
+            'matric'=>$request->matric??null, 
             'dob'=>$application->dob??null, 
             'pob'=>$application->pob??null,
             'year_id'=>$application->year_id??null,
