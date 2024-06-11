@@ -271,7 +271,7 @@ $em_key = time().random_int(3000, 3099);
                             <div class="">
                                 <select class="form-control text-primary"  name="program_second_choice">
                                     <option>{{ __('text.select_program') }}</option>
-                                    @foreach ($programs as $program)
+                                    @foreach (collect($programs)->where('appliable', 1) as $program)
                                         <option value="{{ $program->id }}" {{ $application->program_second_choice == $program->id ? 'selected' : '' }}>{{ $program->name }}</option>
                                     @endforeach
                                 </select>
