@@ -66,7 +66,7 @@
                         </div>
                         <div class="my-1 py-1">
                             <span> {!! 
-                                __(
+                                    __(
                                         'text.admission_letter_text_block1', 
                                         [
                                             'degree'=>($degree??'DEG'), 
