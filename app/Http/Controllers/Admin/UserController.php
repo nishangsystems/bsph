@@ -13,7 +13,6 @@ use App\Option;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Session;
 
 class UserController extends Controller
@@ -66,7 +65,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validity = Validator::make($request->all(), [
+        $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email',
             'phone' => 'required',
@@ -75,9 +74,6 @@ class UserController extends Controller
             'gender' => 'required',
             'type' => 'required',
         ]);
-        if($validity->fails()){
-            return back()->with('error', $validity->errors()->first());
-        }
         $pattern = Matriculation::first();
         $pattern->last_number = $pattern->last_number+1;
         if(User::where('matric', $pattern->pattern . $pattern->last_number)->count() > 0){
