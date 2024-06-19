@@ -94,11 +94,20 @@
 		        font-size:16px;
 		        color:#fff;
 		    }
+
+			.blink{
+				animation: blinker 1s linear infinite;
+			}
+			@keyframes blinker {
+				50% {
+					opacity: 0;
+				}
+			}
 		</style>
 	</head>
 
 	<body class="login-layout" id="frame">
-		<marquee class="container-fluid py-2 h3 text-uppercase font-semibild h4" scrollamount="3" style="font-weight: 700; color: #f00;"><i>{{ $announcement??'' }}</i></marquee>
+		<div class="container-fluid text-center py-2 h3 text-uppercase font-semibild h4 blink" scrollamount="4" style="font-weight: 700; color: #f00;"><i>{{ $announcement??'' }}</i></div>
 		<div class="main-container px-5" style="padding-inline: 2rem;">
 			<div class="w-100 text-center" style="padding: 0.2rem; margin-block: 0.1rem;">
 				<h4> <span style="color: {{ $bg3 }}; text-shadow: -1px -1px 0 #1a55c4, 1px -1px 0 #1a55c4, -1px 1px 0 #1a55c4, 1px 1px 0 #1a55c4; font-weight: bolder; font-size: large; transform: skew(12deg, 17deg) !important;">{{__('text.stlo_portal')}}</span></h4>
@@ -216,7 +225,7 @@
 										</div>
 										<div class="toolbar clearfix"  style="border: 0px; font-size: xsmall !important; width: 77% !important; margin-inline: auto; ">
 											<span style="text-decoration: none !important; color: black !important;">{{__('text.need_an_account?')}}</span>
-											<a href="{{ route('registration') }}" class="btn rounded-3 btn-sm btn-black" style="border-radius: 2rem; color: #670404 !important; background-color: white !important; border: 1px solid {{ $bg1 }} !important; font-weight: semibold !important;">
+											<a href="{{ route('registration') }}" class="btn rounded-3 btn-sm btn-black" style="border-radius: 2rem; color: #fff !important; background-color: #f00 !important; border: 1px solid {{ $bg1 }} !important; font-weight: semibold !important;">
 												{{__('text.want_to_register')}}
 												{{-- <i class="ace-icon fa fa-arrow-right"></i> --}}
 												</a>
@@ -341,7 +350,8 @@
 		</script>
 		<script type="text/javascript">
 
-$("#password").password('toggle');
+		$("#password").password('toggle');
+
 
 </script>
 
