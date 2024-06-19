@@ -316,9 +316,9 @@
 				</div><!-- /.row -->
 			</div><!-- /.main-content -->
 		</div><!-- /.main-container -->
-		{{-- @if($help_contacts != null) --}}
+		@if($help_contacts != null)
 			<div class="alert alert-light text-center text-uppercase margin-top-5 h4"><b><i>{{ 'IN NEED OF HELP, CONTACT: '.$help_contacts }}</i></b></div>
-		{{-- @endif --}}
+		@endif
 
 
 {{--		@include('inc.student.footer')--}}

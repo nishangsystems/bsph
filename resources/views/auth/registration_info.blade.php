@@ -103,6 +103,7 @@
 	</head>
 
 	<body class="login-layout" id="frame">
+		<marquee class="container-fluid py-2 h3 text-uppercase font-semibild h4" scrollamount="3" style="font-weight: 700; color: #f00;"><i>{{ $announcement??'' }}</i></marquee>
 		<div class="main-container px-5" style="padding-inline: 2rem;">
 			
 			<div class="w-100 text-center" style="padding: 0.2rem; margin-block: 0.1rem;">
@@ -239,7 +240,9 @@
 
 			
 		</div><!-- /.main-container -->
-
+		@if($help_contacts != null)
+			<div class="alert alert-light text-center text-uppercase margin-top-5 h4"><b><i>{{ 'IN NEED OF HELP, CONTACT: '.$help_contacts }}</i></b></div>
+		@endif
 		<script src="{{asset('assets/js/jquery-2.1.4.min.js')}}"></script>
 			<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-show-password/1.0.3/bootstrap-show-password.min.js"></script>
 	

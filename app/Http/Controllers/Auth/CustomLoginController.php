@@ -48,7 +48,22 @@ class CustomLoginController extends Controller
     public function showRegistrationForm()
     {
         # code...
-        return view('auth.registration');
+        $data['help_contacts'] =  \App\Models\School::first()->help_contacts??'';
+        $admission = Config::where('year_id', Helpers::instance()->getCurrentAccademicYear())->whereNotNull('start_date')->whereNotNull('end_date')->first();
+        $year = Batch::find(Helpers::instance()->getCurrentAccademicYear());
+        if($admission != null){
+            if(now()->isBetween($admission->start_date, $admission->end_date)){
+                $data['announcement'] = "Application into BIAKA University Institute open For ".($year->name??'').", From ".$admission->start_date->format('d/m/Y')." to ".$admission->end_date->format('d/m/Y');
+            }elseif(now()->isBefore($admission->start_date)){
+                $data['announcement'] = "Application into BIAKA University Institute opening For ".($year->name??'')." From ".$admission->start_date->format('d/m/Y')." to ".$admission->end_date->format('d/m/Y');
+            }else{
+                $data['announcement'] = "Application into BIAKA University Institute closed For ".($year->name??'');
+            }
+        }else {
+            $data['announcement'] = "Application into BIAKA University Institute has not been opened For ".($year->name??'');
+        }
+        // dd($data);
+        return view('auth.registration', $data);
     }
 
     public function check_matricule(Request $request){
@@ -56,8 +71,23 @@ class CustomLoginController extends Controller
               if (User::where('username', $request->reg_no)->exists()) {   
                  return redirect()->route('registration')->with('error','Matricule Number has being used already. Contact the System Administrator.');   
               }else{
-                $student_d = Students::where('matric', $request->reg_no)->first();   
-                return view('auth.registration_info',compact('student_d'));
+                $data['student_d'] = Students::where('matric', $request->reg_no)->first(); 
+                $data['help_contacts'] =  \App\Models\School::first()->help_contacts??'';
+                $admission = Config::where('year_id', Helpers::instance()->getCurrentAccademicYear())->whereNotNull('start_date')->whereNotNull('end_date')->first();
+                $year = Batch::find(Helpers::instance()->getCurrentAccademicYear());
+                if($admission != null){
+                    if(now()->isBetween($admission->start_date, $admission->end_date)){
+                        $data['announcement'] = "Application into BIAKA University Institute open For ".($year->name??'').", From ".$admission->start_date->format('d/m/Y')." to ".$admission->end_date->format('d/m/Y');
+                    }elseif(now()->isBefore($admission->start_date)){
+                        $data['announcement'] = "Application into BIAKA University Institute opening For ".($year->name??'')." From ".$admission->start_date->format('d/m/Y')." to ".$admission->end_date->format('d/m/Y');
+                    }else{
+                        $data['announcement'] = "Application into BIAKA University Institute closed For ".($year->name??'');
+                    }
+                }else {
+                    $data['announcement'] = "Application into BIAKA University Institute has not been opened For ".($year->name??'');
+                }
+                // dd($data);  
+                return view('auth.registration_info',$data);
               }
             
           }
