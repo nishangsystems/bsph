@@ -228,7 +228,6 @@
                 <b class="arrow"></b>
             </li>
             
-            
             @if (\Auth::user()->hasPermissionTo('basic_settings'))
             <li>
                 <a href="#" class="dropdown-toggle text-capitalize">
@@ -353,14 +352,6 @@
 
                         <b class="arrow"></b>
                     </li>
-                    {{-- <li>
-                        <a href="{{route('admin.applications.distant')}}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            {{__('text.distant_applicant')}}
-                        </a>
-
-                        <b class="arrow"></b>
-                    </li> --}}
                     <li>
                         <a href="{{route('admin.applications.uncompleted')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
@@ -554,7 +545,7 @@
             </li>
             @endif
             
-            @if(auth()->user()->hasPermissionTo('bypass_result'))
+            @if(auth()->user()->hasPermissionTo('bypass_application_fee'))
                 <li>
                     <a href="{{route('admin.applications.bypass')}}" class="text-capitalize">
                         <i  style="color: {{$bg1}};" class="fa fa-dollar menu-icon"></i>

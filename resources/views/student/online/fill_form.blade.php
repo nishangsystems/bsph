@@ -400,15 +400,19 @@ $em_key = time().random_int(3000, 3099);
                                                         </div class="col-sm-6 col-md-4">
                                                     </div>
                                                 </th>
+                                            </tr>
                                             <tr>
                                                 <th>{{ trans_choice('text.word_subject', 1) }}<i class="text-danger text-xs">*</i></th>
                                                 <th>@lang('text.word_grade')<i class="text-danger text-xs">*</i></th>
                                                 <th></th>
+                                            </tr>
                                         </thead>
                                         <tbody id="ol_results">
+                                            @php $counter = 1; @endphp
                                             @foreach (json_decode($application->ol_results)??[] as $result)
                                                 @php
                                                     $ol_key++;
+                                                    $counter++;
                                                 @endphp
                                                 <tr class="text-capitalize">
                                                     <td><input class="form-control text-primary"  name="ol_results[{{ $ol_key }}][subject]" required value="{{ $result->subject }}"></td>
@@ -427,6 +431,28 @@ $em_key = time().random_int(3000, 3099);
                                                     <td><span class="btn btn-xs px-4 py-1 btn-danger rounded" onclick="dropOlResult(event)">{{ __('text.word_drop') }}</span></td>
                                                 </tr>
                                             @endforeach
+                                            @while ($counter <= 11)
+                                                @php
+                                                    $ol_key++;
+                                                    $counter++;
+                                                @endphp
+                                                <tr class="text-capitalize">
+                                                    <td><input class="form-control text-primary"  name="ol_results[{{ $ol_key }}][subject]" value=""></td>
+                                                    <td>
+                                                        <select class="form-control text-primary input imput-sm"  name="ol_results[{{ $ol_key }}][grade]" value="">
+                                                            <option value=""></option>
+                                                            <option value="A">A</option>
+                                                            <option value="B">B</option>
+                                                            <option value="C">C</option>
+                                                            <option value="D">D</option>
+                                                            <option value="E">E</option>
+                                                            <option value="F">F</option>
+                                                            <option value="U">U</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><span class="btn btn-xs px-4 py-1 btn-danger rounded" onclick="dropOlResult(event)">{{ __('text.word_drop') }}</span></td>
+                                                </tr>
+                                            @endwhile
                                         </tbody>
                                     </table>
                                 </div>
@@ -490,15 +516,19 @@ $em_key = time().random_int(3000, 3099);
                                                         </div class="col-sm-6 col-md-4">
                                                     </div>
                                                 </th>
+                                            </tr>
                                             <tr>
                                                 <th>{{ trans_choice('text.word_subject', 1) }}<i class="text-danger text-xs">*</i></th>
                                                 <th>@lang('text.word_grade')<i class="text-danger text-xs">*</i></th>
                                                 <th></th>
+                                            </tr>
                                         </thead>
                                         <tbody id="al_results">
+                                            @php $counter = 1; @endphp
                                             @foreach (json_decode($application->al_results)??[] as $_result)
                                                 @php
                                                     $al_key++;
+                                                    $counter++
                                                 @endphp
                                                 <tr class="text-capitalize">
                                                     <td><input class="form-control text-primary"  name="al_results[{{ $al_key }}][subject]" required value="{{ $_result->subject }}"></td>
@@ -517,6 +547,28 @@ $em_key = time().random_int(3000, 3099);
                                                     <td><span class="btn btn-sm px-4 py-1 btn-danger rounded" onclick="dropAlResult(event)">{{ __('text.word_drop') }}</span></td>
                                                 </tr>
                                             @endforeach
+                                            @while ($counter <= 5)
+                                                @php
+                                                    $al_key++;
+                                                    $counter++
+                                                @endphp
+                                                <tr class="text-capitalize">
+                                                    <td><input class="form-control text-primary"  name="al_results[{{ $al_key }}][subject]" value=""></td>
+                                                    <td>
+                                                        <select class="form-control text-primary"  name="al_results[{{ $al_key++ }}][grade]">
+                                                            <option value=""></option>
+                                                            <option value="A">A</option>
+                                                            <option value="B">B</option>
+                                                            <option value="C">C</option>
+                                                            <option value="D">D</option>
+                                                            <option value="E">E</option>
+                                                            <option value="F">F</option>
+                                                            <option value="U">U</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><span class="btn btn-sm px-4 py-1 btn-danger rounded" onclick="dropAlResult(event)">{{ __('text.word_drop') }}</span></td>
+                                                </tr>
+                                            @endwhile
                                         </tbody>
                                     </table>
                                 </div>
