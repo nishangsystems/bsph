@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
+use App\Models\Batch;
+use App\Models\Config;
 use App\Models\Students;
 use App\Models\User;
 // use Auth;
@@ -11,6 +14,8 @@ use Illuminate\Http\Request;
 use \Cookie;
 use Illuminate\Support\Facades\Auth;
 
+use function PHPUnit\Framework\isNull;
+
 class CustomLoginController extends Controller
 {
     public function __construct(){
@@ -18,7 +23,22 @@ class CustomLoginController extends Controller
     }
 
     public function showLoginForm(){
-        return view('auth.login');
+        $data['help_contacts'] =  \App\Models\School::first()->help_contacts??'';
+        $admission = Config::where('year_id', Helpers::instance()->getCurrentAccademicYear())->whereNotNull('start_date')->whereNotNull('end_date')->first();
+        $year = Batch::find(Helpers::instance()->getCurrentAccademicYear());
+        if($admission != null){
+            if(now()->isBetween($admission->start_date, $admission->end_date)){
+                $data['announcement'] = "Application into BIAKA University Institute open For ".($year->name??'').", From ".$admission->start_date->format('d/m/Y')." to ".$admission->end_date->format('d/m/Y');
+            }elseif(now()->isBefore($admission->start_date)){
+                $data['announcement'] = "Application into BIAKA University Institute opening For ".($year->name??'')." From ".$admission->start_date->format('d/m/Y')." to ".$admission->end_date->format('d/m/Y');
+            }else{
+                $data['announcement'] = "Application into BIAKA University Institute closed For ".($year->name??'');
+            }
+        }else {
+            $data['announcement'] = "Application into BIAKA University Institute has not been opened For ".($year->name??'');
+        }
+        // dd($data);
+        return view('auth.login', $data);
     }
     
      public function registration(){

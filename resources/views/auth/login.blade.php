@@ -98,6 +98,10 @@
 	</head>
 
 	<body class="login-layout" id="frame">
+		<marquee class="container-fluid py-2 h3 text-uppercase font-semibild text-success h4"><i>{{ $announcement??'' }}</i></marquee>
+		@if($help_contacts != null)
+			<div class="alert alert-success text-center text-uppercase">{{ 'IN NEED OF HELP, CONTACT'.$help_contacts }}</div>
+		@endif
 		<div class="main-container px-5" style="padding-inline: 2rem;">
 			<div class="w-100 text-center" style="padding: 0.2rem; margin-block: 0.1rem;">
 				<h4> <span style="color: {{ $bg3 }}; text-shadow: -1px -1px 0 #1a55c4, 1px -1px 0 #1a55c4, -1px 1px 0 #1a55c4, 1px 1px 0 #1a55c4; font-weight: bolder; font-size: large; transform: skew(12deg, 17deg) !important;">{{__('text.stlo_portal')}}</span></h4>
