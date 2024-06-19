@@ -112,7 +112,7 @@
 	</head>
 
 	<body class="login-layout" id="frame">
-		<div class="container-fluid py-2 h3 text-uppercase font-semibild h4 blink" scrollamount="0" style="font-weight: 700; color: #f00;"><i>{{ $announcement??'' }}</i></div>
+		<div class="container-fluid text-center py-2 h3 text-uppercase font-semibild h4 blink" style="font-weight: 700; color: #f00;"><i>{{ $announcement??'' }}</i></div>
 		<div class="main-container px-5" style="padding-inline: 2rem;">
 			
 			<div class="w-100 text-center" style="padding: 0.2rem; margin-block: 0.1rem;">
