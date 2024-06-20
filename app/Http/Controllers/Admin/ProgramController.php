@@ -1048,7 +1048,7 @@ class ProgramController extends Controller
             $data['title'] = "Edit Student Information";
             $data['_this'] = $this;
             $data['action'] = __('text.word_edit');
-            $data['applications'] = ApplicationForm::whereNotNull('transaction_id')->where('admitted', 0)->where('year_id', Helpers::instance()->getCurrentAccademicYear())->get();
+            $data['applications'] = ApplicationForm::where('year_id', Helpers::instance()->getCurrentAccademicYear())->get();
             return view('admin.student.applications', $data);
         }
 
@@ -1090,7 +1090,11 @@ class ProgramController extends Controller
         }
 
         $data = ['name'=>$request->name];
-        ApplicationForm::find($id)->update($data);
+        $application = ApplicationForm::find($id);
+        $application->update($data);
+        if($application->admitted == 1){
+            $this->api_service->update_student($application->matric, $data);
+        }
         return back()->with('success', __('text.word_done'));
     }
 
