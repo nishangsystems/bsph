@@ -49,7 +49,7 @@ class AppService{
             $data['platform_links'] = [];
            
             $data['year'] = substr($appl->year->name, -4);
-            $data['_year'] = substr($appl->year->name, -2);
+            $data['_year'] = substr($data['year'], -2);
             // dd($data);
             $data['title'] = "ADMISSION LETTER";
             $data['name'] = $appl->name;
