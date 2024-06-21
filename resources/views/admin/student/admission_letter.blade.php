@@ -3,9 +3,9 @@
     <div class="py-2">
         <span class="text-sm text-secondary text-capitalize">@lang('text.authorization_no'): {{ $auth_no??'----' }}</span>
         <hr class="border-bottom border-4 my-0 border-dark">
-        <table style="table-layout: fixed">
+        <table style="table-layout: fixed; ">
             <tr style="text-align: left; align-content: start;">
-                <td class="border-right border-4 margin-bottom-0 border-dark w-25 text-left">
+                <td class="border-right border-4 margin-bottom-0 border-dark text-left">
                     <div class="">
                         <div class="row container-fluid">
                             <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize">
@@ -39,7 +39,7 @@
                         </div>
                     </div>
                 </td>
-                <td colspan="3" class="w-75">
+                <td colspan="4" class="">
                     <div>
                         <table style="table-layout: fixed;">
                             <thead>
@@ -57,14 +57,14 @@
                                 </th>
                             </thead>
                         </table>
-                        <div class="my-1 py-1 text-capitalize">
+                        <div class="my-2 text-capitalize">
                             <span>@lang('text.dear_titles') : <b>{{ $name??'' }}</b></span><br>
                             <span>@lang('text.matriculation_number') : <b>{{ $matric??'' }}</b></span>
                         </div>
-                        <div class="my-1 py-1 text-uppercase">
+                        <div class="my-2 text-uppercase">
                             <b>@lang('text.offer_of_admission')</b>
                         </div>
-                        <div class="my-1 py-1">
+                        <div class="my-1">
                             <span> {!! 
                                     __(
                                         'text.admission_letter_text_block1', 
@@ -82,7 +82,7 @@
                                  !!}
                             </span>
                         </div>
-                        <div class="my-1 py-1">
+                        <div class="my-1">
                             <span>@lang('text.the_tution_fee_amount_should_be_paid_at'):</span><br>
                             <ul style="list-style-type: disc; margin-left:2rem; padding-left:2rem;">
                                 <li><span class="text-capitalize">@lang('text.bank_name'):</span> <b class="text-uppercase">{{ $fee->bank_name??'----' }}</b></li>
@@ -90,7 +90,7 @@
                                 <li><span class="text-capitalize">@lang('text.account_number'):</span> <b class="text-uppercase">{{ $fee->bank_account_number??'----' }}</b></li>
                             </ul>
                         </div>
-                        <div class="my-1 py-1">
+                        <div class="my-1">
                             <span>@lang('text.at_registration_you_will_be_expected_to_do_the_following'):</span><br>
                             <ul style="list-style-type: disc; margin-left:2rem; padding-left:2rem;">
                                 <li>{!! __('text.present_receipts_of_payment_of_registration_fees', ['bank_name'=>$fee->bank_name??'----']) !!}</li>
@@ -98,27 +98,27 @@
                                 <li>{!! __('text.present_fee_receipts') !!}</li>
                             </ul>
                         </div>
-                        <div class="my-1 py-1">
+                        <div class="my-1">
                             <span>@lang('text.offer_revoked_if'):</span><br>
                             <ul style="list-style-type: disc; margin-left:2rem; padding-left:2rem;">
                                 <li>@lang('text.you_cannot_produce_docs_on_time')</li>
                                 <li>@lang('text.you_are_unable_to_satisfy_necessary_requirements')</li>
                             </ul>
                         </div>
-                        <div class="my-1 py-1">
+                        <div class="my-1">
                             <span>@lang('text.registration_commences_after_admission')</span>
                         </div>
-                        <div class="my-1 py-1">
+                        <div class="my-1">
                             <b>@lang('text.start_of_lectures'): {{ $start_of_lectures??'' }}</b>
                         </div>
                     </div>
                 </td>
             </tr>
             <tr style="display: table-row;">
-                <td class="border-right border-4 my-0 border-dark w-25"></td>
-                <td colspan="3" class="w-75">
+                <td class="border-right border-4 my-0 border-dark"></td>
+                <td colspan="4" class="">
                     <div>
-                        <div class="my-1 py-1">
+                        <div class="my-1">
                             <b>N.B:</b><br>
                             <ul style="list-style-type: disc; margin-left:2rem; padding-left:4rem;">
                                 <li>{!! __('text.admission_letter_NB1') !!}</li>
@@ -131,8 +131,8 @@
                 </td>
             </tr>
             <tr style="display: table-row;">
-                <td class="border-right border-4 my-0 border-dark w-25"></td>
-                <td class="w-25">
+                <td class="border-right border-4 my-0 border-dark "></td>
+                <td>
                     <div class="my-1 py-1">
                         <div class="position-relative">
                             <div id="sign_box">
@@ -142,8 +142,9 @@
                         </div>
                     </div>
                 </td>
-                <td class="w-25"></td>
-                <td class="w-25"></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
         </table>
     </div>
