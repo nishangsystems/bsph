@@ -109,7 +109,7 @@
                             <span>@lang('text.registration_commences_after_admission')</span>
                         </div>
                         <div class="my-1">
-                            <b>@lang('text.start_of_lectures'): {{ $start_of_lectures??'' }}</b>
+                            <b>@lang('text.start_of_lectures'): {{ $start_of_lectures == null ? '' : $start_of_lectures->format('d-m-Y') }}</b>
                         </div>
                         <div class="my-1">
                             <b>N.B:</b><br>
