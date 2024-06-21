@@ -17,8 +17,8 @@
                     <label class="text-secondary text-capitalize">{{ __('text.end_date') }}</label>
                 </div>
                 <div class="col-sm-12 col-md-6 col-lg-3 col-xl-2 py-2">
-                    <input class="form-control" name="start_of_lectures" type="date" value="{{ $current_session != null ? $current_session->start_of_lectures : null }}">
-                    <label class="text-secondary text-capitalize">{{ __('text.end_date') }}</label>
+                    <input class="form-control" name="start_of_lectures" type="datetime-local" value="{{ $current_session != null ? $current_session->start_of_lectures : null }}">
+                    <label class="text-secondary text-capitalize">{{ __('text.start_of_lectures') }}</label>
                 </div>
                 <div class="col-sm-12 col-md-12 col-lg-12 py-2 d-flex justify-content-end">
                     <button type="submit" class="btn btn-sm btn-primary text-uppercase">{{ __('text.word_update') }}</button>

@@ -1077,5 +1077,6 @@ return [
     'application_statistics'=>'application statistics',
     'admission_statistics'=>'admission statistics',
     'application_bypass'=>'application bypass',
+    'start_of_lectures'=>'start of lectures',
     ''
 ]; 
