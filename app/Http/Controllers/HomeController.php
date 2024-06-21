@@ -144,7 +144,7 @@ class HomeController extends Controller
             
             return response()->json(StudentResourceMain::collection($students));
         } catch (\Throwable $th) {
-            return $th->getMessage();
+            return $th->getTrace();
         }
     }
 
