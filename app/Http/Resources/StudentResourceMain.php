@@ -17,7 +17,7 @@ class StudentResourceMain extends JsonResource
      */
     public function toArray($request)
     {
-        $stud = Students::find($this->id);
+        // $stud = Students::find($this->id);
         return [
             'id' => $this->id,
             'name' => $this->name,
