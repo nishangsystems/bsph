@@ -5,27 +5,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Helpers;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\StudentFee;
-use App\Models\Background;
-use App\Models\Batch;
-use App\Models\CampusSemesterConfig;
 use App\Models\Config;
 use App\Models\File;
 use App\Models\PlatformCharge;
-use App\Models\Resit;
 use App\Models\SchoolUnits;
-use App\Models\Semester;
 use App\Models\Students;
-use App\Models\StudentSubject;
-use App\Models\Subjects;
-use App\Models\User;
-use App\Models\Wage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config as FacadesConfig;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use MongoDB\Driver\Session;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Services\ApiService;
 
 use function PHPUnit\Framework\returnSelf;

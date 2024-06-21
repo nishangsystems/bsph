@@ -49,7 +49,7 @@ class AppService{
             $data['platform_links'] = [];
            
             $data['year'] = substr($appl->year->name, -4);
-            $data['_year'] = substr($data['year'], -2);
+            $data['_year'] = substr($appl->year->name, 2, 2);
             // dd($data);
             $data['title'] = "ADMISSION LETTER";
             $data['name'] = $appl->name;
@@ -73,6 +73,7 @@ class AppService{
             $data['department'] = $department->name??'-------';
             $data['fee'] = $fees[0]??$fees;
             $data['page2'] = AdmissionLetterPage2::where('program_id', $program->id??0)->first();
+            $data['start_of_lectures'] = Config::where('year_id', Helpers::instance()->getCurrentAccademicYear())->first()->start_of_lectures??'';
             // dd($program);
             if($data['degree'] ==  null){
                 session()->flash('error', 'Program Degree Name not set');

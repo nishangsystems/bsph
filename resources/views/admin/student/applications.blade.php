@@ -13,8 +13,8 @@
                         <th class="border-left border-right" rowspan="2">#</th>
                         <th class="border-left border-right" rowspan="2">{{__('text.word_name')}}</th>
                         <th class="border-left border-right" rowspan="2">{{__('text.word_email')}}</th>
-                        <th class="border-left border-right" rowspan="2">{{__('text.word_phone')}}</th> 
-                        <th class="border-left border-right" rowspan="2">{{__('text.word_campus')}}</th> 
+                        <th class="border-left border-right" rowspan="2">{{__('text.word_phone')}}</th>
+                        @isset($adml)<th class="border-left border-right" rowspan="2">{{__('text.admission_date')}}</th>@endisset
                         <th class="border-left border-right" rowspan="2">{{__('text.word_degree')}}</th> 
                         <th class="border-left border-right" colspan="2">{{__('text.word_programs')}}</th> 
                         <th class="border-left border-right" rowspan="2"></th>
@@ -32,7 +32,7 @@
                             <td class="border-left border-right">{{ $appl->name == null ? \App\Models\Students::find($appl->student_id)->name : $appl->name }}</td>
                             <td class="border-left border-right">{{ $appl->email == null ? \App\Models\Students::find($appl->student_id)->email : $appl->email }}</td>
                             <td class="border-left border-right">{{ $appl->phone == null ? \App\Models\Students::find($appl->student_id)->phone : $appl->phone }}</td>
-                            <td class="border-left border-right">{{ $campuses->where('id', $appl->campus_id)->first()->name??null }}</td>
+                            @isset($adml)<td class="border-left border-right">{{ $appl->admitted_at->format('d-m-Y') }}</td>@endisset
                             <td class="border-left border-right">{{ $degrees->where('id', $appl->degree_id)->first()->deg_name??null }}</td>
                             <td class="border-left border-right">{{ $programs->where('id', $appl->program_first_choice)->first()->name??null }}</td>
                             <td class="border-left border-right">{{ $programs->where('id', $appl->program_second_choice)->first()->name??null }}</td>

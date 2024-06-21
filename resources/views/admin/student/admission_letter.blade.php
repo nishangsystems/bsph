@@ -46,7 +46,7 @@
                                 <th>
                                     <b>
                                         <span class="text-capitalize">@lang('text.your_ref')</span>: _________________ <br><br>
-                                        <span class="text-capitalize">@lang('text.our_ref')</span>:  <span style="">BUIB/AL{{ $_year }}/{{ $_program->prefix??'' }}/{{ $matric_sn??'' }}</span>
+                                        <span class="text-capitalize">@lang('text.our_ref')</span>:  <span style="">BUIB/AL{{ $_year }}/{{ $_program->prefix??'' }}/{{ $_program->suffix??'' }}{{ $matric_sn??'' }}</span>
                                     </b>
                                 </th>
                                 {{-- <th></th> --}}

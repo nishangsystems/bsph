@@ -901,7 +901,7 @@ class ProgramController extends Controller
         if($validity->fails()){return back()->with('error', $validity->errors()->first());}
 
         // return $request->all();
-        $config = ['start_date'=>$request->start_date, 'end_date'=>$request->end_date];
+        $config = ['start_date'=>$request->start_date, 'end_date'=>$request->end_date, 'start_of_lectures'=>$request->start_of_lectures];
         Config::updateOrInsert(['year_id'=>Helpers::instance()->getCurrentAccademicYear()], $config);
         return back()->with('success', __('text.word_done'));
     }
@@ -1150,6 +1150,7 @@ class ProgramController extends Controller
             $data['title'] = "Send Student Admission Letter";
             $data['_this'] = $this;
             // $data['action'] = __('text.word_send');
+            $data['adml'] = 1;
             $data['download'] = __('text.word_download');
             $data['applications'] = ApplicationForm::whereNotNull('transaction_id')->where('admitted', 1)->where('year_id', Helpers::instance()->getCurrentAccademicYear())->get();
             return view('admin.student.applications', $data);
@@ -1270,7 +1271,7 @@ class ProgramController extends Controller
         // dd($resp);
         if($resp != null and !is_string($resp)){
            if($resp->status == 1){
-                $application->update(['matric'=>$request->matric, 'admitted'=>1]);
+                $application->update(['matric'=>$request->matric, 'admitted'=>1, 'admitted_at'=>now()]);
 
                 // Send sms/email notification
                 $phone_number = $application->phone;
