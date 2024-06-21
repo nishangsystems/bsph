@@ -12,7 +12,7 @@
                     <tr class="text-capitalize border-bottom border-dark">
                         <th class="border-left border-right" rowspan="2">#</th>
                         <th class="border-left border-right" rowspan="2">{{__('text.word_name')}}</th>
-                        <th class="border-left border-right" rowspan="2">{{__('text.word_email')}}</th>
+                        {{-- <th class="border-left border-right" rowspan="2">{{__('text.word_email')}}</th> --}}
                         <th class="border-left border-right" rowspan="2">{{__('text.word_phone')}}</th>
                         @isset($adml)<th class="border-left border-right" rowspan="2">{{__('text.admission_date')}}</th>@endisset
                         <th class="border-left border-right" rowspan="2">{{__('text.word_degree')}}</th> 
@@ -30,7 +30,7 @@
                         <tr class="border-bottom">
                             <td class="border-left border-right">{{ $k++ }}</td>
                             <td class="border-left border-right">{{ $appl->name == null ? \App\Models\Students::find($appl->student_id)->name : $appl->name }}</td>
-                            <td class="border-left border-right">{{ $appl->email == null ? \App\Models\Students::find($appl->student_id)->email : $appl->email }}</td>
+                            {{-- <td class="border-left border-right">{{ $appl->email == null ? \App\Models\Students::find($appl->student_id)->email : $appl->email }}</td> --}}
                             <td class="border-left border-right">{{ $appl->phone == null ? \App\Models\Students::find($appl->student_id)->phone : $appl->phone }}</td>
                             @isset($adml)<td class="border-left border-right">{{ $appl->admitted_at == null ? '' : $appl->admitted_at->format('d-m-Y') }}</td>@endisset
                             <td class="border-left border-right">{{ $degrees->where('id', $appl->degree_id)->first()->deg_name??null }}</td>
