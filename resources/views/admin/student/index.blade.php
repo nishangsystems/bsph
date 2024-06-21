@@ -71,9 +71,6 @@
                         <td>${element.email}</td>
                         <td>${element.phone}</td>
                         <td class="d-flex justify-content-end  align-items-start text-capitalize">
-                            <a class="btn btn-sm btn-primary m-1" href="${element.show_link}"><i class="fa fa-info-circle"> {{__('text.word_view')}}</i></a> |
-                            <a class="btn btn-sm btn-success m-1" href="${element.edit_link}"><i class="fa fa-edit"> {{__('text.word_edit')}}</i></a>|
-                            
                             <a class="btn btn-sm btn-warning m-1" onclick="confirm('Are you sure you want to reset pasword for ${element.name}?') ? $('#id_${element.id}').submit() : null"><i class="fa fa-edit"> {{__('text.reset_password')}}</i></a>|
                             <form action="${element.password_reset}" method="post" id="id_${element.id}" class="hidden">@csrf</form>
                         </td>
