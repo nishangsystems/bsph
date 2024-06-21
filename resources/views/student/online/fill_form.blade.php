@@ -373,13 +373,13 @@ $em_key = time().random_int(3000, 3099);
                                                         <div class="col-sm-6 col-md-4">
                                                             <div class="row border rounded mx-1 my-1">
                                                                 <div class="col-md-6 col-lg-6 text-capitalize bg-secondary text-white">@lang('text.center_no')<i class="text-danger text-xs">*</i>:</div>
-                                                                <div class="col-md-6 col-lg-6"><input type="text" name="ol_center_number" class="form-control rounded border-0" placeholder="center number" value="{{ old('ol_center_number', $application->ol_center_number) }}"></div>
+                                                                <div class="col-md-6 col-lg-6"><input type="text" name="ol_center_number" class="form-control rounded border-0" placeholder="center number" requried value="{{ old('ol_center_number', $application->ol_center_number) }}"></div>
                                                             </div>
                                                         </div class="col-sm-6 col-md-4">
                                                         <div class="col-sm-6 col-md-4">
                                                             <div class="row border rounded mx-1 my-1">
                                                                 <div class="col-md-6 col-lg-6 text-capitalize bg-secondary text-white">@lang('text.candidate_no')<i class="text-danger text-xs">*</i>:</div>
-                                                                <div class="col-md-6 col-lg-6"><input type="text" name="ol_candidate_number" class="form-control rounded border-0" placeholder="candidate number" value="{{ old('ol_candidate_number', $application->ol_candidate_number) }}"></div>
+                                                                <div class="col-md-6 col-lg-6"><input type="text" name="ol_candidate_number" class="form-control rounded border-0" placeholder="candidate number" required value="{{ old('ol_candidate_number', $application->ol_candidate_number) }}"></div>
                                                             </div>
                                                         </div class="col-sm-6 col-md-4">
                                                         <div class="col-sm-6 col-md-4">
@@ -415,17 +415,13 @@ $em_key = time().random_int(3000, 3099);
                                                     $counter++;
                                                 @endphp
                                                 <tr class="text-capitalize">
-                                                    <td><input class="form-control text-primary"  name="ol_results[{{ $ol_key }}][subject]" required value="{{ $result->subject }}"></td>
+                                                    <td><input class="form-control text-primary"  name="ol_results[{{ $ol_key }}][subject]" value="{{ $result->subject }}"></td>
                                                     <td>
-                                                        <select class="form-control text-primary input imput-sm"  name="ol_results[{{ $ol_key }}][grade]" required value="{{ $result->grade }}">
+                                                        <select class="form-control text-primary input imput-sm"  name="ol_results[{{ $ol_key }}][grade]" value="{{ $result->grade }}">
                                                             <option value=""></option>
                                                             <option value="A" {{ $result->grade == 'A' ? 'selected' : '' }}>A</option>
                                                             <option value="B" {{ $result->grade == 'B' ? 'selected' : '' }}>B</option>
                                                             <option value="C" {{ $result->grade == 'C' ? 'selected' : '' }}>C</option>
-                                                            <option value="D" {{ $result->grade == 'D' ? 'selected' : '' }}>D</option>
-                                                            <option value="E" {{ $result->grade == 'E' ? 'selected' : '' }}>E</option>
-                                                            <option value="F" {{ $result->grade == 'F' ? 'selected' : '' }}>F</option>
-                                                            <option value="U" {{ $result->grade == 'U' ? 'selected' : '' }}>U</option>
                                                         </select>
                                                     </td>
                                                     <td><span class="btn btn-xs px-4 py-1 btn-danger rounded" onclick="dropOlResult(event)">{{ __('text.word_drop') }}</span></td>
@@ -444,10 +440,6 @@ $em_key = time().random_int(3000, 3099);
                                                             <option value="A">A</option>
                                                             <option value="B">B</option>
                                                             <option value="C">C</option>
-                                                            <option value="D">D</option>
-                                                            <option value="E">E</option>
-                                                            <option value="F">F</option>
-                                                            <option value="U">U</option>
                                                         </select>
                                                     </td>
                                                     <td><span class="btn btn-xs px-4 py-1 btn-danger rounded" onclick="dropOlResult(event)">{{ __('text.word_drop') }}</span></td>
@@ -489,13 +481,13 @@ $em_key = time().random_int(3000, 3099);
                                                         <div class="col-sm-6 col-md-4">
                                                             <div class="row border rounded mx-1 my-1">
                                                                 <div class="col-md-6 col-lg-6 text-capitalize bg-secondary text-white">@lang('text.center_no')<i class="text-danger text-xs">*</i>:</div>
-                                                                <div class="col-md-6 col-lg-6"><input type="text" name="al_center_number" class="form-control rounded border-0" placeholder="center number" value="{{ old('al_center_number', $application->al_center_number) }}"></div>
+                                                                <div class="col-md-6 col-lg-6"><input type="text" name="al_center_number" class="form-control rounded border-0" placeholder="center number" required value="{{ old('al_center_number', $application->al_center_number) }}"></div>
                                                             </div>
                                                         </div class="col-sm-6 col-md-4">
                                                         <div class="col-sm-6 col-md-4">
                                                             <div class="row border rounded mx-1 my-1">
                                                                 <div class="col-md-6 col-lg-6 text-capitalize bg-secondary text-white">@lang('text.candidate_no')<i class="text-danger text-xs">*</i>:</div>
-                                                                <div class="col-md-6 col-lg-6"><input type="text" name="al_candidate_number" class="form-control rounded border-0" placeholder="candidate number" value="{{ old('al_candidate_number', $application->al_candidate_number) }}"></div>
+                                                                <div class="col-md-6 col-lg-6"><input type="text" name="al_candidate_number" class="form-control rounded border-0" placeholder="candidate number" required value="{{ old('al_candidate_number', $application->al_candidate_number) }}"></div>
                                                             </div>
                                                         </div class="col-sm-6 col-md-4">
                                                         <div class="col-sm-6 col-md-4">
@@ -540,8 +532,6 @@ $em_key = time().random_int(3000, 3099);
                                                             <option value="C" {{ $_result->grade == 'C' ? 'selected' : '' }}>C</option>
                                                             <option value="D" {{ $_result->grade == 'D' ? 'selected' : '' }}>D</option>
                                                             <option value="E" {{ $_result->grade == 'E' ? 'selected' : '' }}>E</option>
-                                                            <option value="F" {{ $_result->grade == 'F' ? 'selected' : '' }}>F</option>
-                                                            <option value="U" {{ $_result->grade == 'U' ? 'selected' : '' }}>U</option>
                                                         </select>
                                                     </td>
                                                     <td><span class="btn btn-sm px-4 py-1 btn-danger rounded" onclick="dropAlResult(event)">{{ __('text.word_drop') }}</span></td>
@@ -562,8 +552,6 @@ $em_key = time().random_int(3000, 3099);
                                                             <option value="C">C</option>
                                                             <option value="D">D</option>
                                                             <option value="E">E</option>
-                                                            <option value="F">F</option>
-                                                            <option value="U">U</option>
                                                         </select>
                                                     </td>
                                                     <td><span class="btn btn-sm px-4 py-1 btn-danger rounded" onclick="dropAlResult(event)">{{ __('text.word_drop') }}</span></td>
