@@ -111,13 +111,6 @@
                         <div class="my-1">
                             <b>@lang('text.start_of_lectures'): {{ $start_of_lectures??'' }}</b>
                         </div>
-                    </div>
-                </td>
-            </tr>
-            <tr style="display: table-row;">
-                <td class="border-right border-4 my-0 border-dark"></td>
-                <td colspan="4" class="">
-                    <div>
                         <div class="my-1">
                             <b>N.B:</b><br>
                             <ul style="list-style-type: disc; margin-left:2rem; padding-left:4rem;">
@@ -126,6 +119,13 @@
                                 <li>@lang('text.fee_paid_is_non_refundable')</li>
                             </ul>
                         </div>
+                    </div>
+                </td>
+            </tr>
+            <tr style="display: table-row;">
+                <td class="border-right border-4 my-0 border-dark"></td>
+                <td colspan="4" class="">
+                    <div style="line-height: 1.2;">
                         {!! $page2->content??'' !!}
                     </div>
                 </td>
