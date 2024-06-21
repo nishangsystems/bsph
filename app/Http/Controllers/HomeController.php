@@ -132,12 +132,8 @@ class HomeController extends Controller
     {
         $name = request('key');
         // return $name;
-        $name = str_replace('/', '\/', $name);
         try {
             //code...
-            // $sql = "SELECT students.*, student_classes.student_id, student_classes.class_id, campuses.name as campus from students, student_classes, campuses where students.id = student_classes.student_id and students.campus_id = campuses.id and students.name like '%{$name}%' or students.matric like '%{$name}%'";
-
-            // return DB::select($sql);
             $students  = \App\Models\Students::where(function($query)use($name){
                     $query->where('students.name', 'LIKE', "%$name%")
                     ->orWhere('students.phone', 'LIKE', "%$name%");
@@ -146,7 +142,7 @@ class HomeController extends Controller
                 ->get(['students.*'])
                 ->toArray();
             
-            return \response()->json(StudentResourceMain::collection($students));
+            return response()->json(StudentResourceMain::collection($students));
         } catch (\Throwable $th) {
             return $th->getMessage();
         }
