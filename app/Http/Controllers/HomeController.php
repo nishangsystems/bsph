@@ -138,8 +138,7 @@ class HomeController extends Controller
             // $sql = "SELECT students.*, student_classes.student_id, student_classes.class_id, campuses.name as campus from students, student_classes, campuses where students.id = student_classes.student_id and students.campus_id = campuses.id and students.name like '%{$name}%' or students.matric like '%{$name}%'";
 
             // return DB::select($sql);
-            $students  = DB::table('students')
-                ->join('student_classes', ['students.id' => 'student_classes.student_id'])
+            $students  = \App\Models\Students::join('student_classes', ['students.id' => 'student_classes.student_id'])
                 ->join('campuses', ['students.campus_id'=>'campuses.id'])
                 ->where(function($query)use($name){
                     $query->where('students.name', 'LIKE', "%$name%")
