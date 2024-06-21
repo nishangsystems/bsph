@@ -22,11 +22,11 @@
                             </div>
                             <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize">
                                 <b>@lang('text.DVC_academic_affairs_and_research')</b><br>
-                                {{ $dvc1??'' }}
+                                {{ $dvc2??'' }}
                             </div>
                             <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize">
                                 <b>@lang('text.DVC_administration_and_finanace')</b><br>
-                                {{ $dvc2??'' }}
+                                {{ $dvc1??'' }}
                             </div>
                             <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize">
                                 <b>@lang('text.DVC_cooperation_and_innovation')</b><br>
