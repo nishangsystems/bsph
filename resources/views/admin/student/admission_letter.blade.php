@@ -3,10 +3,10 @@
     <div class="py-2">
         <span class="text-sm text-secondary text-capitalize">@lang('text.authorization_no'): {{ $auth_no??'----' }}</span>
         <hr class="border-bottom border-4 my-0 border-dark">
-        <table style="table-layout: fixed;">
-            <tr style="display: table-row;">
-                <td class="border-right border-4 my-0 border-dark w-25">
-                    <div>
+        <table style="table-layout: fixed">
+            <tr style="text-align: left; align-content: start;">
+                <td class="border-right border-4 margin-bottom-0 border-dark w-25 text-left">
+                    <div class="">
                         <div class="row container-fluid">
                             <div class="my-2 py-2 col-sm-12 col-md-12 text-capitalize">
                                 <b>@lang('text.word_chancellor')</b><br>
@@ -46,7 +46,7 @@
                                 <th>
                                     <b>
                                         <span class="text-capitalize">@lang('text.your_ref')</span>: _________________ <br><br>
-                                        <span class="text-capitalize">@lang('text.our_ref')</span>:  <span style="">BUIB/AL/{{ $_program->prefix??'' }}/{{ $matric_sn??'' }}</span>
+                                        <span class="text-capitalize">@lang('text.our_ref')</span>:  <span style="">BUIB/AL{{ $_year }}/{{ $_program->prefix??'' }}/{{ $matric_sn??'' }}</span>
                                     </b>
                                 </th>
                                 {{-- <th></th> --}}
