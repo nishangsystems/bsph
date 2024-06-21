@@ -3,7 +3,7 @@
     <div class="py-2">
         <span class="text-sm text-secondary text-capitalize">@lang('text.authorization_no'): {{ $auth_no??'----' }}</span>
         <hr class="border-bottom border-4 my-0 border-dark">
-        <table style="table-layout: fixed; ">
+        <table style="table-layout: fixed; line-height: 1.2;">
             <tr style="text-align: left; align-content: start;">
                 <td class="border-right border-4 margin-bottom-0 border-dark text-left">
                     <div class="">
@@ -122,7 +122,7 @@
                     </div>
                 </td>
             </tr>
-            <tr style="display: table-row;">
+            <tr style="">
                 <td class="border-right border-4 my-0 border-dark"></td>
                 <td colspan="4" class="">
                     <div style="line-height: 1.2;">
@@ -130,7 +130,7 @@
                     </div>
                 </td>
             </tr>
-            <tr style="display: table-row;">
+            <tr style="">
                 <td class="border-right border-4 my-0 border-dark "></td>
                 <td>
                     <div class="my-1 py-1">
