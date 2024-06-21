@@ -142,10 +142,7 @@ class HomeController extends Controller
                 ->join('campuses', ['students.campus_id'=>'campuses.id'])
                 ->where(function($query)use($name){
                     $query->where('students.name', 'LIKE', "%$name%")
-                    ->orWhere('students.matric', 'LIKE', "%$name%");
-                })
-                ->where(function($query){
-                    \auth()->user()->campus_id != null ? $query->where('students.campus_id', '=', \auth()->user()->campus_id) : null;
+                    ->orWhere('students.phone', 'LIKE', "%$name%");
                 })
                 ->distinct()->take(10)
                 ->get(['students.*', 'student_classes.class_id', 'campuses.name as campus'])
