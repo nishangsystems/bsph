@@ -138,14 +138,12 @@ class HomeController extends Controller
             // $sql = "SELECT students.*, student_classes.student_id, student_classes.class_id, campuses.name as campus from students, student_classes, campuses where students.id = student_classes.student_id and students.campus_id = campuses.id and students.name like '%{$name}%' or students.matric like '%{$name}%'";
 
             // return DB::select($sql);
-            $students  = \App\Models\Students::join('student_classes', ['students.id' => 'student_classes.student_id'])
-                ->join('campuses', ['students.campus_id'=>'campuses.id'])
-                ->where(function($query)use($name){
+            $students  = \App\Models\Students::where(function($query)use($name){
                     $query->where('students.name', 'LIKE', "%$name%")
                     ->orWhere('students.phone', 'LIKE', "%$name%");
                 })
                 ->distinct()->take(10)
-                ->get(['students.*', 'student_classes.class_id', 'campuses.name as campus'])
+                ->get(['students.*'])
                 ->toArray();
             
             return \response()->json(StudentResourceMain::collection($students));
