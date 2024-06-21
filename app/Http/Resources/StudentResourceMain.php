@@ -19,13 +19,13 @@ class StudentResourceMain extends JsonResource
     {
         // $stud = Students::find($this->id);
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
-            'phone'=>$this->phone,
-            'show_link' => route('admin.student.show',[$this->id]),
-            'edit_link' => route('admin.student.edit', [$this->id]),
-            'password_reset' => route('admin.student.password.reset',[$this->id]),
+            'id' => $this['id'],
+            'name' => $this['name'],
+            'email' => $this['email'],
+            'phone'=>$this['phone'],
+            'show_link' => route('admin.student.show',[$this['id']]),
+            'edit_link' => route('admin.student.edit', [$this['id']]),
+            'password_reset' => route('admin.student.password.reset',[$this['id']]),
             
         ];
     }
