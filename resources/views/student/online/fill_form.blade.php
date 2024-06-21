@@ -260,7 +260,7 @@ $em_key = time().random_int(3000, 3099);
                             <div class="">
                                 <select class="form-control text-primary"  name="program_first_choice" required oninput="loadCplevels(event)">
                                     <option>{{ __('text.select_program') }}</option>
-                                    @foreach (collect($programs)->where('appliable', 1)->orderBy('name') as $program)
+                                    @foreach (collect($programs)->where('appliable', 1)->sortBy('name') as $program)
                                         <option value="{{ $program->id }}" {{ $application->program_first_choice == $program->id ? 'selected' : '' }}>{{ $program->name }}</option>
                                     @endforeach
                                 </select>
@@ -271,7 +271,7 @@ $em_key = time().random_int(3000, 3099);
                             <div class="">
                                 <select class="form-control text-primary"  name="program_second_choice">
                                     <option>{{ __('text.select_program') }}</option>
-                                    @foreach (collect($programs)->where('appliable', 1)->orderBy('name') as $program)
+                                    @foreach (collect($programs)->where('appliable', 1)->sortBy('name') as $program)
                                         <option value="{{ $program->id }}" {{ $application->program_second_choice == $program->id ? 'selected' : '' }}>{{ $program->name }}</option>
                                     @endforeach
                                 </select>
