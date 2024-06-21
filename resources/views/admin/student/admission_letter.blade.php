@@ -3,7 +3,7 @@
     <div class="py-2">
         <span class="text-sm text-secondary text-capitalize">@lang('text.authorization_no'): {{ $auth_no??'----' }}</span>
         <hr class="border-bottom border-4 my-0 border-dark">
-        <table style="table-layout: fixed; line-height: 1.2;">
+        <table style="table-layout: fixed; line-height: 1.5;">
             <tr style="text-align: left; align-content: start;">
                 <td class="border-right border-4 margin-bottom-0 border-dark text-left">
                     <div class="">
@@ -73,7 +73,7 @@
                                             'department'=>($fee['department']??'DEP'), 
                                             'year'=>($year??'NO-YEAR'), 
                                             'tution_fee'=>number_format($fee['amount']??0), 
-                                            'first_installment'=>number_format($fee['first_installment']??0), 
+                                            'first_installment'=>number_format($fee['first_instalment']??0), 
                                             'reg_fee'=>number_format($fee['registration']??0), 
                                             'fee_total'=>number_format(($fee['amount']??0)+($fee['registration']??0)), 
                                             'international'=>number_format($fee['international_amount']??0)
