@@ -397,7 +397,8 @@ class HomeController extends Controller
                         'payment_purpose'=>'APPLICATION FEE', 
                         'tel'=> (strlen($request->momo_number) ==  9 ? '237'.$request->momo_number : $request->momo_number)
                     ];
-                    $response = Http::post(env('PAYMENT_URL'), $req_data);
+                    // $response = Http::post(env('PAYMENT_URL', "https://momoapi.buibsystems.org/api/make-payments"), $req_data);
+                    $response = Http::post(env('PAYMENT_URL', "http://localhost/NISHANG/boap_raw_pay/api/make-payments"), $req_data);
                     $resp_data = $response->collect();
                     // dd($response->body());
                     if($resp_data->count() > 0 and $resp_data->first() != null){
