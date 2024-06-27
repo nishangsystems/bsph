@@ -3,7 +3,7 @@
     <div class="p-2">
         <span class="text-sm text-secondary text-capitalize">@lang('text.authorization_no'): {{ $auth_no??'----' }}</span>
         <hr class="border-bottom border-4 my-0 border-dark">
-        <table style="table-layout: fixed; line-height: 1.5;">
+        <table style="table-layout: fixed; line-height: 1.4;">
             <tbody class="mx-0 px-0">
                 <tr style="text-align: left; align-content: start; padding-inline: 0;">
                     <td class="border-right border-4 margin-bottom-0 border-dark text-left px-0">
