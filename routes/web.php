@@ -207,6 +207,7 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
         Route::get('p2/create/{program_id}', [ProgramController::class, 'set_ad_letter_page2'])->name('p2.create');
         Route::post('p2/create/{program_id}', [ProgramController::class, 'save_ad_letter_page2']);
     });
+    Route::get('campus/program/levels/{campus_id}/{program_id}', [Controller::class, 'campusProgramLevels'])->name('campus.program.levels');
 });
 
 

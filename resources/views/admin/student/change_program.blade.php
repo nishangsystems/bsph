@@ -29,9 +29,9 @@
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-4">
-                    <label class="text-secondary  text-capitalize">{{ __('text.first_choice_bilang') }}</label>
+                    <label class="text-secondary  text-capitalize">{{ __('text.current_program') }}</label>
                     <div class="">
-                        <select class="form-control text-primary"  name="current_program" required>
+                        <select class="form-control text-primary"  name="current_program" required disabled>
                             <option>{{ __('text.select_program') }}</option>
                             @forelse ($programs as $program)
                                 <option value="{{ $program->id }}" {{ $application->program_first_choice == $program->id ? 'selected' : '' }}>{{ $program->name }}</option>
@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4 col-lg-4">
-                    <label class=" text-secondary text-capitalize">{{ __('text.second_choice_bilang') }}</label>
+                    <label class=" text-secondary text-capitalize">{{ __('text.new_program') }}</label>
                     <div class="">
                         <select class="form-control text-primary"  name="new_program" required oninput="loadCplevels(event)">
                             <option></option>
@@ -66,8 +66,6 @@
                     </div>
                 </div>
                         
-
-                
                 <div class="col-sm-12 col-md-12 col-lg-12 py-4 mt-5 d-flex justify-content-center text-uppercase">
                     <button type="submit" class="px-4 py-1 btn btn-lg btn-primary text-uppercase">{{ __('text.word_update') }}</button>
                 </div>
@@ -79,7 +77,6 @@
     <script>
 
         $(document).ready(function(){
-
             if("{{ $application->level }}" != null){
                 setLevels("{{ $application->program_first_choice }}");
             }
@@ -88,17 +85,15 @@
         let loadCplevels = function(event){
             campus_id = "{{ $application->campus_id }}";
             program_id = event.target.value;
-
             setLevels(program_id);
         }
 
         let setLevels = function(program_id){
-
             campus_id = "{{ $application->campus_id }}";
-
-            url = "{{ route('student.campus.program.levels', ['__CmpID__', '__PrgID__']) }}".replace('__CmpID__', campus_id).replace('__PrgID__', program_id);
+            _url = "{{ route('admin.campus.program.levels', ['__CmpID__', '__PrgID__']) }}".replace('__CmpID__', campus_id).replace('__PrgID__', program_id);
+            console.log(_url);
             $.ajax({
-                method : 'get', url : url, 
+                method : 'GET', url : _url, 
                 success : function(data){
                     console.log(data);
                     let html = `<option></option>`;

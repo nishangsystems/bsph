@@ -1079,5 +1079,7 @@ return [
     'application_bypass'=>'application bypass',
     'start_of_lectures'=>'Start of lectures',
     'admission_date'=>'admission date',
+    'current_program'=>'current program',
+    'new_program'=>'new program',
     ''
 ]; 
