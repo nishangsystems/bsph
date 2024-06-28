@@ -1383,6 +1383,9 @@ class ProgramController extends Controller
                 $data['campus'] = collect(json_decode($this->api_service->campuses())->data)->where('id', $application->campus_id)->first();
                 DB::commit();
                 return view('admin.student.confirm_change_program', $data);
+            }else{
+                $student = ApplicationForm::where('matric', $student_matric)->first();
+                session()->flash('error', "Student With name ".($student->name??'')."Already has this matricule on this application portal.");
             }
             DB::rollBack();
             return back()->with('error', 'Failed to generate matricule');
