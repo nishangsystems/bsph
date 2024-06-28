@@ -1358,7 +1358,6 @@ class ProgramController extends Controller
         // GENERATE MATRICULE
         $program = json_decode($this->api_service->programs($request->new_program))->data??null;
         if($program != null){
-
             $year = substr(Batch::find(Helpers::instance()->getCurrentAccademicYear())->name, 2, 2);
             $prefix = $program->prefix;//3 char length
             $suffix = $program->suffix;//3 char length
@@ -1374,7 +1373,8 @@ class ProgramController extends Controller
             }
             $next_count = substr('000'.($max_count+1), -3);
             $student_matric = $prefix.$year.$suffix.$next_count;
-
+            
+            dd($program);
             if(ApplicationForm::where('matric', $student_matric)->count() == 0){
                 $data['title'] = "Change Student Program";
                 $data['application'] = $application;
