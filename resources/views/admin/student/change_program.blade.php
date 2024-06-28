@@ -31,9 +31,12 @@
                 <div class="col-sm-6 col-md-4 col-lg-4">
                     <label class="text-secondary  text-capitalize">{{ __('text.current_program') }}</label>
                     <div class="">
-                        <select class="form-control text-primary"  name="current_program" required disabled>
+                        <select class="form-control text-primary"  name="current_program" required>
                             <option>{{ __('text.select_program') }}</option>
                             @forelse ($programs as $program)
+                                @if($application->program_first_choice != $program->id)
+                                    @continue
+                                @endif
                                 <option value="{{ $program->id }}" {{ $application->program_first_choice == $program->id ? 'selected' : '' }}>{{ $program->name }}</option>
                             @empty
                                 <option>{{ __('text.no_data_available') }}</option>
