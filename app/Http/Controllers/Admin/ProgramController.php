@@ -1374,7 +1374,7 @@ class ProgramController extends Controller
             $next_count = substr('000'.($max_count+1), -3);
             $student_matric = $prefix.$year.$suffix.$next_count;
             
-            dd($student_matric);
+            dd(ApplicationForm::where('matric', $student_matric)->get());
             if(ApplicationForm::where('matric', $student_matric)->count() == 0){
                 $data['title'] = "Change Student Program";
                 $data['application'] = $application;
