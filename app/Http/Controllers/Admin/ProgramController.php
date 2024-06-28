@@ -1350,7 +1350,6 @@ class ProgramController extends Controller
         }
         $data = ['program_first_choice'=>$request->new_program, 'level'=>$request->level];
         $application = ApplicationForm::find($id);
-        DB::beginTransaction();
         // $application->update($data);
 
         // UPDATE STUDENT IN SCHOOL SYSTEM.
@@ -1381,13 +1380,11 @@ class ProgramController extends Controller
                 $data['program'] = $program;
                 $data['matricule'] = $student_matric;
                 $data['campus'] = collect(json_decode($this->api_service->campuses())->data)->where('id', $application->campus_id)->first();
-                DB::commit();
                 return view('admin.student.confirm_change_program', $data);
             }else{
                 $student = ApplicationForm::where('matric', $student_matric)->first();
-                session()->flash('message', "Student With name ".($student->name??'')."Already has matricule {$student_matric} on this application portal.");
+                return back()->with('error', "Student With name ".($student->name??'')."Already has matricule {$student_matric} on this application portal.");
             }
-            DB::rollBack();
             return back()->with('error', 'Failed to generate matricule');
         }
         return back()->with('success', 'Done');
