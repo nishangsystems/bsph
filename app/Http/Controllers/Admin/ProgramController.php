@@ -1385,7 +1385,7 @@ class ProgramController extends Controller
                 return view('admin.student.confirm_change_program', $data);
             }else{
                 $student = ApplicationForm::where('matric', $student_matric)->first();
-                session()->flash('error', "Student With name ".($student->name??'')."Already has this matricule on this application portal.");
+                session()->flash('message', "Student With name ".($student->name??'')."Already has this matricule on this application portal.");
             }
             DB::rollBack();
             return back()->with('error', 'Failed to generate matricule');
