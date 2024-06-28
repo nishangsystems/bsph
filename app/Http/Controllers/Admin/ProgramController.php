@@ -1349,12 +1349,13 @@ class ProgramController extends Controller
             return back()->with('error', $validity->errors()->first());
         }
         $data = ['program_first_choice'=>$request->new_program, 'level'=>$request->level];
-        ApplicationForm::find($id)->update($data);
+        $application = ApplicationForm::find($id);
+        cache(['program_change_former_program'=>$application->program_first_choice]);
+        $application->update($data);
 
         // UPDATE STUDENT IN SCHOOL SYSTEM.
         // 
         // GENERATE MATRICULE
-        $application = ApplicationForm::find($id);
         if(($programs = json_decode($this->api_service->programs())->data) != null){
             $program = collect($programs)->where('id', $application->program_first_choice)->first()??null;
             if($program != null){
@@ -1395,23 +1396,28 @@ class ProgramController extends Controller
         $validity = Validator::make($request->all(), ['matric'=>'required']);
         if($validity->fails()){return back()->with('error', 'Missing matricule');}
         $application = ApplicationForm::find($id);
-        // dd($application->toJson());
-        // (new ApplicationForm())-
+        
         
         
         // POST STUDENT TO SCHOOL SYSTEM
         $resp = json_decode($this->api_service->update_student($application->matric, ['program'=>$application->program_first_choice, 'level'=>$application->level, 'matric'=>$request->matric]))->data??null;
-        // dd($resp);
+        
         if($resp != null){
             if($resp->status ==1){
                 // $application->matric = $request->matric;
                 $application->update(['matric'=>$request->matric, 'admitted'=>1]);
+
+                $former_program = cache('program_change_former_program');
+                $current_program = $application->program_first_choice;
+
+                event(new \App\Events\ProgramChangeEvent($former_program, $current_program, $id, auth()->id()));                
 
                 // Send sms/email notification
                 return redirect(route('admin.applications.admit'))->with('success', "Program changed successfully.");
             }else
             return back()->with('error', $resp);
         }
+        return back()->with('error', "Operation Failed");
     }
 
 

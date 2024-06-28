@@ -47,6 +47,12 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
         ],
 
+        'program_change' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/program_change.log'),
+            'level' => env('LOG_LEVEL', 'Critical'),
+        ],
+
         'daily' => [
             'driver' => 'daily',
             'path' => storage_path('logs/laravel.log'),

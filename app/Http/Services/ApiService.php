@@ -123,4 +123,5 @@ class ApiService{
         # code...
         return Http::post(Helpers::instance()->getApiRoot()."/appliable_programs/set", ['programs'=>$programs])->collect();
     }
+
 }
