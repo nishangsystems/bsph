@@ -1406,7 +1406,7 @@ class ProgramController extends Controller
         $resp = json_decode($this->api_service->update_student($application->matric, ['program'=>$request->program_id, 'level'=>$request->level, 'matric'=>$request->matric]))->data??null;
         
         if($resp != null){
-            return $resp;
+            // return $resp;
             if(($resp->status??0) ==1){
                 // $application->matric = $request->matric;
                 $former_program = $application->program_first_choice;
