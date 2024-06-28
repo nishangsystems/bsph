@@ -1350,42 +1350,42 @@ class ProgramController extends Controller
         }
         $data = ['program_first_choice'=>$request->new_program, 'level'=>$request->level];
         $application = ApplicationForm::find($id);
-        cache(['program_change_former_program'=>$application->program_first_choice]);
-        $application->update($data);
+        DB::beginTransaction();
+        // $application->update($data);
 
         // UPDATE STUDENT IN SCHOOL SYSTEM.
         // 
         // GENERATE MATRICULE
-        if(($programs = json_decode($this->api_service->programs())->data) != null){
-            $program = collect($programs)->where('id', $application->program_first_choice)->first()??null;
-            if($program != null){
+        $program = json_decode($this->api_service->programs($request->new_program))->data??null;
+        if($program != null){
 
-                $year = substr(Batch::find(Helpers::instance()->getCurrentAccademicYear())->name, 2, 2);
-                $prefix = $program->prefix;//3 char length
-                $suffix = $program->suffix;//3 char length
-                $max_count = '';
-                if($prefix == null){
-                    return back()->with('error', 'Matricule generation prefix not set.');
-                }
-                $max_matric = json_decode($this->api_service->max_matric($prefix, $year))->data; //matrics starting with '$prefix' sort
-                if($max_matric == null){
-                    $max_count = 0;
-                }else{
-                    $max_count = intval(substr($max_matric, strlen($prefix)+3));
-                }
-                $next_count = substr('000'.($max_count+1), -3);
-                $student_matric = $prefix.$year.$suffix.$next_count;
-
-                if(ApplicationForm::where('matric', $student_matric)->count() == 0){
-                    $data['title'] = "Change Student Program";
-                    $data['application'] = $application;
-                    $data['program'] = $program;
-                    $data['matricule'] = $student_matric;
-                    $data['campus'] = collect(json_decode($this->api_service->campuses())->data)->where('id', $application->campus_id)->first();
-                    return view('admin.student.confirm_change_program', $data);
-                }
-                return back()->with('error', 'Failed to generate matricule');
+            $year = substr(Batch::find(Helpers::instance()->getCurrentAccademicYear())->name, 2, 2);
+            $prefix = $program->prefix;//3 char length
+            $suffix = $program->suffix;//3 char length
+            $max_count = '';
+            if($prefix == null){
+                return back()->with('error', 'Matricule generation prefix not set.');
             }
+            $max_matric = json_decode($this->api_service->max_matric($prefix, $year))->data; //matrics starting with '$prefix' sort
+            if($max_matric == null){
+                $max_count = 0;
+            }else{
+                $max_count = intval(substr($max_matric, strlen($prefix)+3));
+            }
+            $next_count = substr('000'.($max_count+1), -3);
+            $student_matric = $prefix.$year.$suffix.$next_count;
+
+            if(ApplicationForm::where('matric', $student_matric)->count() == 0){
+                $data['title'] = "Change Student Program";
+                $data['application'] = $application;
+                $data['program'] = $program;
+                $data['matricule'] = $student_matric;
+                $data['campus'] = collect(json_decode($this->api_service->campuses())->data)->where('id', $application->campus_id)->first();
+                DB::commit();
+                return view('admin.student.confirm_change_program', $data);
+            }
+            DB::rollBack();
+            return back()->with('error', 'Failed to generate matricule');
         }
         return back()->with('success', 'Done');
     }
@@ -1393,27 +1393,26 @@ class ProgramController extends Controller
     public function change_program_save(Request $request, $id)
     {
         # code...
-        $validity = Validator::make($request->all(), ['matric'=>'required']);
-        if($validity->fails()){return back()->with('error', 'Missing matricule');}
+        $validity = Validator::make($request->all(), ['matric'=>'required', 'level'=>'required', 'program_id'=>'required']);
+        if($validity->fails()){return back()->with('error', $validity->errors()->first());}
         $application = ApplicationForm::find($id);
         
         
         
         // POST STUDENT TO SCHOOL SYSTEM
-        $resp = json_decode($this->api_service->update_student($application->matric, ['program'=>$application->program_first_choice, 'level'=>$application->level, 'matric'=>$request->matric]))->data??null;
+        $resp = json_decode($this->api_service->update_student($application->matric, ['program'=>$request->program_id, 'level'=>$request->level, 'matric'=>$request->matric]))->data??null;
         
         if($resp != null){
             if($resp->status ==1){
                 // $application->matric = $request->matric;
-                $application->update(['matric'=>$request->matric, 'admitted'=>1]);
-
-                $former_program = cache('program_change_former_program');
+                $former_program = $application->program_first_choice;
+                $application->update(['matric'=>$request->matric, 'admitted'=>1, 'program_first_choice'=>$request->program_id, 'level'=>$request->level ]);
                 $current_program = $application->program_first_choice;
 
                 event(new \App\Events\ProgramChangeEvent($former_program, $current_program, $id, auth()->id()));                
 
                 // Send sms/email notification
-                return redirect(route('admin.applications.admit'))->with('success', "Program changed successfully.");
+                return redirect(route('admin.applications.change_program'))->with('success', "Program changed successfully.");
             }else
             return back()->with('error', $resp);
         }

@@ -22,6 +22,8 @@
                         <label class="text-secondary text-capitalize">{{ __('text.program_of_choice') }}</label>
                         <div><label class="form-control">{{ $program->name }}</label></div>
                     </div>
+                    <input type="hidden" name="program_id" value="{{ $program->id }}">
+                    <input type="hidden" name="level" value="{{ $level }}">
                     <div class="col-sm-12 col-md-6 col-lg-6">
                         <label class="text-secondary text-capitalize">{{ __('text.word_matricule') }}</label>
                         <div><label class="form-control">{{ $matricule }}</label></div>
