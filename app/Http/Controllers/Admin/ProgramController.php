@@ -1325,7 +1325,7 @@ class ProgramController extends Controller
             $data['certs'] = json_decode($this->api_service->certificates())->data;
         }
         if($data['application']->entry_qualification != null){
-            $data['programs'] = json_decode($this->api_service->campusDegreeCertificatePrograms($data['application']->campus_id, $data['application']->degree_id, $data['application']->entry_qualification))->data;
+            $data['programs'] = json_decode($this->api_service->programs())->data;
             $data['cert'] = collect($data['certs'])->where('id', $data['application']->entry_qualification)->first();
         }
         if($data['application']->program_first_choice != null){
