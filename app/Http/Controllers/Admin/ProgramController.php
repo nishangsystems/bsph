@@ -1364,14 +1364,15 @@ class ProgramController extends Controller
             if($prefix == null){
                 return back()->with('error', 'Matricule generation prefix not set.');
             }
-            $max_matric = json_decode($this->api_service->max_matric($prefix, $year))->data; //matrics starting with '$prefix' sort
+            $max_matric = json_decode($this->api_service->max_matric($prefix, $year, $suffix))->data; //matrics starting with '$prefix' sort
             if($max_matric == null){
                 $max_count = 0;
             }else{
-                $max_count = intval(substr($max_matric, strlen($prefix)+3));
+                $max_count = intval(substr($max_matric, -3));
             }
             $next_count = substr('000'.($max_count+1), -3);
             $student_matric = $prefix.$year.$suffix.$next_count;
+            // dd($student_matric);
             
             // dd(ApplicationForm::where('matric', $student_matric)->get());
             if(ApplicationForm::where('matric', $student_matric)->count() == 0){
@@ -1393,7 +1394,7 @@ class ProgramController extends Controller
     public function change_program_save(Request $request, $id)
     {
         # code...
-        $validity = Validator::make($request->all(), ['matric'=>'required', 'level'=>'required', 'program_id'=>'required']);
+        $validity = Validator::make($request->all(), ['matric'=>'required', 'level'=>'required', 'program_id'=>'required', 'degree_id'=>'required']);
         if($validity->fails()){return back()->with('error', $validity->errors()->first());}
         $application = ApplicationForm::find($id);
         
@@ -1407,7 +1408,7 @@ class ProgramController extends Controller
             if(($resp->status??0) ==1){
                 // $application->matric = $request->matric;
                 $former_program = $application->program_first_choice;
-                $application->update(['matric'=>$request->matric, 'admitted'=>1, 'program_first_choice'=>$request->program_id, 'level'=>$request->level ]);
+                $application->update(['matric'=>$request->matric, 'admitted'=>1, 'program_first_choice'=>$request->program_id, 'level'=>$request->level, 'degree_id'=>$request->degree_id ]);
                 $current_program = $application->program_first_choice;
 
                 event(new \App\Events\ProgramChangeEvent($former_program, $current_program, $id, auth()->id()));                
