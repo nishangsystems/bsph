@@ -22,19 +22,4 @@ class ProgramChangeTrack extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function former_program(ApiService $apiService){
-        $student = $this->form->matric;
-        if($student == null){
-            return null;
-        }
-        return optional(json_decode($apiService->programs($this->former_program))->data);
-    }
-
-    public function current_program(ApiService $apiService){
-        $student = $this->form->matric;
-        if($student == null){
-            return null;
-        }
-        return optional(json_decode($apiService->programs($this->current_program))->data);
-    }
 }

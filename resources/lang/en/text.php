@@ -1081,5 +1081,8 @@ return [
     'admission_date'=>'admission date',
     'current_program'=>'current program',
     'new_program'=>'new program',
+    'former_program'=>'former program',
+    'program_change_report'=>'program change report',
+    'done_by'=>'done by',
     ''
 ]; 

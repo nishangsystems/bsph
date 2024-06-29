@@ -428,14 +428,6 @@
 
                                 <b class="arrow"></b>
                             </li>
-                            {{-- <li>
-                                <a href="{{route('admin.applications.by_campus')}}" class="text-capitalize">
-                                    <i class="menu-icon fa fa-caret-right"></i>
-                                    {{__('text.by_campus')}}
-                                </a>
-
-                                <b class="arrow"></b>
-                            </li> --}}
                         </ul>
                     </li>
                 </ul>
@@ -465,6 +457,14 @@
                         <a href="{{route('admin.applications.bypass.report')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
                             {{__('text.bypass_report')}}
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li>
+                        <a href="{{route('admin.applications.program_change.report')}}" class="text-capitalize">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            {{__('text.program_change_report')}}
                         </a>
 
                         <b class="arrow"></b>

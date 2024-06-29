@@ -987,7 +987,6 @@ class ProgramController extends Controller
         };
     }
 
-
     public function applications()
     {
         # code...
@@ -1647,5 +1646,20 @@ class ProgramController extends Controller
 
         \App\Models\AdmissionLetterPage2::updateOrInsert(['program_id'=>$program_id], ['content'=>$request->content]);
         return back()->with('success', 'Done');
+    }
+
+    public function program_change_report(Request $request){
+        $year = \App\Models\Batch::find(Helpers::instance()->getCurrentAccademicYear());
+        $programs = optional(json_decode($this->api_service->programs()))->data??null;
+        // dd($programs);
+        $data['title'] = "Program Change Report For ".$year->name??'';
+        $data['reports'] = \App\Models\ProgramChangeTrack::join('application_forms', 'application_forms.id', '=', 'program_change_tracks.form_id')
+            ->where('application_forms.year_id', $year->id)->get(['program_change_tracks.*'])
+            ->each(function($rec)use($programs){
+                $rec->former_program_name = $programs == null ? "" : optional(collect($programs)->where('id', $rec->former_program)->first())->name??'';
+                $rec->current_program_name = $programs == null ? "" : optional(collect($programs)->where('id', $rec->current_program)->first())->name??'';
+            });
+        // dd($data['reports']);
+        return view('admin.student.program_change_report', $data);
     }
 }

@@ -179,6 +179,7 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
         Route::get('uncompleted/{id?}', [ProgramController::class, 'uncompleted_application_form'])->name('uncompleted');
         Route::get('distant/{id?}', [ProgramController::class, 'distant_application_form'])->name('distant');
         Route::get('admission_letter/{id?}', [ProgramController::class, 'admission_letter'])->name('admission_letter');
+        Route::get('program/change/report', [ProgramController::class, 'program_change_report'])->name('program_change.report');
         Route::get('program/change/{id?}', [ProgramController::class, 'application_form_change_program'])->name('change_program');
         Route::post('program/change/{id?}', [ProgramController::class, 'change_program']);
         Route::post('change_program/{id?}', [ProgramController::class, 'change_program_save'])->name('_change.program');
