@@ -57,7 +57,7 @@
                         <div class="col-sm-9">
                             <div class="flex justify-content-center text-center my-4 py-2">
                                 <span class="mx-3 text-center d-inline-block">
-                                    <button type="submit" class="d-block border-0 btn-warning btn-xl rounded-md mb-4 text-uppercase" onclick="event.preventDefault(); $('#p-channel').val('orangemoney'); $('#poster-form').submit()">
+                                    <button type="submit" class="d-block border-0 btn btn-warning btn-lg rounded-md text-uppercase" onclick="event.preventDefault(); $('#p-channel').val('orangemoney'); $('#poster-form').submit()">
                                         @lang('text.word_proceed')
                                     </button>
                                 </span>
