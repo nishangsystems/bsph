@@ -55,25 +55,16 @@
                     <div class="row my-4 py-3">
                         <label class="col-sm-3 text-capitalize"></label>
                         <div class="col-sm-9">
-                            <h3 class="text-dark text-capitalize">{{__('text.pay_with')}} : </h3>
                             <div class="flex justify-content-center text-center my-4 py-2">
-                                {{-- <span class="mx-3 text-center d-inline-block">
-                                    <button type="submit" class="d-block border-0 btn-white rounded-md mb-4" onclick="event.preventDefault(); $('#p-channel').val('mtnmomo'); $('#poster-form').submit()">
-                                        <img class="img img-responsive rounded d-block" src="{{url('public/assets/images/mtn_momo.jpg')}}" style="height: 8rem; width: 12rem">
-                                    </button>
-                                    <span class="h4 fw-bolder">{{__('text.mtn_mobile_money')}}</span>
-                                </span> --}}
                                 <span class="mx-3 text-center d-inline-block">
-                                    <button type="submit" class="d-block border-0 btn-white rounded-md mb-4" onclick="event.preventDefault(); $('#p-channel').val('orangemoney'); $('#poster-form').submit()">
-                                        <img class="img img-responsive rounded" src="{{url('public/assets/images/Orange_Money.jpg')}}" style="height: 8rem; width: 12rem">
+                                    <button type="submit" class="d-block border-0 btn-warning btn-xl rounded-md mb-4 text-uppercase" onclick="event.preventDefault(); $('#p-channel').val('orangemoney'); $('#poster-form').submit()">
+                                        @lang('text.word_proceed')
                                     </button>
-                                    <span class="h4 fw-bolder">{{__('text.orange_money')}}</span>
                                 </span>
                             </div>
                         </div>
                     </div>
-                
-            </form>
+                </form>
             </div>
         @endif
     </div>

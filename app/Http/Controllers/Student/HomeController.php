@@ -400,7 +400,7 @@ class HomeController extends Controller
                     // $response = Http::post(env('PAYMENT_URL', "https://momoapi.buibsystems.org/api/make-payments"), $req_data);
                     $response = Http::post(env('PAYMENT_URL', "http://localhost/NISHANG/boap_raw_pay/api/make-payments"), $req_data);
                     $resp_data = $response->collect();
-                    // dd($response);
+                    dd($resp_data);
                     if($resp_data->count() > 0 and $resp_data->first() != null){
                         return redirect(route('student.momo.processing', $resp_data->first()));
                     }else{
