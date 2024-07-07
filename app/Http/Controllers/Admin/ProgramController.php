@@ -1231,7 +1231,6 @@ class ProgramController extends Controller
         }
     }
 
-
     public function admit_student(Request $request, $id)
     {
 
@@ -1297,7 +1296,6 @@ class ProgramController extends Controller
 
 
     }
-
 
     public function application_form_change_program(Request $request, $id = null)
     {
@@ -1421,7 +1419,6 @@ class ProgramController extends Controller
         return back()->with('error', "Operation Failed");
     }
 
-
     public function bypass_application_fee($application_id = null)
     {
         # code...
@@ -1434,7 +1431,6 @@ class ProgramController extends Controller
         return view('admin.student.bypass_application_fee', $data);
     }
 
-
     public function application_fee_bypass_report()
     {
         # code...
@@ -1444,7 +1440,6 @@ class ProgramController extends Controller
         // dd($data);
         return view('admin.student.application_bypass_report', $data);
     }
-
 
     public function bypass_application_fee_save(Request $request, $id)
     {
