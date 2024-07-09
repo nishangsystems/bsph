@@ -8,7 +8,7 @@ $em_key = time().random_int(3000, 3099);
 @section('section')
 
     <div class="py-4">
-        <h1>1234</h1>
+        {{-- <h1>1234</h1> --}}
         @switch($step)
             @case(0)
                 <form enctype="multipart/form-data" id="application_form" method="post" action="{{ route('student.application.start', [1, $application->id]) }}">
@@ -972,6 +972,7 @@ $em_key = time().random_int(3000, 3099);
 
         let loadDivisions = function(event){
             let region = event.target.value;
+            console.log("regionregionregion",region);
             setDivisions(region);
         }
 
