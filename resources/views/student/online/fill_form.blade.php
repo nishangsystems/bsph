@@ -6,7 +6,9 @@ $al_key = time().random_int(2000, 2099);
 $em_key = time().random_int(3000, 3099);
 @endphp
 @section('section')
+
     <div class="py-4">
+        <h1>1234</h1>
         @switch($step)
             @case(0)
                 <form enctype="multipart/form-data" id="application_form" method="post" action="{{ route('student.application.start', [1, $application->id]) }}">
@@ -842,6 +844,7 @@ $em_key = time().random_int(3000, 3099);
     <script>
 
         $(document).ready(function(){
+            console.log('{{ $application->region }}');
             if("{{ $application->degree_id }}" != null){
                 loadCampusDegrees('{{ $application->campus_id }}');
             }
@@ -974,6 +977,7 @@ $em_key = time().random_int(3000, 3099);
 
         let setDivisions = function(region){
             url = "{{ route('student.region.divisions', '__RID__') }}".replace('__RID__', region);
+            console.log("url",url);
             $.ajax({
                 method: 'get', url: url, 
                 success: function(data){
