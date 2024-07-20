@@ -45,7 +45,7 @@ class FollowupApplicationPayment extends Command
                 $response = \Illuminate\Support\Facades\Http::get(env('TRANSACTION_STATUS_URL').'transaction_id='.$trans->transaction_id)->collect();
                 if($response['status'] == 200){
                     $data = $response['data'];
-                    if($data['status'] == "SUCCESSFUL")
+                    if($data['status'] == "SUCCESSFUL"){}
                 }
             } catch (\Throwable $th) {
                 //throw $th;

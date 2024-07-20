@@ -20,3 +20,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
+Route::get('application_status', function(){
+    $cyear = \App\Helpers\Helpers::instance()->getCurrentAccademicYear();
+    $config = \App\Models\Config::where('year_id', $cyear)->select(['id', 'year_id', 'start_date', 'end_date'])->first()->toArray();
+    if(now()->isBefore($config['start_date']))
+    $config['status'] = "NOT OPENED";
+    elseif(now()->isAfter($config['end_date']))
+    $config['status'] = "CLOSED";
+    else
+    $config['status'] = "OPEN";
+    return response()->json($config);
+});
