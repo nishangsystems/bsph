@@ -29,5 +29,7 @@ Route::get('application_status', function(){
     $config['status'] = "CLOSED";
     else
     $config['status'] = "OPEN";
+    $config['start_date'] = now()->parse($config['start_date'])->format('d/m/Y');
+    $config['end_date'] = now()->parse($config['end_date'])->format('d/m/Y');
     return response()->json($config);
 });
