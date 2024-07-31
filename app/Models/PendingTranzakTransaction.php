@@ -15,4 +15,8 @@ class PendingTranzakTransaction extends Model
         'transaction_time', 'payment_type', 'user_type', "payment_id", "student_id", 
         "batch_id", 'unit_id', "original_amount", "reference_number", 'paid_by', 'purpose'
     ];
+
+    public function student(){
+        return $this->belongsTo(Students::class, 'student_id');
+    }
 }

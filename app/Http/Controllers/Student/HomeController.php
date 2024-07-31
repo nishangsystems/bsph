@@ -338,7 +338,7 @@ class HomeController extends Controller
                 $phone_number = '237'.$phone_number;
             }
             // dd($phone_number);
-            $message="Application form for BIAKA UNIVERSITY INSTITUTE submitted successfully.";
+            $message="Application form for HIMS UNIVERSITY INSTITUTE submitted successfully.";
             $sent = $this->sendSMS($phone_number, $message);
             return redirect(route('student.application.form.download', ['id'=>$application_id]));
         }
@@ -429,7 +429,7 @@ class HomeController extends Controller
                     // dd('check point X1');
                     
                     $headers = ['Authorization'=>'Bearer '.cache($tranzak_credentials->cache_token_key)];
-                    $request_data = ['mobileWalletNumber'=>'237'.$request->momo_number, 'mchTransactionRef'=>'_apl_fee_'.time().'_'.random_int(1, 9999), "amount"=> $request->amount, "currencyCode"=> "XAF", "description"=>"Payment for application fee into BIAKA UNIVERSITY INSTITUTE OF BUEA"];
+                    $request_data = ['mobileWalletNumber'=>'237'.$request->momo_number, 'mchTransactionRef'=>'_apl_fee_'.time().'_'.random_int(1, 9999), "amount"=> $request->amount, "currencyCode"=> "XAF", "description"=>"Payment for application fee into HIMS UNIVERSITY INSTITUTE OF BUEA"];
                     $_response = Http::withHeaders($headers)->post(config('tranzak.base').config('tranzak.direct_payment_request'), $request_data);
                     // dd($_response->collect());
                     if($_response->status() == 200){
@@ -626,7 +626,6 @@ class HomeController extends Controller
         return view('student.platform.charges', $data);
     }
 
-
     //---------
     public function pay_charges_save(Request $request)
     {
@@ -813,7 +812,7 @@ class HomeController extends Controller
             $resp_data = $_response->collect()['data'];
             $pending_tranzaktion = [
                 "request_id"=>$resp_data['requestId'],"amount"=>$resp_data['amount'],"currency_code"=>$resp_data['currencyCode'],"description"=>$resp_data['description'],"transaction_ref"=>$resp_data['mchTransactionRef'],"app_id"=>$resp_data['appId'], 'transaction_time'=>$resp_data['createdAt'],'user_type'=>'student', 'purpose'=>$request->payment_purpose,
-                "payment_id"=>$request->payment_id,"student_id"=>auth('student')->id(),"batch_id"=>$request->year_id,'unit_id'=>0,"original_amount"=>$request->amount,"reference_number"=>'platform.tranzak_momo_payment_'.time().'_'.random_int(100000, 999999).'_'.auth('student')->id(), 'paid_by'=>'TRANZAK_MOMO'
+                "payment_id"=>$request->payment_id,"student_id"=>auth('student')->id(),"batch_id"=>$request->year_id,'unit_id'=>0,"original_amount"=>$request->amount,"reference_number"=>'platform.tranzak_momo_payment_'.time().'_'.random_int(100000, 999999).'_'.auth('student')->id(), 'paid_by'=>'TRANZAK_MOMO', 'mobile_wallet_number'=>$resp_data['mobileWalletNumber']
             ];
             $pt_instance = new \App\Models\PendingTranzakTransaction($pending_tranzaktion);
             $pt_instance->save();
@@ -853,7 +852,17 @@ class HomeController extends Controller
                     # code...
                     // save transaction and update application_form
                     DB::beginTransaction();
-                    $transaction = ['request_id'=>$request->requestId??'', 'amount'=>$request->amount??'', 'currency_code'=>$request->currencyCode??'', 'purpose'=>$request->payment_purpose??'', 'mobile_wallet_number'=>$request->mobileWalletNumber??'', 'transaction_ref'=>$request->mchTransactionRef??'', 'app_id'=>$request->appId??'', 'transaction_id'=>$request->transactionId??'', 'transaction_time'=>$request->transactionTime??'', 'payment_method'=>$request->payer['paymentMethod']??'', 'payer_user_id'=>$request->payer['userId']??'', 'payer_name'=>$request->payer['name']??'', 'payer_account_id'=>$request->payer['accountId']??'', 'merchant_fee'=>$request->merchant['fee']??'', 'merchant_account_id'=>$request->merchant['accountId']??'', 'net_amount_recieved'=>$request->merchant['netAmountReceived']??''];
+                    $transaction = [
+                        'request_id'=>$request->requestId??'', 'amount'=>$request->amount??'', 
+                        'currency_code'=>$request->currencyCode??'', 'purpose'=>$request->payment_purpose??'', 
+                        'mobile_wallet_number'=>$request->mobileWalletNumber??'', 
+                        'transaction_ref'=>$request->mchTransactionRef??'', 'app_id'=>$request->appId??'', 
+                        'transaction_id'=>$request->transactionId??'', 'transaction_time'=>$request->transactionTime??'', 
+                        'payment_method'=>$request->payer['paymentMethod']??'', 'payer_user_id'=>$request->payer['userId']??'', 
+                        'payer_name'=>$request->payer['name']??'', 'payer_account_id'=>$request->payer['accountId']??'', 
+                        'merchant_fee'=>$request->merchant['fee']??'', 'merchant_account_id'=>$request->merchant['accountId']??'', 
+                        'net_amount_recieved'=>$request->merchant['netAmountReceived']??''
+                    ];
                     if(\App\Models\TranzakTransaction::where($transaction)->count() == 0){
                         $transaction_instance = new \App\Models\TranzakTransaction($transaction);
                         $transaction_instance->save();
@@ -868,7 +877,7 @@ class HomeController extends Controller
                     $data = ['student_id'=>$payment_data['student_id'], 'year_id'=>$payment_data['year_id'], 'type'=>'PLATFORM', 'item_id'=>$payment_data['payment_id'], 'amount'=>$transaction_instance->amount, 'financialTransactionId'=>$transaction_instance->transaction_id, 'used'=>1];
                     $instance = new \App\Models\Charge($data);
                     $instance->save();
-                    $message = "Hello ".(auth('student')->user()->name??'').", You have successfully paid a sum of ".($transaction_instance->amount??'')." as ".($trans->payment_purpose??'')." for ".($transaction_instance->year->name??'')." BIAKA UNIVERSITY INSTITUTE.";
+                    $message = "Hello ".(auth('student')->user()->name??'').", You have successfully paid a sum of ".($transaction_instance->amount??'')." as ".($trans->payment_purpose??'')." for ".($transaction_instance->year->name??'')." HIMS UNIVERSITY INSTITUTE.";
                     $this->sendSmsNotificaition($message, [auth('student')->user()->phone]);
                     
                     ($pending = \App\Models\PendingTranzakTransaction::where('request_id', $request->requestId)->first()) != null ? $pending->delete() : null;

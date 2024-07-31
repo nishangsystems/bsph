@@ -47,6 +47,12 @@ return [
             'level' => env('LOG_LEVEL', 'debug'),
         ],
 
+        'payment_errors' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/payment_errors.log'),
+            'level' => env('LOG_LEVEL', 'Critical'),
+        ],
+
         'program_change' => [
             'driver' => 'single',
             'path' => storage_path('logs/program_change.log'),
