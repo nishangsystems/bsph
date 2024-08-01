@@ -67,7 +67,7 @@ class FollowupApplicationPayment extends Command
                 }
             } catch (\Throwable $th) {
                 //throw $th;
-                Log::channel('payment_errors')->info($th->getTraceAsString());
+                Log::info($th->getTraceAsString());
                 continue;
             }
         }
@@ -82,6 +82,7 @@ class FollowupApplicationPayment extends Command
             try {
                 //code...
 
+                Log::info(json_encode($record->toArray()));
 
                 $url = config('tranzak.tranzak.base').config('tranzak.tranzak.transaction_details').$record->requestId;
                 $headers = ['Authorization'=>'Bearer '.cache($tranzak_credentials->cache_token_key)];
@@ -122,7 +123,7 @@ class FollowupApplicationPayment extends Command
                 }
             } catch (\Throwable $th) {
                 //throw $th;
-                Log::channel('payment_errors')->info($th->getTraceAsString());
+                Log::info($th->getTraceAsString());
                 return;
             }
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiContoller;
+use App\Http\Controllers\Student\TranzakReturn;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,3 +34,6 @@ Route::get('application_status', function(){
     $config['end_date'] = now()->parse($config['end_date'])->format('d/m/Y');
     return response()->json($config);
 });
+
+Route::get('tranzak/return_url', [TranzakReturn::class, 'callback'])->name('tranzak.returnUrl');
+Route::post('tranzak/return_url', [TranzakReturn::class, 'callback'])->name('tranzak.returnUrl');

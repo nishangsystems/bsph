@@ -338,7 +338,7 @@ class HomeController extends Controller
                 $phone_number = '237'.$phone_number;
             }
             // dd($phone_number);
-            $message="Application form for HIMS UNIVERSITY INSTITUTE submitted successfully.";
+            $message="Application into BIAKA UNIVERSITY INSTITUTE submitted successfully.";
             $sent = $this->sendSMS($phone_number, $message);
             return redirect(route('student.application.form.download', ['id'=>$application_id]));
         }
@@ -429,7 +429,7 @@ class HomeController extends Controller
                     // dd('check point X1');
                     
                     $headers = ['Authorization'=>'Bearer '.cache($tranzak_credentials->cache_token_key)];
-                    $request_data = ['mobileWalletNumber'=>'237'.$request->momo_number, 'mchTransactionRef'=>'_apl_fee_'.time().'_'.random_int(1, 9999), "amount"=> $request->amount, "currencyCode"=> "XAF", "description"=>"Payment for application fee into HIMS UNIVERSITY INSTITUTE OF BUEA"];
+                    $request_data = ['mobileWalletNumber'=>'237'.$request->momo_number, 'mchTransactionRef'=>'_apl_fee_'.time().'_'.random_int(1, 9999), "amount"=> $request->amount, "currencyCode"=> "XAF", "description"=>"Payment for application fee into HIMS UNIVERSITY INSTITUTE OF BUEA", 'returnUrl'=>route('tranzak.returnUrl')];
                     $_response = Http::withHeaders($headers)->post(config('tranzak.base').config('tranzak.direct_payment_request'), $request_data);
                     // dd($_response->collect());
                     if($_response->status() == 200){
