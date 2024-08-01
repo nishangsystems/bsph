@@ -43,7 +43,7 @@
                 // check if status is completed or failed
                 response_data = data.data
                 console.log(response_data);
-                /*if(response_data.status == "PAYMENT_IN_PROGRESS"){
+                if(response_data.status == "PAYMENT_IN_PROGRESS"){
                     return;
                 }
                 if((response_data.status == "SUCCESSFUL") || (response_data.status == "CANCELLED") || (response_data.status == "FAILED") || (response_data.status == "REVERSED")){
@@ -66,7 +66,7 @@
                     clearInterval(set_interval);
                     $('#_temp_form').submit();
                     // window.location = url;
-                }*/
+                }
             }
         });
     }, 5000);
