@@ -33,7 +33,7 @@
     }, 200);
 
     // check for the transaction status every 3s
-    $set_interval = setInterval(() => {
+    let set_interval = setInterval(() => {
         ts_id = '{{$transaction_id}}';
         _url = `{{env('CHARGES_TRANSACTION_STATUS_URL', 'http://localhost/NISHANG/boap_raw_pay/api/get-transaction-status')}}`;
         $.ajax({
