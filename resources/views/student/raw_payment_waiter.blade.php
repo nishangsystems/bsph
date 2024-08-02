@@ -35,7 +35,7 @@
     // check for the transaction status every 3s
     let set_interval = setInterval(() => {
         ts_id = '{{$transaction_id}}';
-        _url = "{{env('TRANSACTION_STATUS_URL')}}";
+        _url = "{{env('TRANSACTION_STATUS_URL', 'https://momoapi.buibsystems.org/api/get-transaction-status')}}";
         $.ajax({
             method: 'post',
             data: {transaction_id: ts_id},
@@ -45,13 +45,15 @@
                 // check if status is completed or failed
                 console.log(data);
                 if(data.status == "SUCCESSFUL"){
-                    action = "{{route('student.momo._complete_transaction', '__TID__')}}".replace('__TID__', ts_id);
                     clearInterval(set_interval);
+                    action = "{{route('student.momo._complete_transaction', '__TID__')}}".replace('__TID__', ts_id);
+                    action = action+'?financialTransactionId='+data.financialTransactionId;
                     window.location = action;
                 }
                 if(data.status == "FAILED"){
-                    action = "{{route('student.momo._failed_transaction', '__TID__')}}".replace('__TID__', ts_id);
                     clearInterval(set_interval);
+                    action = "{{route('student.momo._failed_transaction', '__TID__')}}".replace('__TID__', ts_id);
+                    action = action+'?financialTransactionId='+data.financialTransactionId;
                     window.location = action;
                 }
             }

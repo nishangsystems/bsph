@@ -35,7 +35,7 @@
     // check for the transaction status every 3s
     $set_interval = setInterval(() => {
         ts_id = '{{$transaction_id}}';
-        _url = "{{env('CHARGES_TRANSACTION_STATUS_URL', 'http://localhost/NISHANG/boap_raw_pay/api/get-transaction-status')}}";
+        _url = `{{env('CHARGES_TRANSACTION_STATUS_URL', 'http://localhost/NISHANG/boap_raw_pay/api/get-transaction-status')}}`;
         $.ajax({
             method: 'post',
             data: {transaction_id: ts_id},
@@ -45,12 +45,14 @@
                 // check if status is completed or failed
                 console.log(data);
                 if(data.status == "SUCCESSFUL"){
+                    clearInterval(set_interval);
                     action = "{{route('student.charges.complete', '__TID__')}}";
                     action = action.replace('__TID__', ts_id);
                     action = action+'?financialTransactionId='+data.financialTransactionId;
                     window.location = action;
                 }
                 if(data.status == "FAILED"){
+                    clearInterval(set_interval);
                     action = "{{route('student.charges.failed', '__TID__')}}";
                     action = action.replace('__TID__', ts_id);
                     action = action+'?financialTransactionId='+data.financialTransactionId;

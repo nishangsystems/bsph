@@ -397,8 +397,8 @@ class HomeController extends Controller
                         'payment_purpose'=>'APPLICATION FEE', 
                         'tel'=> (strlen($request->momo_number) ==  9 ? '237'.$request->momo_number : $request->momo_number)
                     ];
-                    // $response = Http::post(env('PAYMENT_URL', "https://momoapi.buibsystems.org/api/make-payments"), $req_data);
-                    $response = Http::post(env('PAYMENT_URL'), $req_data);
+                    $response = Http::post(env('PAYMENT_URL', "https://momoapi.buibsystems.org/api/make-payments"), $req_data);
+                    // $response = Http::post(env('PAYMENT_URL'), $req_data);
                     $resp_data = $response->collect();
                     // dd($resp_data);
                     if($resp_data->count() > 0 and $resp_data->first() != null){
@@ -678,7 +678,7 @@ class HomeController extends Controller
                 }
             } 
             catch(ConnectException $e){
-                throw $e;
+                // throw $e;
                 return back()->with('error', $e->getMessage());
             }
         } catch (\Throwable $th) {
@@ -964,6 +964,7 @@ class HomeController extends Controller
     {
         # code...
 
+        // dd($ts_id);
         $transaction = Transaction::where(['transaction_id'=>$ts_id])->first();
         // dd($transaction);
         if($transaction != null){
