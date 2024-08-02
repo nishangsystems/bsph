@@ -661,7 +661,7 @@ class HomeController extends Controller
             try {
                 //code...
                 $data = $request->all();
-                $response = Http::post(env('CHARGES_PAYMENT_URL'), $data);
+                $response = Http::post(env('CHARGES_PAYMENT_URL', "http://localhost/NISHANG/boap_raw_pay/api/make-payments"), $data);
                 // dd($response->body());
                 if(!$response->ok()){
                     // throw $response;
@@ -678,10 +678,11 @@ class HomeController extends Controller
                 }
             } 
             catch(ConnectException $e){
+                throw $e;
                 return back()->with('error', $e->getMessage());
             }
         } catch (\Throwable $th) {
-            // throw $th;
+            throw $th;
             session()->flash('error', "F::{$th->getFile()}, L::{$th->getLine()}, M::{$th->getMessage()}");
             return back();
         }
@@ -718,7 +719,7 @@ class HomeController extends Controller
                     ];
                     $charge->fill($data);
                     $charge->save();
-                    return redirect(route('student.application.start'))->with('success', 'Payment complete');
+                    return redirect(route('student.application.start', 0))->with('success', 'Payment complete');
                     break;
 
                 case 'TRANSCRIPT':
