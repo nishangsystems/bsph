@@ -964,9 +964,9 @@ class HomeController extends Controller
     {
         # code...
 
-        dd($request->all());
+        // dd($request->all());
         $transaction = Transaction::where(['transaction_id'=>$ts_id])->first();
-        // dd($transaction);
+        dd($transaction);
         if($transaction != null){
             // update transaction
             $transaction->status = "SUCCESSFUL";
