@@ -398,7 +398,7 @@ class HomeController extends Controller
                         'tel'=> (strlen($request->momo_number) ==  9 ? '237'.$request->momo_number : $request->momo_number)
                     ];
                     // $response = Http::post(env('PAYMENT_URL', "https://momoapi.buibsystems.org/api/make-payments"), $req_data);
-                    $response = Http::post(env('PAYMENT_URL', "http://localhost/NISHANG/boap_raw_pay/api/make-payments"), $req_data);
+                    $response = Http::post(env('PAYMENT_URL'), $req_data);
                     $resp_data = $response->collect();
                     // dd($resp_data);
                     if($resp_data->count() > 0 and $resp_data->first() != null){
@@ -649,14 +649,14 @@ class HomeController extends Controller
             }
             // return $request->all();
     
-            // BRIDGE PROCESS BY PAYING WITH TRANZAK
-            {
-                $data = $request->all();
-                $data_key = $request->payment_purpose == '_TRANSCRIPT_' ? config('tranzak.tranzak._transcript_data') : config('tranzak.tranzak.platform_data');
-                session()->put($data_key, $data);
-                // dd($data);
-                return $this->tranzak_pay($request->payment_purpose, $request);
-            }
+            // // BRIDGE PROCESS BY PAYING WITH TRANZAK
+            // {
+            //     $data = $request->all();
+            //     $data_key = $request->payment_purpose == '_TRANSCRIPT_' ? config('tranzak.tranzak._transcript_data') : config('tranzak.tranzak.platform_data');
+            //     session()->put($data_key, $data);
+            //     // dd($data);
+            //     return $this->tranzak_pay($request->payment_purpose, $request);
+            // }
     
             try {
                 //code...
@@ -718,7 +718,7 @@ class HomeController extends Controller
                     ];
                     $charge->fill($data);
                     $charge->save();
-                    return redirect($transaction->payment_purpose == 'PLATFORM' ? route('student.transcript.apply') : route('student.result.exam'))->with('success', 'Payment complete');
+                    return redirect(route('student.application.start'))->with('success', 'Payment complete');
                     break;
 
                 case 'TRANSCRIPT':
