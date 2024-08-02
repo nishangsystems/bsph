@@ -976,7 +976,7 @@ class HomeController extends Controller
             if($form == null){
                 return redirect(route('student.home'))->with('error', "Application form could not be found");
             }
-            dd($transaction);
+            // dd($transaction);
             $form->update(['transaction_id'=>$transaction->id]);
             return redirect()->to(route('student.application.start', ['id'=>$form->id, 'step'=>1]))->with('success', "Payment complete");
         }
