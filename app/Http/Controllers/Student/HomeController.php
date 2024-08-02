@@ -966,17 +966,17 @@ class HomeController extends Controller
 
         // dd($request->all());
         $transaction = Transaction::where(['transaction_id'=>$ts_id])->first();
-        // dd($transaction);
         if($transaction != null){
             // update transaction
             $transaction->status = "SUCCESSFUL";
             $transaction->financialTransactionId = $request->financialTransactionId;
             $transaction->save();
-
+            
             $form = ApplicationForm::where(['year_id'=>$transaction->year_id, 'student_id'=>$transaction->student_id])->first();
             if($form == null){
                 return redirect(route('student.home'))->with('error', "Application form could not be found");
             }
+            dd($transaction);
             $form->update(['transaction_id'=>$transaction->id]);
             return redirect()->to(route('student.application.start', ['id'=>$form->id, 'step'=>1]))->with('success', "Payment complete");
         }
