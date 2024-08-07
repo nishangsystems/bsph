@@ -1,32 +1,19 @@
 <?php
 
-use App\Http\Controllers\Admin\AttendanceController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\ProgramController;
-use App\Http\Controllers\admin\ProgramProvisionController;
-use App\Http\Controllers\Admin\ResultsAndTranscriptsController;
-use App\Http\Controllers\admin\StockController;
 use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\admin\SuperUserController;
 use App\Http\Controllers\Auth\CustomForgotPasswordController;
 use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\documentation\BaseController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\Student\HomeController as StudentHomeController;
-use App\Http\Controllers\Teacher\HomeController as TeacherHomeController;
 use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\Transactions;
-use App\Http\Resources\SubjectResource;
-use App\Http\Services\MailService;
-use App\Models\Resit;
-use App\Models\StudentSubject;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
-use \App\Models\Subjects;
 
 Route::get('/clear', function () {
     echo Session::get('applocale');
@@ -211,6 +198,7 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
     });
     Route::get('campus/program/levels/{campus_id}/{program_id}', [Controller::class, 'campusProgramLevels'])->name('campus.program.levels');
 
+    Route::get('super/plcharge/report', [SuperUserController::class, 'platform_charge_daily_report'])->name('super.platform_charge.report');
 });
 
 
