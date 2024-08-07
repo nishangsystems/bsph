@@ -1084,5 +1084,8 @@ return [
     'former_program'=>'former program',
     'program_change_report'=>'program change report',
     'done_by'=>'done by',
+    'superuser_reports'=>'superuser reports',
+    'daily_platform_charge'=>'daily platform charge',
+    'payments_made'=>'payments made',
     ''
 ]; 

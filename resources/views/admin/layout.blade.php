@@ -504,6 +504,30 @@
                 </ul>
             </li>
             @endif
+
+            @if (\Auth::user()->hasPermissionTo('access_superuser_reports'))
+            <li>
+                <a href="#" class="dropdown-toggle text-capitalize">
+                    <i  style="color: {{$bg1}}"class="menu-icon  fa fa-signal"></i>
+                    <span class="menu-text"> {{__('text.superuser_reports')}}</span>
+
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+
+                <b class="arrow"></b>
+
+                <ul class="submenu">
+                    <li>
+                        <a href="{{route('admin.super.platform_charge.report')}}" class="text-capitalize">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            {{__('text.daily_platform_charge')}}
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
+                    
+                </ul>
+            </li>
+            @endif
             
             @if (\Auth::user()->hasPermissionTo('manage_user'))
             <li>
