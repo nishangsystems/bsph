@@ -129,6 +129,7 @@ class StatisticsController extends Controller
                 $data['forms'] = $forms;
                 break;
         }
+        // dd($data);
         return view('admin.statistics.bypass', $data);
     }
 }
