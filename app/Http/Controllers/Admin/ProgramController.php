@@ -1458,7 +1458,7 @@ class ProgramController extends Controller
         $data = [
             'student_id'=>$application->student_id, 'amount'=>$degree->amount??0, 'year_id'=>$application->year_id,
             'tel'=>($application->phone == null ? $application->student->phone : $application->phone), 'status'=>'SUCCESSFUL','payment_purpose'=>'____________','payment_method'=>'_________',
-            'reference'=>'________', 'transaction_id'=>'_________', 'payment_id'=>$application->degree_id, 'financialTransactionId'=>'_________',
+            'reference'=>auth()->id(), 'transaction_id'=>'_________', 'payment_id'=>$application->degree_id, 'financialTransactionId'=>'_________',
             ];
         $transaction = new Transaction($data);
         $transaction->save();
@@ -1551,7 +1551,7 @@ class ProgramController extends Controller
     {
         # code...
         $data['title'] = "General Financial Reports";
-        $data['appls'] = ApplicationForm::all();
+        $data['appls'] = ApplicationForm::whereNotNull('transaction_id')->get();
         return view('admin.student.finance_general', $data);
     }
 
