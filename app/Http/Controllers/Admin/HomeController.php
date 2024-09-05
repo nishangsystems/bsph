@@ -35,6 +35,7 @@ class HomeController  extends Controller
             $data = collect($raw)->sortBy('class_name')->groupBy('school')->groupBy('department')->groupBy('program');
         }
         $_data['data'] = $data;
+        // dd($_data);
         return view('admin.dashboard', $_data);
 
     }

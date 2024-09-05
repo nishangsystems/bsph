@@ -79,7 +79,7 @@ class AppService{
                 session()->flash('error', 'Program Degree Name not set');
                 return back()->withInput();
             }
-    
+            // dd($data);
             // return view('admin.student.admission_letter', $data);
             $pdf = Pdf::loadView('admin.student.admission_letter', $data);
             return $pdf->download($appl->matric.'_ADMISSION_LETTER.pdf');            
