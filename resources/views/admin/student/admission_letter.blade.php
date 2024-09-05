@@ -86,15 +86,15 @@
                             <div class="my-1">
                                 <span>@lang('text.the_tution_fee_amount_should_be_paid_at'):</span><br>
                                 <ul style="list-style-type: disc; margin-left:2rem; padding-left:2rem;">
-                                    <li><span class="text-capitalize">@lang('text.bank_name'):</span> <b class="text-uppercase">{{ $fee->bank_name??'----' }}</b></li>
-                                    <li><span class="text-capitalize">@lang('text.account_name'):</span> <b class="text-uppercase">{{ $fee->bank_account_name??'----' }}</b></li>
-                                    <li><span class="text-capitalize">@lang('text.account_number'):</span> <b class="text-uppercase">{{ $fee->bank_account_number??'----' }}</b></li>
+                                    <li><span class="text-capitalize">@lang('text.bank_name'):</span> <b class="text-uppercase">{{ array_key_exists('bank_name', $fee) ? $fee['bank_name'] : '----' }}</b></li>
+                                    <li><span class="text-capitalize">@lang('text.account_name'):</span> <b class="text-uppercase">{{ array_key_exists('bank_account_name', $fee) ? $fee['bank_account_name'] : '----' }}</b></li>
+                                    <li><span class="text-capitalize">@lang('text.account_number'):</span> <b class="text-uppercase">{{ array_key_exists('bank_account_number', $fee) ? $fee['bank_account_number'] : '----' }}</b></li>
                                 </ul>
                             </div>
                             <div class="my-1">
                                 <span>@lang('text.at_registration_you_will_be_expected_to_do_the_following'):</span><br>
                                 <ul style="list-style-type: disc; margin-left:2rem; padding-left:2rem;">
-                                    <li>{!! __('text.present_receipts_of_payment_of_registration_fees', ['bank_name'=>$fee->bank_name??'----']) !!}</li>
+                                    <li>{!! __('text.present_receipts_of_payment_of_registration_fees') !!}</li>
                                     <li>{!! __('text.present_originals_of_certificates') !!}</li>
                                     <li>{!! __('text.present_fee_receipts') !!}</li>
                                 </ul>

@@ -1031,7 +1031,7 @@ return [
     'account_name'=>'account name',
     'account_number'=>'account number',
     'at_registration_you_will_be_expected_to_do_the_following'=>'At registration, you will be expected to do the following',
-    'present_receipts_of_payment_of_registration_fees'=>'Present receipts of payment of registration fees (from <b>:bank_name</b>).',
+    'present_receipts_of_payment_of_registration_fees'=>'Present receipts of payment of registration fees.',
     'present_originals_of_certificates'=>'Present the original copies of your certificates, result slips, transcripts and other academic credentials to the records office.',
     'present_fee_receipts'=>'Present receipts of part or full payment of tution fees',
     'offer_revoked_if'=>'The offer of admission may be revoked if',
