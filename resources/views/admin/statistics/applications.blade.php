@@ -23,24 +23,39 @@
         </form>
         <div class="mt-5 pt-2">
             
-            <table class="table table-stripped">
-                <thead class="bg-secondary text-black text-capitalize">
+            <table class="table">
+                <thead class="text-capitalize border-bottom border-2 border-danger">
                     @php($count = 1)
-                    <th>##</th>
-                    @if (request('filter') == 'degree')
-                        <th>{{__('text.word_degree')}}</th>
-                    @else
-                        <th>{{__('text.word_program')}}</th>
-                    @endif
-                    <th>{{__('text.word_total')}}</th>
+                    <tr class="shadow-sm">
+                        <th class="bg-primary text-white border-right" colspan="2">@lang('text.word_total')</th>
+                        <th class="bg-primary text-white border-right">{{$forms->sum('_count')}}</th>
+                        <th class="bg-primary text-white border-right"></th>
+                        <th class="bg-primary text-white border-right">{{$forms->sum('total')}}</th>
+                    </tr>
+                    <tr>
+                        <th class="bg-dark text-white">##</th>
+                        @if (request('filter') == 'degree')
+                            <th class="bg-info text-white">{{__('text.word_degree')}}</th>
+                        @else
+                            <th  class="bg-info text-white">{{__('text.word_program')}}</th>
+                        @endif
+                        <th class="bg-info text-white">{{__('text.word_count')}}</th>
+                        <th class="bg-dark text-white">@lang('text.unit_cost')</th>
+                        <th class="bg-dark text-white">@lang('text.total_paid')</th>
+                    </tr>
                 </thead>
                 <tbody>
                     @foreach($forms ?? [] as $form)
 
-                        <tr class="border-bottom border-dark" style="background-color: rgba(243, 243, 252, 0.4);">
-                            <td class="border-left border-right">{{$count++}}</td>
-                            <td class="border-left border-right">{{ request('filter') == 'degree' ? $form->degree : $form->program }}</td>
-                            <td class="border-left border-right">{{ $form->_count??'' }}</td>
+                        <tr class="border-bottom border-dark shadow-sm" style="background-color: rgba(243, 243, 252, 0.4);">
+                            <td class="bg-dark text-white">{{$count++}}</td>
+                            <td class="">{{ request('filter') == 'degree' ? $form->degree : $form->program }}</td>
+                            <td class="">{{ $form->_count??'' }}</td>
+                            <td class="bg-dark text-white">{{ $form->amount??'' }}</td>
+                            <td class="bg-dark text-white">{{ $form->total??'' }}</td>
+                            {{-- <td class="">
+                                <a href="#" class="btn btn-sm rounded text-capitalize btn-primary"><span class="mr-2 fa fa-download"></span>@lang('text.word_download')</a>
+                            </td> --}}
                         </tr>
                     @endforeach
                 </tbody>

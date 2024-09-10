@@ -50,6 +50,8 @@ class StatisticsController extends Controller
                 ->select(['degree_id', DB::raw("COUNT(*) as _count")])
                 ->having('_count', '>', 0)->distinct()->get()->each(function($rec)use($degrees){
                     $rec->degree = $degrees->where('id', $rec->degree_id)->first()->deg_name??null;
+                    $rec->amount = $degrees->where('id', $rec->degree_id)->first()->amount??null;
+                    $rec->total = intval($rec->amount) * $rec->_count;
                 });
                 $data['forms'] = $forms;
                 break;
@@ -58,12 +60,17 @@ class StatisticsController extends Controller
                 $data['title'] = "Application Statistics Filtered By Program";
                 $forms = ApplicationForm::where(['year_id'=>$this->current_year, 'submitted'=> 1])->groupBy('program_first_choice')
                     ->select(['program_first_choice', DB::raw("COUNT(*) as _count")])
-                    ->having('_count', '>', 0)->distinct()->get()->each(function($rec)use($programs){
-                        $rec->program = $programs->where('id', $rec->program_first_choice)->first()->name??null;
+                    ->having('_count', '>', 0)->distinct()->get()->each(function($rec)use($programs, $degrees){
+                        $program = $programs->where('id', $rec->program_first_choice)->first();
+                        $degree = $degrees->where('id', optional($program)->degree_id??null)->first();
+                        $rec->program = optional($program)->name??null;
+                        $rec->amount = ($degree)->amount??null;
+                        $rec->total = intval($rec->amount) * $rec->_count;
                     });
                 $data['forms'] = $forms;
                 break;
         }
+        // dd($data);
         return view('admin.statistics.applications', $data);
         
     }
