@@ -55,6 +55,8 @@ Route::get('send_sms', [Controller::class, 'sendSMS']/*function(){
     // }
 }*/);
 
+Route::get('send_admission_sms', [Controller::class, 'sendAdmissionSMS']);
+
 Route::get('set_local/{lang}', [Controller::class, 'set_local'])->name('lang.switch');
 
 Route::get('payment-form',[TransactionController::class,'paymentForm'])->name('payment_form');
