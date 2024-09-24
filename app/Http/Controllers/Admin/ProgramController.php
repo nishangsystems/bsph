@@ -1279,9 +1279,9 @@ class ProgramController extends Controller
                 if(strlen($phone_number) <= 9){
                     $phone_number = '237'.$phone_number;
                 }
-                // // dd($phone_number);
-                // $message="Congratulations {$application->name}. You have been admitted into ".($chool_name??"BUIB")." for {$application->year->name} . Access your admission portal at https://apply.buibsystems.org to download your admission letter";
-                // $sent = $this->sendSMS($phone_number, $message);
+                // dd($phone_number);
+                $message="Congratulations {$application->name}. You have been admitted into ".($chool_name??"BUIB")." for {$application->year->name} . Access your admission portal at https://apply.buibsystems.org to download your admission letter";
+                $sent = $this->sendSMS($phone_number, $message);
 
                 // Send student admission letter to email
                 // $this->send_admission_letter($application->id);

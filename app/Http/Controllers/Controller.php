@@ -297,5 +297,36 @@ class Controller extends BaseController
 
     }
 
+
+    public function sendAdmissionSMS() {
+        $school_name = optional(\App\Models\School::first())->name??'';
+        // \App\Models\ApplicationForm::where('admitted', 1)->whereNotNull('matric')->each(function($rec)use($school_name){
+        //     // Send sms/email notification
+        //     $phone_number = $rec->phone;
+        //     if(str_starts_with($phone_number, '+')){
+        //         $phone_number = substr($phone_number, '1');
+        //     }
+        //     if(strlen($phone_number) <= 9){
+        //         $phone_number = '237'.$phone_number;
+        //     }
+        //     // dd($phone_number);
+        //     $message="Congratulations {$rec->name}. You have been admitted into ".($school_name??"BUIB")." for {$rec->year->name} . Access your admission portal at https://apply.buibsystems.org to download your admission letter";
+        //     $sent = $this->sendSMS($phone_number, $message);
+        // });
+
+        \App\Models\PhoneNumber::each(function($rec)use($school_name){
+            // Send sms/email notification
+            $phone_number = $rec->phone;
+            if(str_starts_with($phone_number, '+')){
+                $phone_number = substr($phone_number, '1');
+            }
+            if(strlen($phone_number) <= 9){
+                $phone_number = '237'.$phone_number;
+            }
+            // dd($phone_number);
+            $message="Congratulations. You have been admitted into ".($school_name??"BUIB")." for 2024/2025 accademic year . Access your admission portal at https://apply.buibsystems.org to download your admission letter";
+            $sent = $this->sendSMS($phone_number, $message);
+        });
+    }
     
 }
