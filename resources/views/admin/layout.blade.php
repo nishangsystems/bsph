@@ -380,6 +380,40 @@
                 </ul>
             </li>
             @endif
+            
+            @if (\Auth::user()->hasPermissionTo('manage_custom_applications'))
+            <li>
+                <a href="#" class="dropdown-toggle text-capitalize">
+                    <i  style="color: {{$bg1}}"class="menu-icon  fa fa-file"></i>
+                    <span class="menu-text"> {{__('text.custom_applications')}}</span>
+
+                    <b class="arrow fa fa-angle-down"></b>
+                </a>
+
+                <b class="arrow"></b>
+
+                <ul class="submenu">
+                    
+                    <li>
+                        <a href="{{route('admin.custom_applications.index')}}" class="text-capitalize">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            {{__('text.word_all')}}
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li>
+                        <a href="{{route('admin.custom_applications.create')}}" class="text-capitalize">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            {{__('text.word_create')}}
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+
+                </ul>
+            </li>
+            @endif
 
             @if (\Auth::user()->hasPermissionTo('access_reports'))
             <li>
@@ -524,7 +558,6 @@
                         </a>
                         <b class="arrow"></b>
                     </li>
-                    
                 </ul>
             </li>
             @endif

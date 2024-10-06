@@ -107,8 +107,8 @@ class ApiService{
         return Http::get(Helpers::instance()->getApiRoot()."/portal_fee_structure/{$year_id}")->collect();
     }
 
-    public function class_portal_fee_structure($program, $level, $year_id = null){
-        return Http::get(Helpers::instance()->getApiRoot()."/class_portal_fee_structure/{$program}/{$level}/{$year_id}")->collect();
+    public function class_portal_fee_structure($program, $level, $year_id = null, $option=null){
+        return Http::get(Helpers::instance()->getApiRoot()."/class_portal_fee_structure/{$program}/{$level}/{$year_id}?option={$option}")->collect();
     }
 
     public function school_program_structure()

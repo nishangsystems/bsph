@@ -11,7 +11,7 @@ class ApplicationForm extends Model
 
     protected $nullables = [];
     protected $connection = 'mysql2';
-    protected $dates = ['admitted_at'];
+    protected $dates = ['admitted_at', 'dob', 'created_at', 'updated_at'];
     protected $fillable = [
         'student_id', 'year_id', 'gender', 'name', 'dob', 'pob', 
         'nationality', 'region', 'division', 'residence', 'phone', 

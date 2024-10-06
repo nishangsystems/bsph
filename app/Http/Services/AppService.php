@@ -20,6 +20,7 @@ class AppService{
     {
         # code...
         $appl = ApplicationForm::find($appl_id);
+        // dd($appl);
         if($appl != null){
             $programs = collect(json_decode($this->api_service->programs())->data);
             $campus = collect(json_decode($this->api_service->campuses())->data)->where('id', $appl->campus_id)->first()??null;
@@ -37,7 +38,7 @@ class AppService{
             }
             
             // get program fee settings
-            $fees = $this->api_service->class_portal_fee_structure($appl->program_first_choice, $appl->level, $appl->year_id)['data'];
+            $fees = $this->api_service->class_portal_fee_structure($appl->program_first_choice, $appl->level, $appl->year_id, $option=1)['data'];
             // dd($fees);
             if($fees == null){
                 session()->flash('error', 'Fees not set for this program. Contact school system for fee settings');

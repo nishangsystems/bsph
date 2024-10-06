@@ -1157,9 +1157,9 @@ class ProgramController extends Controller
         if($request->has('_atn')){
             return $this->send_admission_letter($id, $request->_atn);
         }
-        if($this->send_admission_letter($id)){
-            return back()->with('success', __('text.word_done'));
-        }
+        // if($this->send_admission_letter($id)){
+        //     return back()->with('success', __('text.word_done'));
+        // }
         return back()->with('error', __('text.operation_failed'));
     }
 

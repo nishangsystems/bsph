@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\ProgramController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\SuperUserController;
+use App\Http\Controllers\Admin\CustomApplicationController;
 use App\Http\Controllers\Auth\CustomForgotPasswordController;
 use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\Controller;
@@ -29,31 +30,31 @@ Route::get('/clear', function () {
 });
 
 // test mail sender
-Route::get('send_sms', [Controller::class, 'sendSMS']/*function(){
-    // $mailer = new MailService();
-    // $subject = "Form Submission Notification";
-    // $text = "Your application form has been submitted successfully";
-    // $data = ['name'=>"GERMANUS K", 'email'=>"germanuskeming@gmail.com"];
-    // if(@mail($data['email'], $subject, $text)){
-    //     return "success";
-    // }else{return "failed";}
-    // $mailer->sendPlainMail($subject, $text, $data);
+// Route::get('send_sms', [Controller::class, 'sendSMS']/*function(){
+//     // $mailer = new MailService();
+//     // $subject = "Form Submission Notification";
+//     // $text = "Your application form has been submitted successfully";
+//     // $data = ['name'=>"GERMANUS K", 'email'=>"germanuskeming@gmail.com"];
+//     // if(@mail($data['email'], $subject, $text)){
+//     //     return "success";
+//     // }else{return "failed";}
+//     // $mailer->sendPlainMail($subject, $text, $data);
 
-    // $basic  = new \Vonage\Client\Credentials\Basic("8d8bbcf8", "04MLvso1he1b8ANc");
-    // $client = new \Vonage\Client($basic);
+//     // $basic  = new \Vonage\Client\Credentials\Basic("8d8bbcf8", "04MLvso1he1b8ANc");
+//     // $client = new \Vonage\Client($basic);
 
-    // $response = $client->sms()->send(
-    //     new \Vonage\SMS\Message\SMS("237699131895", '+237672908239', 'A text message sent using the Nexmo SMS API')
-    // );
+//     // $response = $client->sms()->send(
+//     //     new \Vonage\SMS\Message\SMS("237699131895", '+237672908239', 'A text message sent using the Nexmo SMS API')
+//     // );
     
-    // $message = $response->current();
+//     // $message = $response->current();
     
-    // if ($message->getStatus() == 0) {
-    //     echo "The message was sent successfully\n";
-    // } else {
-    //     echo "The message failed with status: " . $message->getStatus() . "\n";
-    // }
-}*/);
+//     // if ($message->getStatus() == 0) {
+//     //     echo "The message was sent successfully\n";
+//     // } else {
+//     //     echo "The message failed with status: " . $message->getStatus() . "\n";
+//     // }
+// }*/);
 
 Route::get('send_admission_sms', [Controller::class, 'sendAdmissionSMS']);
 
@@ -201,8 +202,16 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
     Route::get('campus/program/levels/{campus_id}/{program_id}', [Controller::class, 'campusProgramLevels'])->name('campus.program.levels');
 
     Route::get('super/plcharge/report', [SuperUserController::class, 'platform_charge_daily_report'])->name('super.platform_charge.report');
+
+    Route::prefix('custom/applications')->name('custom_applications.')->group(function(){
+        Route::get('', [CustomApplicationController::class, 'index'])->name('index');
+        Route::get('create', [CustomApplicationController::class, 'create'])->name('create');
+        Route::post('create', [CustomApplicationController::class, 'store']);
+    });
 });
 
+Route::get('degree{degree_id}programs', [Controller::class, 'degree_programs'])->name('degree_programs');
+Route::get('program{program_id}levels', [Controller::class, 'program_levels'])->name('_program_levels');
 
 Route::prefix('student')->name('student.')->middleware('isStudent')->middleware('plcharge')->group(function () {
     // Route::get('', 'Student\HomeController@index')->name('home');
