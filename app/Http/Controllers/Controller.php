@@ -4,15 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helpers;
 use App\Http\Services\ApiService;
-use App\Http\Controllers\SMS\Helpers as SMSHelpers;
 use App\Http\Services\FocusTargetSms;
-use App\Models\Campus;
 use App\Models\CampusProgram;
-use App\Models\ClassSubject;
 use App\Models\File;
 use App\Models\Region;
 use App\Models\Students;
-use App\Models\TeachersSubject;
 use App\Models\User;
 use App\Models\Wage;
 use Illuminate\Database\Eloquent\Collection;
@@ -27,7 +23,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-use Twilio\Rest\Client;
 
 /**
  * Summary of Controller
@@ -329,4 +324,12 @@ class Controller extends BaseController
         });
     }
     
+
+    public function degree_programs($degree_id){
+        return collect(json_decode($this->api_service->programs())->data)->where('degree_id', $degree_id)->toArray();
+    }
+
+    public function program_levels($program_id){
+        return json_decode($this->api_service->campusProgramLevels(5, $program_id))->data;
+    }
 }

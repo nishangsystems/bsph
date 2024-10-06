@@ -1087,5 +1087,6 @@ return [
     'superuser_reports'=>'superuser reports',
     'daily_platform_charge'=>'daily platform charge',
     'payments_made'=>'payments made',
+    'custom_applications'=>'custom applications',
     ''
 ]; 
