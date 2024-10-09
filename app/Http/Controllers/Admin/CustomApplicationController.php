@@ -43,6 +43,6 @@ class CustomApplicationController extends Controller
             return back();
         }
         $instance = ApplicationForm::create($data);
-        return redirect(route('admin.applications.admit', $instance->id))->with('success', "Form sucessfully created.");
+        return redirect(route('admin.applications.admit', $instance->id)."?foreign=1")->with('success', "Form sucessfully created.");
     }
 }
