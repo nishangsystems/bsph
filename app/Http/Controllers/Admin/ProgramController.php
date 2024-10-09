@@ -1196,7 +1196,7 @@ class ProgramController extends Controller
                     // dd($program);
                     $year = substr(Batch::find(Helpers::instance()->getCurrentAccademicYear())->name, 2, 2);
                     $prefix = $program->prefix??null;//3 char length
-                    $suffix = $program->suffix??null;//3 char length
+                    $suffix = ($program->suffix??'').(request('foreign') == 1 ? 'F' : '');//3 char length
                     $max_count = '';
                     if($prefix == null){
                         return back()->with('error', 'Matricule generation prefix not set.');
