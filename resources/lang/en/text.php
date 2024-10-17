@@ -1088,5 +1088,11 @@ return [
     'daily_platform_charge'=>'daily platform charge',
     'payments_made'=>'payments made',
     'custom_applications'=>'custom applications',
+    'word_cameroonian'=>'cameroonian',
+    'word_foreigner'=>'foreigner',
+    'admit_foreigners'=>'admit foreigners',
+    'switch_program'=>'switch program',
+    'program_switch'=>'program switch',
+    'confirm_program_switching'=>'confirm program switching',
     ''
 ]; 

@@ -4,7 +4,10 @@
         <form enctype="multipart/form-data" id="application_form" method="post">
             @csrf
             <div class="py-2 row text-capitalize bg-light">
-                
+                <div class="col-12 d-flex justify-content-end py-2 text-capitalize">
+                    <strong class="mr-4"><i>@lang('text.word_foreigner')</i><input type="radio" class="mx-2" name="foreigner" value="F"></strong>
+                    <strong class=""><i>@lang('text.word_cameroonian')</i><input type="radio" class="mx-2" checked name="foreigner" value=""></strong>
+                </div>
                 <div class="py-2 col-sm-6 col-md-6 col-lg-6">
                     <label class="text-secondary  text-capitalize">{{ __('text.word_name') }}</label>
                     <div class="">
