@@ -1196,12 +1196,12 @@ class ProgramController extends Controller
                     // dd($program);
                     $year = substr(Batch::find(Helpers::instance()->getCurrentAccademicYear())->name, 2, 2);
                     $prefix = $program->prefix??null;//3 char length
-                    $suffix = ($program->suffix??'').(request('foreign') == 1 ? 'F' : '');//3 char length
+                    $suffix = $program->suffix??'';//3 char length
                     $max_count = '';
                     if($prefix == null){
                         return back()->with('error', 'Matricule generation prefix not set.');
                     }
-                    $max_matric = json_decode($this->api_service->max_matric($prefix, $year))->data; //matrics starting with '$prefix' sort
+                    $max_matric = json_decode($this->api_service->max_matric($prefix, $year, $suffix))->data; //matrics starting with '$prefix' sort
                     // dd($max_matric);
                     if($max_matric == null){
                         $max_count = 0;
@@ -1211,6 +1211,8 @@ class ProgramController extends Controller
 
                     NEXT_MATRIC:
                     $next_count = substr('000'.(++$max_count), -3);
+                    $suffix = $suffix.(request('foreign') == 1 ? 'F' : '');//3 char length
+
                     $student_matric = $prefix.$year.$suffix.$next_count;
                     // dd($student_matric);
                     if(ApplicationForm::where('matric', $student_matric)->where('id', '!=', $id)->count() == 0){
@@ -1354,37 +1356,43 @@ class ProgramController extends Controller
         // GENERATE MATRICULE
         $program = json_decode($this->api_service->programs($request->new_program))->data??null;
         if($program != null){
-            $year = substr(Batch::find(Helpers::instance()->getCurrentAccademicYear())->name, 2, 2);
-            $prefix = $program->prefix;//3 char length
-            $suffix = $program->suffix;//3 char length
-            $max_count = '';
-            if($prefix == null){
-                return back()->with('error', 'Matricule generation prefix not set.');
+            try{
+                $year = substr(Batch::find(Helpers::instance()->getCurrentAccademicYear())->name, 2, 2);
+                $prefix = $program->prefix;//3 char length
+                $suffix = $program->suffix;//3 char length
+                $max_count = '';
+                if($prefix == null){
+                    return back()->with('error', 'Matricule generation prefix not set.');
+                }
+                // dd($this->api_service->max_matric($prefix, $year, $suffix));
+                $max_matric = json_decode($this->api_service->max_matric($prefix, $year, $suffix))->data??null; //matrics starting with '$prefix' sort
+                if($max_matric == null){
+                    $max_count = 0;
+                }else{
+                    $max_count = intval(substr($max_matric, -3));
+                }
+                NEXT_MATRIC:
+                $next_count = substr('000'.(++$max_count), -3);
+                $suffix = $suffix.$request->foreigner??'';
+                $student_matric = $prefix.$year.$suffix.$next_count;
+                // dd($student_matric);
+                
+                // dd(ApplicationForm::where('matric', $student_matric)->get());
+                if(ApplicationForm::where('matric', $student_matric)->count() == 0){
+                    $data['title'] = "Change Student Program";
+                    $data['application'] = $application;
+                    $data['program'] = $program;
+                    $data['matricule'] = $student_matric;
+                    $data['campus'] = collect(json_decode($this->api_service->campuses())->data)->where('id', $application->campus_id)->first();
+                    return view('admin.student.confirm_change_program', $data);
+                }else{
+                    goto NEXT_MATRIC;
+                    $student = ApplicationForm::where('matric', $student_matric)->first();
+                    return back()->with('error', "Student With name ".($student->name??'').". already has matricule {$student_matric} on this application portal.");
+                }
+            }catch(\Throwable $th){
+                return back()->with('error', 'Failed to generate matricule. '.$th->getMessage());
             }
-            // dd($this->api_service->max_matric($prefix, $year, $suffix));
-            $max_matric = json_decode($this->api_service->max_matric($prefix, $year, $suffix))->data??null; //matrics starting with '$prefix' sort
-            if($max_matric == null){
-                $max_count = 0;
-            }else{
-                $max_count = intval(substr($max_matric, -3));
-            }
-            $next_count = substr('000'.($max_count+1), -3);
-            $student_matric = $prefix.$year.$suffix.$next_count;
-            // dd($student_matric);
-            
-            // dd(ApplicationForm::where('matric', $student_matric)->get());
-            if(ApplicationForm::where('matric', $student_matric)->count() == 0){
-                $data['title'] = "Change Student Program";
-                $data['application'] = $application;
-                $data['program'] = $program;
-                $data['matricule'] = $student_matric;
-                $data['campus'] = collect(json_decode($this->api_service->campuses())->data)->where('id', $application->campus_id)->first();
-                return view('admin.student.confirm_change_program', $data);
-            }else{
-                $student = ApplicationForm::where('matric', $student_matric)->first();
-                return back()->with('error', "Student With name ".($student->name??'')."Already has matricule {$student_matric} on this application portal.");
-            }
-            return back()->with('error', 'Failed to generate matricule');
         }
         return back()->with('success', 'Done');
     }

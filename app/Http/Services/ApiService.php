@@ -123,5 +123,8 @@ class ApiService{
         # code...
         return Http::post(Helpers::instance()->getApiRoot()."/appliable_programs/set", ['programs'=>$programs])->collect();
     }
-
+    
+    public function get_student_with_matric($matric){
+        return Http::get(Helpers::instance()->getApiRoot()."/get_student_with_matric", ['matric'=>$matric])->collect();
+    }
 }

@@ -207,6 +207,9 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
         Route::get('', [CustomApplicationController::class, 'index'])->name('index');
         Route::get('create', [CustomApplicationController::class, 'create'])->name('create');
         Route::post('create', [CustomApplicationController::class, 'store']);
+        Route::get('switch', [CustomApplicationController::class, 'switch_program'])->name('switch');
+        Route::post('switch', [CustomApplicationController::class, 'switch_generate_matricule']);
+        Route::post('switch_confirmed', [CustomApplicationController::class, 'switch_confirmed'])->name('switch_confirmed');
     });
 });
 
