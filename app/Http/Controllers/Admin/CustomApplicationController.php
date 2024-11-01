@@ -264,6 +264,8 @@ class CustomApplicationController extends Controller
                         ]
                     ];
             }
+            fclose($fstream);
+            unlink($path.'/'.$fname);
     
             $platform_data = [];
             // dd($form_data);
