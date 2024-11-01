@@ -127,4 +127,8 @@ class ApiService{
     public function get_student_with_matric($matric){
         return Http::get(Helpers::instance()->getApiRoot()."/get_student_with_matric", ['matric'=>$matric])->collect();
     }
+
+    public function export_students($data){
+        return Http::post(Helpers::instance()->getApiRoot()."/portal_import_students", ['data'=>$data])->collect();
+    }
 }

@@ -210,6 +210,8 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
         Route::get('switch', [CustomApplicationController::class, 'switch_program'])->name('switch');
         Route::post('switch', [CustomApplicationController::class, 'switch_generate_matricule']);
         Route::post('switch_confirmed', [CustomApplicationController::class, 'switch_confirmed'])->name('switch_confirmed');
+        Route::get('importadmit', [CustomApplicationController::class, 'import_admit_students'])->name('import');
+        Route::post('importadmit', [CustomApplicationController::class, 'import_admit_students_save']);
     });
 });
 
