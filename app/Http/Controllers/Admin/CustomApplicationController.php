@@ -181,4 +181,130 @@ class CustomApplicationController extends Controller
         session()->flash('error', "Operation failed. ".$resp??'');
         return redirect(route('admin.custom_applications.index'));
     }
+
+
+
+    // Manage Student Importation
+
+    public function import_admit_students(Request $request){
+        $data['title'] = "Import Students Into Main School System";
+        $data['degrees'] = collect(json_decode($this->api_service->degrees())->data);
+        return view('admin.student.custom_applications.import_students', $data);
+    }
+
+    public function import_admit_students_save(Request $request){
+        // dd($request->all());
+        $validity = Validator::make($request->all(), [
+            'batch'=>'required', 
+            'degree_id'=>'required', 
+            'program_first_choice'=>'required', 
+            'level'=>'required', 
+            'file'=>'file|required|mimes:csv', 
+            'campus_id'=>'required'
+        ]);
+        if ($validity->fails()) {
+            # code...
+            session()->flash('error', $validity->errors()->first());
+            return back()->withInput()->with($validity->errors());
+        }
+
+        try{
+
+            $file = $request->file('file');
+            $fname = 'students_to_import.csv';
+            $path = public_path('uploads/files');
+            $file->storeAs('files', $fname, ['disk'=>'public_uploads']);
+    
+            $fstream = fopen($path.'/'.$fname, 'r');
+            $data = [];
+            $form_data = [];
+            $errors = '';
+            $program = json_decode($this->api_service->programs($request->program_first_choice))->data;
+            while(($row = fgetcsv($fstream, 1000, ',')) != null){
+                // student data instance for admission
+                $data[] = collect([
+                    'name'=>$row[0], 
+                    'matric'=>$row[1], 
+                    'gender'=>array_key_exists(2, $row) ? $row[2] : null,
+                    'dob'=>array_key_exists(4, $row) ? $row[4] : null, 
+                    'pob'=>array_key_exists(3, $row) ? $row[3] : null,
+                    'year_id'=>$request->batch??null,
+                    'campus_id'=>$request->campus_id??null, 
+                    'admission_batch_id'=>$request->batch??null,
+                    'fee_payer_name'=>$request->fee_payer_name??null, 
+                    'program_first_choice'=>$request->program_first_choice??null, 
+                    'region'=>$request->region??null,
+                    'fee_payer_tel'=>$request->fee_payer_tel??null, 
+                    'division'=>$request->division??null,
+                    'level'=>$request->level??null
+                ]);
+    
+                // application portal student and application form instances
+                $form_data[$row[1]] = [
+                        'student' => [
+                            'name'=>$row[0],
+                            'email'=>'.',
+                            'phone'=>array_key_exists(5, $row) ? $row[5] : $row[1],
+                            'address'=>'.',
+                            'gender'=>array_key_exists(2, $row) ? $row[2] : '.',
+                            'password'=>Hash::make('12345678'),
+                            'active'=>1
+                        ],
+                        'form' => [
+                            'year_id'=>$request->batch, 
+                            'gender'=>(array_key_exists(2, $row) ? $row[2] : '.'), 
+                            'name'=>$row[0], 
+                            'dob'=>(array_key_exists(4, $row) ? $row[4] : null), 
+                            'pob'=>(array_key_exists(3, $row) ? $row[3] : null), 
+                            'nationality'=>'.', 'region'=>'.', 'division'=>'.', 'residence'=>'.', 'phone'=>'.', 
+                            'email'=>'.', 'program_first_choice'=>$request->program_first_choice??null,
+                            'matric'=>$row[1], 'campus_id'=>$request->campus_id??null, 
+                            'degree_id'=>$program->degree_id, 'transaction_id'=>-10000, 'admitted'=>1,
+                            'level'=>$request->level, 'bypass_reason'=>"imported student record", 'admitted_at'=>now()
+                        ]
+                    ];
+            }
+            fclose($fstream);
+            unlink($path.'/'.$fname);
+    
+            $platform_data = [];
+            // dd($form_data);
+            if(count($data) > 0){
+                try {
+                    $response = $this->api_service->export_students($data);
+                    $matrics = array_values((array)optional($response['data']['matrics']));
+                    // dd($matrics);
+                    if($matrics != null){
+                        foreach ($matrics[0] as $value) {
+                            // dd($value);
+                            // dd($record = $form_data[$value]);
+                            if(($record = $form_data[$value]) != null){
+                                if(($stud = Students::where(['name'=>$record['student']['name'], 'phone'=>$record['student']['phone']])->first()) == null)
+                                    $stud = Students::create(['name'=>$record['student']['name'], 'phone'=>$record['student']['phone']], $record['student']);
+                                $form = $record['form'];
+                                $form['student_id'] = $stud->id;
+                                if(($aplf = ApplicationForm::where(['matric'=>$form['matric'], 'student_id'=>$form['student_id'], 'year_id'=>$form['year_id'], 'name'=>$form['name']])->first()) == null)
+                                    $aplf = ApplicationForm::create($form);
+                                else
+                                    $aplf->update($form);
+                                $platform_data[] = ['student'=>$stud, 'form'=>$aplf];
+                            }
+                        }
+                    }
+                    //code...
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    $errors .= $th->getMessage();
+                }
+            }
+            // dd($platform_data);
+            if(strlen($errors) > 0){
+                session()->flash('error', $errors);
+            }
+            return back()->with('success', "Done");
+        }catch(\Throwable $th){
+            session()->flash('error', $th->getMessage());
+            return back();
+        }
+    }
 }

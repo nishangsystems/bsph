@@ -20,22 +20,24 @@
                         <tr class="border-top border-bottom">
                             <td>
                                 <table>
-                                    <tr>
-                                        <td class="text-capitalize fw-bold h4 col-sm-4">{{__('text.word_name')}} :</td>
-                                        <td class="col-sm-8 h4 text-uppercase fw-bolder">{{$user->name}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-capitalize fw-bold h4 col-sm-4">{{__('text.word_program')}} :</td>
-                                        <td class="col-sm-8 h4 text-uppercase fw-bolder">{{$class->program->name}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-capitalize fw-bold h4 col-sm-4">{{__('text.word_matricule')}} :</td>
-                                        <td class="col-sm-8 h4 text-uppercase fw-bolder">{{$user->matric}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-capitalize fw-bold h4 col-sm-4">{{__('text.word_level')}} :</td>
-                                        <td class="col-sm-8 h4 text-uppercase fw-bolder">{{ $class->level->level}}</td>
-                                    </tr>
+                                    <thead style="font-weight: 700; font-size: large;">
+                                        <tr>
+                                            <td class="text-capitalize fw-bold h4 col-sm-4">{{__('text.word_name')}} :</td>
+                                            <td class="col-sm-8 h4 text-uppercase fw-bolder">{{$user->name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-capitalize fw-bold h4 col-sm-4">{{__('text.word_program')}} :</td>
+                                            <td class="col-sm-8 h4 text-uppercase fw-bolder">{{$class->program->name}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-capitalize fw-bold h4 col-sm-4">{{__('text.word_matricule')}} :</td>
+                                            <td class="col-sm-8 h4 text-uppercase fw-bolder">{{$user->matric}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-capitalize fw-bold h4 col-sm-4">{{__('text.word_level')}} :</td>
+                                            <td class="col-sm-8 h4 text-uppercase fw-bolder">{{ $class->level->level}}</td>
+                                        </tr>
+                                    </thead>
                                 </table>
                             </td>
                             <td>
