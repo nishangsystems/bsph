@@ -199,73 +199,113 @@ class CustomApplicationController extends Controller
             'degree_id'=>'required', 
             'program_first_choice'=>'required', 
             'level'=>'required', 
-            'file'=>'file|required|mimes:csv', 
-            'campus_id'=>'required'
+            'campus_id'=>'required',
+            'name'=>'required', 'matric'=>'required',
+            'gender'=>'required'
         ]);
         if ($validity->fails()) {
             # code...
             session()->flash('error', $validity->errors()->first());
-            return back()->withInput()->with($validity->errors());
+            return back()->withInput()->withErrors($validity);
         }
 
         try{
 
-            $file = $request->file('file');
-            $fname = 'students_to_import.csv';
-            $path = public_path('uploads/files');
-            $file->storeAs('files', $fname, ['disk'=>'public_uploads']);
+            // $file = $request->file('file');
+            // $fname = 'students_to_import.csv';
+            // $path = public_path('uploads/files');
+            // $file->storeAs('files', $fname, ['disk'=>'public_uploads']);
     
-            $fstream = fopen($path.'/'.$fname, 'r');
+            // $fstream = fopen($path.'/'.$fname, 'r');
             $data = [];
             $form_data = [];
             $errors = '';
             $program = json_decode($this->api_service->programs($request->program_first_choice))->data;
-            while(($row = fgetcsv($fstream, 1000, ',')) != null){
-                // student data instance for admission
-                $data[] = collect([
-                    'name'=>$row[0], 
-                    'matric'=>$row[1], 
-                    'gender'=>array_key_exists(2, $row) ? $row[2] : null,
-                    'dob'=>array_key_exists(4, $row) ? $row[4] : null, 
-                    'pob'=>array_key_exists(3, $row) ? $row[3] : null,
-                    'year_id'=>$request->batch??null,
-                    'campus_id'=>$request->campus_id??null, 
-                    'admission_batch_id'=>$request->batch??null,
-                    'fee_payer_name'=>$request->fee_payer_name??null, 
-                    'program_first_choice'=>$request->program_first_choice??null, 
-                    'region'=>$request->region??null,
-                    'fee_payer_tel'=>$request->fee_payer_tel??null, 
-                    'division'=>$request->division??null,
-                    'level'=>$request->level??null
-                ]);
+            $data[] = collect([
+                'name'=>$request->name, 
+                'matric'=>$request->matric, 
+                'gender'=>$request->gender,
+                'dob'=>$request->dob, 
+                'pob'=>$request->pob,
+                'year_id'=>$request->batch??null,
+                'campus_id'=>$request->campus_id??null, 
+                'admission_batch_id'=>$request->batch??null,
+                'fee_payer_name'=>$request->fee_payer_name??null, 
+                'program_first_choice'=>$request->program_first_choice??null, 
+                'region'=>$request->region??null,
+                'fee_payer_tel'=>$request->fee_payer_tel??null, 
+                'division'=>$request->division??null,
+                'level'=>$request->level??null
+            ]);
+            $form_data[$request->matric] = [
+                'student' => [
+                    'name'=>$request->name,
+                    'email'=>'.',
+                    'phone'=>$request->phone ?? $request->matric,
+                    'address'=>'.',
+                    'gender'=>$request->gender,
+                    'password'=>Hash::make('12345678'),
+                    'active'=>1
+                ],
+                'form' => [
+                    'year_id'=>$request->batch, 
+                    'gender'=>$request->gender, 
+                    'name'=>$request->name, 
+                    'dob'=>$request->dob, 
+                    'pob'=>$request->pob, 
+                    'nationality'=>'.', 'region'=>'.', 'division'=>'.', 'residence'=>'.', 'phone'=>'.', 
+                    'email'=>'.', 'program_first_choice'=>$request->program_first_choice??null,
+                    'matric'=>$request->matric, 'campus_id'=>$request->campus_id??null, 
+                    'degree_id'=>$program->degree_id, 'transaction_id'=>-10000, 'admitted'=>1,
+                    'level'=>$request->level, 'bypass_reason'=>"imported student record", 'admitted_at'=>now()
+                ]
+            ];
+            // while(($row = fgetcsv($fstream, 1000, ',')) != null){
+            //     // student data instance for admission
+            //     $data[] = collect([
+            //         'name'=>$row[0], 
+            //         'matric'=>$row[1], 
+            //         'gender'=>array_key_exists(2, $row) ? $row[2] : null,
+            //         'dob'=>array_key_exists(4, $row) ? $row[4] : null, 
+            //         'pob'=>array_key_exists(3, $row) ? $row[3] : null,
+            //         'year_id'=>$request->batch??null,
+            //         'campus_id'=>$request->campus_id??null, 
+            //         'admission_batch_id'=>$request->batch??null,
+            //         'fee_payer_name'=>$request->fee_payer_name??null, 
+            //         'program_first_choice'=>$request->program_first_choice??null, 
+            //         'region'=>$request->region??null,
+            //         'fee_payer_tel'=>$request->fee_payer_tel??null, 
+            //         'division'=>$request->division??null,
+            //         'level'=>$request->level??null
+            //     ]);
     
-                // application portal student and application form instances
-                $form_data[$row[1]] = [
-                        'student' => [
-                            'name'=>$row[0],
-                            'email'=>'.',
-                            'phone'=>array_key_exists(5, $row) ? $row[5] : $row[1],
-                            'address'=>'.',
-                            'gender'=>array_key_exists(2, $row) ? $row[2] : '.',
-                            'password'=>Hash::make('12345678'),
-                            'active'=>1
-                        ],
-                        'form' => [
-                            'year_id'=>$request->batch, 
-                            'gender'=>(array_key_exists(2, $row) ? $row[2] : '.'), 
-                            'name'=>$row[0], 
-                            'dob'=>(array_key_exists(4, $row) ? $row[4] : null), 
-                            'pob'=>(array_key_exists(3, $row) ? $row[3] : null), 
-                            'nationality'=>'.', 'region'=>'.', 'division'=>'.', 'residence'=>'.', 'phone'=>'.', 
-                            'email'=>'.', 'program_first_choice'=>$request->program_first_choice??null,
-                            'matric'=>$row[1], 'campus_id'=>$request->campus_id??null, 
-                            'degree_id'=>$program->degree_id, 'transaction_id'=>-10000, 'admitted'=>1,
-                            'level'=>$request->level, 'bypass_reason'=>"imported student record", 'admitted_at'=>now()
-                        ]
-                    ];
-            }
-            fclose($fstream);
-            unlink($path.'/'.$fname);
+            //     // application portal student and application form instances
+            //     $form_data[$row[1]] = [
+            //             'student' => [
+            //                 'name'=>$row[0],
+            //                 'email'=>'.',
+            //                 'phone'=>array_key_exists(5, $row) ? $row[5] : $row[1],
+            //                 'address'=>'.',
+            //                 'gender'=>array_key_exists(2, $row) ? $row[2] : '.',
+            //                 'password'=>Hash::make('12345678'),
+            //                 'active'=>1
+            //             ],
+            //             'form' => [
+            //                 'year_id'=>$request->batch, 
+            //                 'gender'=>(array_key_exists(2, $row) ? $row[2] : '.'), 
+            //                 'name'=>$row[0], 
+            //                 'dob'=>(array_key_exists(4, $row) ? $row[4] : null), 
+            //                 'pob'=>(array_key_exists(3, $row) ? $row[3] : null), 
+            //                 'nationality'=>'.', 'region'=>'.', 'division'=>'.', 'residence'=>'.', 'phone'=>'.', 
+            //                 'email'=>'.', 'program_first_choice'=>$request->program_first_choice??null,
+            //                 'matric'=>$row[1], 'campus_id'=>$request->campus_id??null, 
+            //                 'degree_id'=>$program->degree_id, 'transaction_id'=>-10000, 'admitted'=>1,
+            //                 'level'=>$request->level, 'bypass_reason'=>"imported student record", 'admitted_at'=>now()
+            //             ]
+            //         ];
+            // }
+            // fclose($fstream);
+            // unlink($path.'/'.$fname);
     
             $platform_data = [];
             // dd($form_data);
