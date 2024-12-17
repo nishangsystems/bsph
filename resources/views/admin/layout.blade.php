@@ -345,6 +345,14 @@
                         <b class="arrow"></b>
                     </li>
                     <li>
+                        <a href="{{route('admin.applications.admitted_students')}}" class="text-capitalize">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            {{__('text.admitted_students')}}
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    <li>
                         <a href="{{route('admin.applications.uncompleted')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
                             {{__('text.word_uncompleted')}}

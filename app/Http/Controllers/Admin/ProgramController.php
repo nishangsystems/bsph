@@ -1669,4 +1669,24 @@ class ProgramController extends Controller
         // dd($data['reports']);
         return view('admin.student.program_change_report', $data);
     }
+
+    public function admitted_students(Request $request){
+        
+        $batch = Batch::find(Helpers::instance()->getCurrentAccademicYear());
+        $programs = collect(json_decode($this->api_service->programs())->data);
+        $data['title'] = "Admitted Students For {$batch->name} Accademic Year";
+        $program_ids = ApplicationForm::where('year_id', $batch->id)->where('admitted', 1)->distinct()->pluck('program_first_choice')->toArray();
+        $data['programs'] = $programs->filter(function($prog)use($program_ids){
+            return in_array($prog->id, $program_ids);
+        })->sortBy('name');
+        if($request->program != null){
+            $program = $programs->where('id', $request->program)->first();
+            $data['program'] = $program;
+            $data['title'] = ($program != null ? $program->name : '')." Admitted Students For {$batch->name} Accademic Year";
+            $data['students'] = ApplicationForm::where('year_id', $batch->id)->where('admitted', 1)->select(['name', 'dob', 'pob', 'phone', 'program_first_choice'])->distinct()->get();
+        }
+        // dd($data);
+        return view('admin.student.admitted', $data);
+
+    }
 }
