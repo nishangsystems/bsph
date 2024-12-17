@@ -1683,7 +1683,7 @@ class ProgramController extends Controller
             $program = $programs->where('id', $request->program)->first();
             $data['program'] = $program;
             $data['title'] = ($program != null ? $program->name : '')." Admitted Students For {$batch->name} Accademic Year";
-            $data['students'] = ApplicationForm::where('year_id', $batch->id)->where('admitted', 1)->select(['name', 'dob', 'pob', 'phone', 'program_first_choice'])->distinct()->get();
+            $data['students'] = ApplicationForm::where('year_id', $batch->id)->where('program_first_choice', $request->program)->where('admitted', 1)->select(['name', 'dob', 'pob', 'phone', 'program_first_choice'])->distinct()->get();
         }
         // dd($data);
         return view('admin.student.admitted', $data);
