@@ -41,7 +41,7 @@
                                 <tr>
                                     <td class="border-right">{{$counter++}}</td>
                                     <td class="border-right">{{$stud->name}}</td>
-                                    <td class="border-right">{{isset($stud->dob) ? $stud->dob->format('Y-m-d') : ''}}</td>
+                                    <td class="border-right">{{isset($stud->dob) ? $stud->dob->format('d/m/Y') : ''}}</td>
                                     <td class="border-right">{{$stud->pob}}</td>
                                     <td class="border-right">{{$stud->phone}}</td>
                                     <td class="border-right">{{$program->name}}</td>
