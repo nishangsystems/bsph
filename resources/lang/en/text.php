@@ -1094,5 +1094,6 @@ return [
     'switch_program'=>'switch program',
     'program_switch'=>'program switch',
     'confirm_program_switching'=>'confirm program switching',
+    'admitted_students'=>'admitted students',
     ''
 ]; 
