@@ -21,11 +21,12 @@
                 <table class="table table-stripped">
                     <thead class="text-capitalize text-dark">
                         <tr>
-                            <th colspan="6"><b class="h4 text-uppercase">{{$title??''}}</b></th>
+                            <th colspan="7"><b class="h4 text-uppercase">{{$title??''}}</b></th>
                         </tr>
                         <tr class="border-top border-bottom">
                             <th>@lang('text.sn')</th>
                             <th>@lang('text.word_name')</th>
+                            <th>@lang('text.word_matricule')</th>
                             <th>@lang('text.date_of_birth')</th>
                             <th>@lang('text.place_of_birth')</th>
                             <th>@lang('text.phone_number')</th>
@@ -41,6 +42,7 @@
                                 <tr>
                                     <td class="border-right">{{$counter++}}</td>
                                     <td class="border-right">{{$stud->name}}</td>
+                                    <td class="border-right">{{$stud->matric}}</td>
                                     <td class="border-right">{{isset($stud->dob) ? $stud->dob->format('d/m/Y') : ''}}</td>
                                     <td class="border-right">{{$stud->pob}}</td>
                                     <td class="border-right">{{$stud->phone}}</td>
