@@ -1377,6 +1377,15 @@ class ProgramController extends Controller
                 NEXT_MATRIC:
                 $next_count = substr('000'.(++$max_count), -3);
                 $suffix = $suffix.$request->foreigner??'';
+                $pref = $prefix.$year.$suffix;
+                $last_portal_matric = ApplicationForm::where('matric', 'like', "%{$pref}%")->orderBy('matric', 'DESC')->first();
+                if($last_portal_matric != null and $last_portal_matric->matric != null){
+                    $count = substr($last_portal_matric->matric, -3);
+                    if(intVal($count??0) > $next_count){
+                        $max_count = $count;
+                        goto NEXT_MATRIC;
+                    }
+                }
                 $student_matric = $prefix.$year.$suffix.$next_count;
                 // dd($student_matric);
                 
@@ -1406,7 +1415,6 @@ class ProgramController extends Controller
         $validity = Validator::make($request->all(), ['matric'=>'required', 'level'=>'required', 'program_id'=>'required', 'degree_id'=>'required']);
         if($validity->fails()){return back()->with('error', $validity->errors()->first());}
         $application = ApplicationForm::find($id);
-        
         
         
         // POST STUDENT TO SCHOOL SYSTEM
