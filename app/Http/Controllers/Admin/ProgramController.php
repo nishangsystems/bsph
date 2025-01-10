@@ -1375,7 +1375,7 @@ class ProgramController extends Controller
                     $max_count = intval(substr($max_matric, -3));
                 }
                 NEXT_MATRIC:
-                $max_count++;
+                // $max_count++;
                 $next_count = substr("000{$max_count}", -3);
                 $suffix = $suffix.$request->foreigner??'';
                 $pref = $prefix.$year.$suffix;
