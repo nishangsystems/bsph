@@ -1385,7 +1385,7 @@ class ProgramController extends Controller
                     $count = substr($last_portal_matric->matric, -3);
                     session()->flash('message', "max-count-{$max_count}: system-{$next_count}: portal-{$count}");
                     if(intVal($count??0) >= $next_count){
-                        $max_count = $count;
+                        $max_count = $count++;
                         goto NEXT_MATRIC;
                     }
                 }
