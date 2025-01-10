@@ -32,7 +32,7 @@ class ApiService{
     }
 
     // Store/update admitted student
-    public function update_student($matric, $update){ dd($update); return Http::contentType('application/json')->get(Helpers::instance()->getApiRoot().'/'.config('api_routes.update_student') .'?matric='.json_encode($matric).'&student='.json_encode($update) )->body();
+    public function update_student($matric, $update){ return Http::contentType('application/json')->get(Helpers::instance()->getApiRoot().'/'.config('api_routes.update_student') .'?matric='.json_encode($matric).'&student='.json_encode($update) )->body();
     }
 
     // get campuses
