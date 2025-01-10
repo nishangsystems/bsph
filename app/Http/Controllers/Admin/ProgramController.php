@@ -1374,21 +1374,21 @@ class ProgramController extends Controller
                 }else{
                     $max_count = intval(substr($max_matric, -3));
                 }
-                NEXT_MATRIC:
-                // $max_count++;
-                $next_count = substr("000{($max_count+1)}", -3);
-                $suffix = $suffix.$request->foreigner??'';
+
                 $pref = $prefix.$year.$suffix;
-                
                 $last_portal_matric = ApplicationForm::where('matric', 'like', "%{$pref}%")->orderBy('matric', 'DESC')->first();
                 if($last_portal_matric != null and $last_portal_matric->matric != null){
-                    $count = substr($last_portal_matric->matric, -3);
-                    session()->flash('message', "max-count-{$max_count}: system-{$next_count}: portal-{$count}");
-                    if(intVal($count??0) >= $next_count){
+                    $count = intVal(substr($last_portal_matric->matric, -3));
+                    if($count > $max_count){
                         $max_count = $count;
-                        goto NEXT_MATRIC;
                     }
                 }
+                NEXT_MATRIC:
+                $max_count++;
+                $next_count = substr("000{$max_count}", -3);
+                $suffix = $suffix.$request->foreigner??'';
+                
+                
                 $student_matric = $prefix.$year.$suffix.$next_count;
                 // dd($student_matric);
                 
@@ -1401,7 +1401,6 @@ class ProgramController extends Controller
                     $data['campus'] = collect(json_decode($this->api_service->campuses())->data)->where('id', $application->campus_id)->first();
                     return view('admin.student.confirm_change_program', $data);
                 }else{
-                    $max_count++;
                     goto NEXT_MATRIC;
                     $student = ApplicationForm::where('matric', $student_matric)->first();
                     return back()->with('error', "Student With name ".($student->name??'').". already has matricule {$student_matric} on this application portal.");
