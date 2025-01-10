@@ -1375,7 +1375,8 @@ class ProgramController extends Controller
                     $max_count = intval(substr($max_matric, -3));
                 }
                 NEXT_MATRIC:
-                $next_count = substr('000'.(++$max_count), -3);
+                $max_count++;
+                $next_count = substr("000{$max_count}", -3);
                 $suffix = $suffix.$request->foreigner??'';
                 $pref = $prefix.$year.$suffix;
                 
@@ -1383,7 +1384,7 @@ class ProgramController extends Controller
                 if($last_portal_matric != null and $last_portal_matric->matric != null){
                     $count = substr($last_portal_matric->matric, -3);
                     session()->flash('message', "max-count-{$max_count}: system-{$next_count}: portal-{$count}");
-                    if(intVal($count??0) > $next_count){
+                    if(intVal($count??0) >= $next_count){
                         $max_count = $count;
                         goto NEXT_MATRIC;
                     }
