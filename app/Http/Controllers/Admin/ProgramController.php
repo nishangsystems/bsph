@@ -1376,7 +1376,7 @@ class ProgramController extends Controller
                 }
                 NEXT_MATRIC:
                 // $max_count++;
-                $next_count = substr("000{$max_count}", -3);
+                $next_count = substr("000{($max_count+1)}", -3);
                 $suffix = $suffix.$request->foreigner??'';
                 $pref = $prefix.$year.$suffix;
                 
@@ -1385,7 +1385,7 @@ class ProgramController extends Controller
                     $count = substr($last_portal_matric->matric, -3);
                     session()->flash('message', "max-count-{$max_count}: system-{$next_count}: portal-{$count}");
                     if(intVal($count??0) >= $next_count){
-                        $max_count = $count++;
+                        $max_count = $count;
                         goto NEXT_MATRIC;
                     }
                 }
@@ -1401,6 +1401,7 @@ class ProgramController extends Controller
                     $data['campus'] = collect(json_decode($this->api_service->campuses())->data)->where('id', $application->campus_id)->first();
                     return view('admin.student.confirm_change_program', $data);
                 }else{
+                    $max_count++;
                     goto NEXT_MATRIC;
                     $student = ApplicationForm::where('matric', $student_matric)->first();
                     return back()->with('error', "Student With name ".($student->name??'').". already has matricule {$student_matric} on this application portal.");
