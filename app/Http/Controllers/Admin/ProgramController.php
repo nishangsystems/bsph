@@ -1374,7 +1374,7 @@ class ProgramController extends Controller
                 }else{
                     $max_count = intval(substr($max_matric, -3));
                 }
-                session()->flash('message', $max_matric);
+                // session()->flash('message', $max_matric);
                 $pref = $prefix.$year.$suffix;
                 $last_portal_matric = ApplicationForm::where('matric', 'like', "%{$pref}%")->orderBy('matric', 'DESC')->first();
                 if($last_portal_matric != null and $last_portal_matric->matric != null){
