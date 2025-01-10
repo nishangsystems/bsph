@@ -1382,7 +1382,7 @@ class ProgramController extends Controller
                 $last_portal_matric = ApplicationForm::where('matric', 'like', "%{$pref}%")->orderBy('matric', 'DESC')->first();
                 if($last_portal_matric != null and $last_portal_matric->matric != null){
                     $count = substr($last_portal_matric->matric, -3);
-                    session()->flash('message', "system-{$next_count}: portal-{$count}");
+                    session()->flash('message', "max-count-{$max_count}: system-{$next_count}: portal-{$count}");
                     if(intVal($count??0) > $next_count){
                         $max_count = $count;
                         goto NEXT_MATRIC;
