@@ -32,6 +32,8 @@
                     @else
                         <th>{{__('text.word_program')}}</th>
                     @endif
+                    <th>{{__('text.word_males')}}</th>
+                    <th>{{__('text.word_females')}}</th>
                     <th>{{__('text.word_total')}}</th>
                 </thead>
                 <tbody>
@@ -40,6 +42,8 @@
                         <tr class="border-bottom border-dark" style="background-color: rgba(243, 243, 252, 0.4);">
                             <td class="border-left border-right">{{$count++}}</td>
                             <td class="border-left border-right">{{ request('filter') == 'degree' ? $form->degree : $form->program }}</td>
+                            <td class="border-left border-right">{{ $form->male_count??'' }}</td>
+                            <td class="border-left border-right">{{ $form->female_count??'' }}</td>
                             <td class="border-left border-right">{{ $form->_count??'' }}</td>
                         </tr>
                     @endforeach
