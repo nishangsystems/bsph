@@ -28,7 +28,7 @@
                     @php($count = 1)
                     <tr class="shadow-sm">
                         <th class="bg-primary text-white border-right" colspan="2">@lang('text.word_total')</th>
-                        <th class="bg-primary text-white border-right">{{$forms->sum('_count')}}</th>
+                        <th class="bg-primary text-white border-right" colspan="3">{{$forms->sum('_count')}}</th>
                         <th class="bg-primary text-white border-right"></th>
                         <th class="bg-primary text-white border-right">{{$forms->sum('total')}}</th>
                     </tr>
@@ -40,6 +40,8 @@
                             <th  class="bg-info text-white">{{__('text.word_program')}}</th>
                         @endif
                         <th class="bg-info text-white">{{__('text.word_count')}}</th>
+                        <th class="bg-info text-white">{{__('text.word_males')}}</th>
+                        <th class="bg-info text-white">{{__('text.word_females')}}</th>
                         <th class="bg-dark text-white">@lang('text.unit_cost')</th>
                         <th class="bg-dark text-white">@lang('text.total_paid')</th>
                     </tr>
@@ -51,6 +53,8 @@
                             <td class="bg-dark text-white">{{$count++}}</td>
                             <td class="">{{ request('filter') == 'degree' ? $form->degree : $form->program }}</td>
                             <td class="">{{ $form->_count??'' }}</td>
+                            <td class="bg-dark text-white">{{ $form->male_count??'' }}</td>
+                            <td class="bg-dark text-white">{{ $form->female_count??'' }}</td>
                             <td class="bg-dark text-white">{{ $form->amount??'' }}</td>
                             <td class="bg-dark text-white">{{ $form->total??'' }}</td>
                             {{-- <td class="">
