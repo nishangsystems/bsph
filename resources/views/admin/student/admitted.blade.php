@@ -26,6 +26,7 @@
                         <tr class="border-top border-bottom">
                             <th>@lang('text.sn')</th>
                             <th>@lang('text.word_name')</th>
+                            <th>@lang('text.word_gender')</th>
                             <th>@lang('text.word_matricule')</th>
                             <th>@lang('text.date_of_birth')</th>
                             <th>@lang('text.place_of_birth')</th>
@@ -42,6 +43,7 @@
                                 <tr>
                                     <td class="border-right">{{$counter++}}</td>
                                     <td class="border-right">{{$stud->name}}</td>
+                                    <td class="border-right">{{$stud->gender}}</td>
                                     <td class="border-right">{{$stud->matric}}</td>
                                     <td class="border-right">{{isset($stud->dob) ? $stud->dob->format('d/m/Y') : ''}}</td>
                                     <td class="border-right">{{$stud->pob}}</td>
