@@ -47,7 +47,11 @@ class StatisticsController extends Controller
             case 'degree':
                 $data['title'] = "Application Statistics Filtered By Degree";
                 $forms = ApplicationForm::where(['year_id'=>$this->current_year, 'submitted'=> 1])->where('transaction_id', '!=', -10000)->groupBy('degree_id')
-                ->select(['degree_id', DB::raw("COUNT(*) as _count"), DB::raw("SUM(CASE gender WHEN 'male' THEN 1 ELSE 0 END) as male_count"), DB::raw("SUM(CASE gender WHEN 'female' THEN 1 ELSE 0 END) as female_count")])
+                ->select([
+                         'degree_id', DB::raw("COUNT(*) as _count"), 
+                         DB::raw("SUM(CASE WHEN gender LIKE 'm%' THEN 1 ELSE 0 END) as male_count"), 
+                         DB::raw("SUM(CASE WHEN gender LIKE  'f%' THEN 1 ELSE 0 END) as female_count")
+                         ])
                 ->having('_count', '>', 0)->distinct()->get()->each(function($rec)use($degrees){
                     $rec->degree = $degrees->where('id', $rec->degree_id)->first()->deg_name??null;
                     $rec->amount = $degrees->where('id', $rec->degree_id)->first()->amount??null;
