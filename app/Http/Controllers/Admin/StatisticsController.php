@@ -63,7 +63,11 @@ class StatisticsController extends Controller
             default:
                 $data['title'] = "Application Statistics Filtered By Program";
                 $forms = ApplicationForm::where(['year_id'=>$this->current_year, 'submitted'=> 1])->where('transaction_id', '!=', -10000)->groupBy('program_first_choice')
-                    ->select(['program_first_choice', DB::raw("COUNT(*) as _count"), DB::raw("SUM(CASE gender WHEN 'male' THEN 1 ELSE 0 END) as male_count"), DB::raw("SUM(CASE gender WHEN 'female' THEN 1 ELSE 0 END) as female_count")])
+                    ->select([
+                             'program_first_choice', DB::raw("COUNT(*) as _count"), 
+                             DB::raw("SUM(CASE WHEN gender LIKE 'm%' THEN 1 ELSE 0 END) as male_count"), 
+                             DB::raw("SUM(CASE WHEN gender LIKE  'f%' THEN 1 ELSE 0 END) as female_count")
+                             ])
                     ->having('_count', '>', 0)->distinct()->get()->each(function($rec)use($programs, $degrees){
                         $program = $programs->where('id', $rec->program_first_choice)->first();
                         $degree = $degrees->where('id', optional($program)->degree_id??null)->first();
@@ -91,7 +95,11 @@ class StatisticsController extends Controller
             case 'degree':
                 $data['title'] = "Admission Statistics Filtered By Degree";
                 $forms = ApplicationForm::where(['year_id'=>$this->current_year, 'submitted'=> 1, 'admitted'=>1])->where('transaction_id', '!=', -10000)->whereNotNull('matric')->groupBy('degree_id')
-                ->select(['degree_id', DB::raw("COUNT(*) as _count"), DB::raw("SUM(CASE gender WHEN 'male' THEN 1 ELSE 0 END) as male_count"), DB::raw("SUM(CASE gender WHEN 'female' THEN 1 ELSE 0 END) as female_count")])
+                ->select([
+                         'degree_id', DB::raw("COUNT(*) as _count"), 
+                         DB::raw("SUM(CASE WHEN gender LIKE 'm%' THEN 1 ELSE 0 END) as male_count"), 
+                         DB::raw("SUM(CASE WHEN gender LIKE  'f%' THEN 1 ELSE 0 END) as female_count")
+                         ])
                 ->having('_count', '>', 0)->distinct()->get()->each(function($rec)use($degrees){
                     $rec->degree = $degrees->where('id', $rec->degree_id)->first()->deg_name??null;
                 });
@@ -101,7 +109,11 @@ class StatisticsController extends Controller
                 default:
                 $data['title'] = "Admission Statistics Filtered By Program";
                 $forms = ApplicationForm::where(['year_id'=>$this->current_year, 'submitted'=> 1, 'admitted'=>1])->where('transaction_id', '!=', -10000)->whereNotNull('matric')->groupBy('program_first_choice')
-                    ->select(['program_first_choice', DB::raw("COUNT(*) as _count"), DB::raw("SUM(CASE gender WHEN 'male' THEN 1 ELSE 0 END) as male_count"), DB::raw("SUM(CASE gender WHEN 'female' THEN 1 ELSE 0 END) as female_count")])
+                    ->select([
+                             'program_first_choice', DB::raw("COUNT(*) as _count"), 
+                             DB::raw("SUM(CASE WHEN gender LIKE 'm%' THEN 1 ELSE 0 END) as male_count"), 
+                             DB::raw("SUM(CASE WHEN gender LIKE  'f%' THEN 1 ELSE 0 END) as female_count")
+                             ])
                     ->having('_count', '>', 0)->distinct()->get()->each(function($rec)use($programs){
                         $rec->program = $programs->where('id', $rec->program_first_choice)->first()->name??null;
                     });
