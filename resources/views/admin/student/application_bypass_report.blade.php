@@ -1,9 +1,9 @@
 @extends('admin.layout')
 @section('section')
     @php
-        $campuses = collect(json_decode($_this->api_service->campuses())->data);
-        $degrees = collect(json_decode($_this->api_service->degrees())->data);
-        $programs = collect(json_decode($_this->api_service->programs())->data);
+        $campuses = collect(optional(json_decode($_this->api_service->campuses()))->data??[]);
+        $degrees = collect(optional(json_decode($_this->api_service->degrees()))->data??[]);
+        $programs = collect(optional(json_decode($_this->api_service->programs()))->data??[]);
     @endphp
     <div class="py-3">
         <div class="py-2">

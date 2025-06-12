@@ -1076,8 +1076,8 @@ return [
     'appliable_programs'=>'appliable programs',
     'application_statistics'=>'application statistics',
     'admission_statistics'=>'admission statistics',
-    'application_bypass'=>'application bypass',
-    'start_of_lectures'=>'Start of lectures',
+    // 'application_bypass'=>'application bypass',
+    // 'start_of_lectures'=>'Start of lectures',
     'admission_date'=>'admission date',
     'current_program'=>'current program',
     'new_program'=>'new program',
@@ -1095,5 +1095,9 @@ return [
     'program_switch'=>'program switch',
     'confirm_program_switching'=>'confirm program switching',
     'admitted_students'=>'admitted students',
+    'summary_report'=>'summary report',
+    'number_of_payments'=>'No of Payments',
+    'number_of_bypasses'=>'number of bypasses',
+    'grand_total'=>'grand total',
     ''
 ]; 

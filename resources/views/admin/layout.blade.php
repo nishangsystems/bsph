@@ -501,6 +501,14 @@
 
                                 <b class="arrow"></b>
                             </li>
+                            <li>
+                                <a href="{{route('admin.applications.finance.summary')}}" class="text-capitalize">
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    @lang('text.summary_report')
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
                         </ul>
                     </li>
                     <li>

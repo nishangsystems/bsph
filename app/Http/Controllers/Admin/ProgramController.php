@@ -1564,9 +1564,23 @@ class ProgramController extends Controller
     public function finance_general_report(Request $request)
     {
         # code...
+        $year_id = $request->year_id != null ? $request->year_id : $this->current_year;
         $data['title'] = "General Financial Reports";
-        $data['appls'] = ApplicationForm::whereNotNull('transaction_id')->get();
+        $data['appls'] = ApplicationForm::whereNotNull('transaction_id')->where('year_id', $year_id)->get();
         return view('admin.student.finance_general', $data);
+    }
+
+    public function finance_summary_report(Request $request){
+        $year_id = $request->year_id != null ? $request->year_id : $this->current_year;
+        $school_structure = $this->api_service->school_program_structure();
+        $data['school_structure'] = collect($school_structure->first());
+        $data['applications'] = ApplicationForm::whereNotNull('transaction_id')->where('year_id', $year_id)
+            ->get()
+            ->each(function($rec){
+                $rec->amount = optional($rec->transaction)->amount??0;
+            });
+        $data['title'] = "Summary Financial Report";
+        return view('admin.student.finance_summary', $data);
     }
 
     private function sendAdmissionEmails($name, $email, $matric, $program, $campus, $fee1_dateline, $fee2_dateline, $director_name, $dean_name, $help_email, $file, $degree){
