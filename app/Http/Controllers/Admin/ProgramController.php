@@ -1053,6 +1053,7 @@ class ProgramController extends Controller
 
         # code...
         // return $this->api_service->campuses();
+        $data['programs'] = collect(json_decode($this->api_service->programs())->data);
         $data['campuses'] = json_decode($this->api_service->campuses())->data;
         $data['application'] = ApplicationForm::find($id);
 
@@ -1110,6 +1111,8 @@ class ProgramController extends Controller
         }
 
         // return $this->api_service->campuses();
+        $data['programs'] = collect(json_decode($this->api_service->programs())->data);
+
         $data['campuses'] = json_decode($this->api_service->campuses())->data;
         $data['application'] = ApplicationForm::find($id);
 
@@ -1129,8 +1132,10 @@ class ProgramController extends Controller
         if($data['application']->program_first_choice != null){
             $data['program1'] = collect($data['programs'])->where('id', $data['application']->program_first_choice)->first();
             $data['program2'] = collect($data['programs'])->where('id', $data['application']->program_second_choice)->first();
+            $data['program3'] = collect($data['programs'])->where('id', $data['application']->program_third_choice)->first();
             // return $data;
-        }
+        }                       
+
         
         $data['title'] = "INCOMPLETE APPLICATION FORM ".( array_key_exists('degree', $data) ? "FOR ".$data['degree']->deg_name : null);
         return view('admin.student.show_form', $data);
@@ -1314,6 +1319,8 @@ class ProgramController extends Controller
         }
 
         // return $this->api_service->campuses();
+        $data['programs'] = collect(json_decode($this->api_service->programs())->data);
+
         $data['campuses'] = json_decode($this->api_service->campuses())->data;
         $data['application'] = ApplicationForm::find($id);
 

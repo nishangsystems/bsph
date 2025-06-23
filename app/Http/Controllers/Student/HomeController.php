@@ -176,6 +176,7 @@ class HomeController extends Controller
                 return redirect(route('student.home'))->with('error', 'Application closed for '.Batch::find(Config::all()->last()->year_id)->name);
             }
             
+            
             # code...
             // return $this->api_service->campuses();
             $data['campuses'] = json_decode($this->api_service->campuses())->data;
@@ -216,6 +217,7 @@ class HomeController extends Controller
             if($data['application']->program_first_choice != null){
                 $data['program1'] = collect($data['programs'])->where('id', $data['application']->program_first_choice)->first();
                 $data['program2'] = collect($data['programs'])->where('id', $data['application']->program_second_choice)->first();
+                $data['program3'] = collect($data['programs'])->where('id', $data['application']->program_third_choice)->first();
                 // return $data;
             }
 
@@ -265,10 +267,14 @@ class HomeController extends Controller
             case 2:
                 # code...
                 $validity = Validator::make($request->all(), [
-                    "name"=>'required',"gender"=> "required","dob"=> "required", "pob"=> "required", 
-                    "nationality"=> "required", "residence"=> "required", "phone"=> "required", 
-                    'division'=>'required', 'emergency_tel'=>'required', 
-                    "entry_qualification"=> "required", 'region'=>'required', 
+                    "first_name"=>'required', "other_names"=>'required', "gender"=> "required",
+                    "dob"=> "required", "pob"=> "required", "nationality"=> "required", 
+                    "residence"=> "required", "phone"=> "required", 'email'=>'required|email', 
+                    'division'=>'required', 'region'=>'required', 'marital_status'=>'required', 
+                    'id_number'=>'required', 'id_place_of_issue'=>'required', 'id_date_of_issue'=>'required', 
+                    'id_expiry_date'=>'required', 'disability'=>'nullable', 'health_condition'=>'nullable', 
+                    'emergency_address'=>'required', 'emergency_tel'=>'required', 'emergency_name'=>'required', 
+                    'emergency_email'=>'required|email', 'emergency_personality'=>'required'
                 ]);
                 break;
                 
@@ -277,33 +283,16 @@ class HomeController extends Controller
                 
                 $validity = Validator::make($request->all(), [
                     'program_first_choice'=>'required', 'program_second_choice'=>'required',
-                    'level'=>'required'
+                    'level'=>'required', 
                 ]);
                 break;
             
-            case 4:
-                # code...
-                
-                $validity = Validator::make($request->all(), [
-                    'previous_training'=>'array'
-                ]);
-                break;
-                
-            case 4.5:
-                
-                
-                $validity = Validator::make($request->all(), [
-                    'ol_center_number'=>'required', 'ol_candidate_number'=>'required', 
-                    'ol_year'=>'required'
-                ]);
-                break;
 
             case 5:
                 
                 
                 $validity = Validator::make($request->all(), [
-                    'al_center_number'=>'required', 'al_candidate_number'=>'required', 
-                    'al_year'=>'required'
+                    'schools_attended'=>'required|array', 
                 ]);
                 break;
                 
@@ -338,47 +327,40 @@ class HomeController extends Controller
                 $phone_number = '237'.$phone_number;
             }
             // dd($phone_number);
-            $message="Application into BIAKA UNIVERSITY INSTITUTE submitted successfully.";
+            $message="Application into Baptist School of Public Health submitted successfully.";
             $sent = $this->sendSMS($phone_number, $message);
             return redirect(route('student.application.form.download', ['id'=>$application_id]));
         }
 
 
+        // dd($request->all());
         if($validity->fails()){
-            return back()->with('error', $validity->errors()->first());
+            session()->flash('error', $validity->errors()->first());
+            return back()->withInput();
         }
 
         // persist data
         $data = [];
         $appl = ApplicationForm::find($application_id);
         $transaction = $appl->transaction;
-        $transaction = $appl->transaction;
         if(($appl->degree_id == null) and ($step != 1)){$step = 1;}
         elseif(($transaction == null and $appl->degree_id != null) and !in_array($step, [1, 7])){$step = 7;}
         elseif(($appl->degree_id != null) and ($transaction != null) and ($transaction->payment_id != $appl->degree_id) and !in_array($step, [1,7])){$step = 7;}
             
         
-        if($step == 4){
+        if($step == 5){
             $data_p1=[];
-            $_data = $request->previous_training;
-            // return $_data;
+            $_data = $request->schools_attended;
+            // dd($_data);
             if($_data != null){
-                foreach ($_data['school'] as $key => $value) {
-                    $data_p1[] = ['school'=>$value, 'year'=>$_data['year'][$key], 'course'=>$_data['course'][$key], 'certificate'=>$_data['certificate'][$key]];
+                foreach ($_data as $key => $value) {
+                    $data_p1[] = ['school'=>$value['school'], 'date_from'=>$value['date_from'], 'date_to'=>$value['date_to'], 'qualification'=>$value['qualification']];
                 }
-                $data['previous_training'] = json_encode($data_p1);
-                // return $data;
+                $data['schools_attended'] = json_encode($data_p1);
+                // dd($data);
             }
-            $data_p2 = [];
-            $e_data = $request->employments;
-            if($e_data != null){
-                foreach ($e_data['employer'] as $key => $value) {
-                    $data_p2[] = ['employer'=>$value, 'post'=>$e_data['post'][$key], 'start'=>$e_data['start'][$key], 'end'=>$e_data['end'][$key], 'type'=>$e_data['type'][$key]];
-                }
-                $data['employments'] = json_encode($data_p2);
-                // return $data;
-            }
-            $data = collect($data)->filter(function($value, $key){return $key != '_token';})->toArray();
+            
+            $data = collect($data)->filter(function($value, $key){return !in_array($key, ['_token', 'first_name', 'other_names']) and $value != null;})->toArray();
             $application = ApplicationForm::updateOrInsert(['id'=> $application_id, 'student_id'=>auth('student')->id()], $data);
         }elseif($step == 7){
             
@@ -452,7 +434,10 @@ class HomeController extends Controller
         }else{
             // dd('check point X3');
             $data = $request->all();
-            $data = collect($data)->filter(function($value, $key){return $key != '_token' and $value != null;})->toArray();
+            if(array_key_exists('first_name', $data)){
+                $data['name'] = $data['first_name']."\\n ".$data['other_names'];
+            }
+            $data = collect($data)->filter(function($value, $key){return !in_array($key, ['_token', 'first_name', 'other_names']) and $value != null;})->toArray();
             $application = ApplicationForm::updateOrInsert(['id'=> $application_id, 'student_id'=>auth('student')->id()], $data);
             // dd('check point X4');
 

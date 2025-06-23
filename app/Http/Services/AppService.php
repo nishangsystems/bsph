@@ -99,6 +99,7 @@ class AppService{
             $data['cert'] = collect($data['certs'])->where('id', $data['application']->entry_qualification)->first();
             $data['program1'] = collect($data['programs'])->where('id', $data['application']->program_first_choice)->first();
             $data['program2'] = collect($data['programs'])->where('id', $data['application']->program_second_choice)->first();
+            $data['program3'] = collect($data['programs'])->where('id', $data['application']->program_third_choice)->first();
             
             // $title = $application->degree??''.' APPLICATION FOR '.$application->campus->name??' --- '.' CAMPUS';
             $title = __('text.inst_tapplication_form', ['degree'=>$data['degree']->deg_name]);
