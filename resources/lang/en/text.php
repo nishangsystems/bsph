@@ -1,6 +1,6 @@
 <?php
 return [
-    'app_name'=>'BIAKA APPLICATION PORTAL',
+    'app_name'=>'BSPH APPLICATION PORTAL',
     'word_username'=>'username',
     'word_password'=>'password',
     'word_login'=>'login',
