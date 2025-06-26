@@ -487,8 +487,8 @@ class HomeController extends Controller
                     # code...
                     // save transaction and update application_form
                     $transaction = ['request_id'=>$transaction_status->requestId, 'amount'=>$transaction_status->amount, 'currency_code'=>$transaction_status->currencyCode, 'purpose'=>"application fee", 'mobile_wallet_number'=>$transaction_status->mobileWalletNumber, 'transaction_ref'=>$transaction_status->mchTransactionRef, 'app_id'=>$transaction_status->appId, 'transaction_time'=>$transaction_status->transactionTime, 'payment_method'=>((object)($transaction_status->payer))->paymentMethod, 'payer_user_id'=>((object)($transaction_status->payer))->userId, 'payer_name'=>((object)($transaction_status->payer))->name, 'payer_account_id'=>((object)($transaction_status->payer))->accountId, 'merchant_fee'=>((object)($transaction_status->merchant))->fee, 'merchant_account_id'=>((object)($transaction_status->merchant))->accountId, 'net_amount_recieved'=>((object)($transaction_status->merchant))->netAmountReceived];
-                    $transaction_instance =  Transaction::updateOrInsert(['transaction_id'=>$transaction_status->transactionId], $transaction);
-                    $transaction_instance = Transaction::where(['transaction_id'=>$transaction_status->transactionId])->first();
+                    $transaction_instance =  \App\Models\TranzakTransaction::updateOrInsert(['transaction_id'=>$transaction_status->transactionId], $transaction);
+                    $transaction_instance = \App\Models\TranzakTransaction::where(['transaction_id'=>$transaction_status->transactionId])->first();
     
                     $appl = ApplicationForm::find($appl_id);
                     $appl->transaction_id = $transaction_instance->id;
