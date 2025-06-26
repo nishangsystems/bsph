@@ -28,14 +28,14 @@ class CustomLoginController extends Controller
         $year = Batch::find(Helpers::instance()->getCurrentAccademicYear());
         if($admission != null){
             if(now()->isBetween($admission->start_date, $admission->end_date)){
-                $data['announcement'] = "Application into BIAKA University Institute open For ".($year->name??'').", From ".$admission->start_date->format('d/m/Y')." to ".$admission->end_date->format('d/m/Y');
+                $data['announcement'] = "Application into BSPH open For ".($year->name??'').", From ".$admission->start_date->format('d/m/Y')." to ".$admission->end_date->format('d/m/Y');
             }elseif(now()->isBefore($admission->start_date)){
-                $data['announcement'] = "Application into BIAKA University Institute opening For ".($year->name??'')." From ".$admission->start_date->format('d/m/Y')." to ".$admission->end_date->format('d/m/Y');
+                $data['announcement'] = "Application into BSPH opening For ".($year->name??'')." From ".$admission->start_date->format('d/m/Y')." to ".$admission->end_date->format('d/m/Y');
             }else{
-                $data['announcement'] = "Application into BIAKA University Institute closed For ".($year->name??'');
+                $data['announcement'] = "Application into BSPH closed For ".($year->name??'');
             }
         }else {
-            $data['announcement'] = "Application into BIAKA University Institute has not been opened For ".($year->name??'');
+            $data['announcement'] = "Application into BSPH has not been opened For ".($year->name??'');
         }
         // dd($data);
         return view('auth.login', $data);
@@ -53,14 +53,14 @@ class CustomLoginController extends Controller
         $year = Batch::find(Helpers::instance()->getCurrentAccademicYear());
         if($admission != null){
             if(now()->isBetween($admission->start_date, $admission->end_date)){
-                $data['announcement'] = "Application into BIAKA University Institute open For ".($year->name??'').", From ".$admission->start_date->format('d/m/Y')." to ".$admission->end_date->format('d/m/Y');
+                $data['announcement'] = "Application into BSPH open For ".($year->name??'').", From ".$admission->start_date->format('d/m/Y')." to ".$admission->end_date->format('d/m/Y');
             }elseif(now()->isBefore($admission->start_date)){
-                $data['announcement'] = "Application into BIAKA University Institute opening For ".($year->name??'')." From ".$admission->start_date->format('d/m/Y')." to ".$admission->end_date->format('d/m/Y');
+                $data['announcement'] = "Application into BSPH opening For ".($year->name??'')." From ".$admission->start_date->format('d/m/Y')." to ".$admission->end_date->format('d/m/Y');
             }else{
-                $data['announcement'] = "Application into BIAKA University Institute closed For ".($year->name??'');
+                $data['announcement'] = "Application into BSPH closed For ".($year->name??'');
             }
         }else {
-            $data['announcement'] = "Application into BIAKA University Institute has not been opened For ".($year->name??'');
+            $data['announcement'] = "Application into BSPH has not been opened For ".($year->name??'');
         }
         // dd($data);
         return view('auth.registration', $data);
@@ -77,14 +77,14 @@ class CustomLoginController extends Controller
                 $year = Batch::find(Helpers::instance()->getCurrentAccademicYear());
                 if($admission != null){
                     if(now()->isBetween($admission->start_date, $admission->end_date)){
-                        $data['announcement'] = "Application into BIAKA University Institute open For ".($year->name??'').", From ".$admission->start_date->format('d/m/Y')." to ".$admission->end_date->format('d/m/Y');
+                        $data['announcement'] = "Application into BSPH open For ".($year->name??'').", From ".$admission->start_date->format('d/m/Y')." to ".$admission->end_date->format('d/m/Y');
                     }elseif(now()->isBefore($admission->start_date)){
-                        $data['announcement'] = "Application into BIAKA University Institute opening For ".($year->name??'')." From ".$admission->start_date->format('d/m/Y')." to ".$admission->end_date->format('d/m/Y');
+                        $data['announcement'] = "Application into BSPH opening For ".($year->name??'')." From ".$admission->start_date->format('d/m/Y')." to ".$admission->end_date->format('d/m/Y');
                     }else{
-                        $data['announcement'] = "Application into BIAKA University Institute closed For ".($year->name??'');
+                        $data['announcement'] = "Application into BSPH closed For ".($year->name??'');
                     }
                 }else {
-                    $data['announcement'] = "Application into BIAKA University Institute has not been opened For ".($year->name??'');
+                    $data['announcement'] = "Application into BSPH has not been opened For ".($year->name??'');
                 }
                 // dd($data);  
                 return view('auth.registration_info',$data);

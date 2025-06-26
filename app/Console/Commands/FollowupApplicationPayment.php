@@ -121,12 +121,12 @@ class FollowupApplicationPayment extends Command
                             $transaction_instance = \App\Models\TranzakTransaction::where(['request_id'=> $response_data['requestId']])->first();
                             
                             Log::info("Debugger: P3");
-                            // Assuming all tranzak transactions in BIAKA university are platform charges payment transactions
+                            // Assuming all tranzak transactions in BSPH university are platform charges payment transactions
                             $data = ['student_id'=>$record->student_id, 'year_id'=>$record->batch_id, 'type'=>'PLATFORM', 'item_id'=>$record->payment_id, 'amount'=>$transaction_instance->amount, 'financialTransactionId'=>$transaction_instance->transaction_id, 'used'=>1];
                             $instance = new \App\Models\Charge($data);
                             $instance->save();
                             $student = \App\Models\Students::find($record->student_id);
-                            $message = "Hello ".($student->name??'').", You have successfully paid a sum of ".($transaction_instance->amount??'')." as ".($record->description??'')." for ".($transaction_instance->year->name??'')." BIAKA UNIVERSITY INSTITUTE.";
+                            $message = "Hello ".($student->name??'').", You have successfully paid a sum of ".($transaction_instance->amount??'')." as ".($record->description??'')." for ".($transaction_instance->year->name??'')." BSPH UNIVERSITY INSTITUTE.";
                             \App\Http\Controllers\Controller::sendSmsNotificaition($message, [$student->phone]);
                         }
                         elseif($response_data['status'] != "PAYMENT_IN_PROGRESS"){

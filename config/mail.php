@@ -85,7 +85,7 @@ return [
 
     // 'from' => [
     //     'address' => env('MAIL_FROM_ADDRESS', 'admission@stlouissystems.org'),
-    //     'name' => env('MAIL_FROM_NAME', 'BIAKA UNIVERSITY INSTITUTE'),
+    //     'name' => env('MAIL_FROM_NAME', 'BSPH UNIVERSITY INSTITUTE'),
     // ],
 
     /*
