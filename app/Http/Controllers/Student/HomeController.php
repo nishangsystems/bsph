@@ -223,11 +223,14 @@ class HomeController extends Controller
 
             // Assuming we are using direct momo payment
             $transaction = $application->transaction;
+            $tranzak_transaction = $application->tranzak_transaction;
             $data['step'] = $step;
-            if(($application->degree_id == null) and ($step != 0)){$data['step'] = 0;}
-            elseif(($transaction == null and $application->degree_id != null) and !in_array($step, [0, 6])){$data['step'] = 6;}
-            elseif(($application->degree_id != null) and ($transaction != null) and ($transaction->payment_id != $application->degree_id) and $step == 1 ){$data['step'] = 6;}
-            elseif(($application->degree_id != null) and ($transaction != null) and ($transaction->payment_id != $application->degree_id) and !in_array($step, [0, 6])){$data['step'] = 0;}
+            if($tranzak_transaction == null){
+                if(($application->degree_id == null) and ($step != 0)){$data['step'] = 0;}
+                elseif(($transaction == null and $application->degree_id != null) and !in_array($step, [0, 6])){$data['step'] = 6;}
+                elseif(($application->degree_id != null) and ($transaction != null) and ($transaction->payment_id != $application->degree_id) and $step == 1 ){$data['step'] = 6;}
+                elseif(($application->degree_id != null) and ($transaction != null) and ($transaction->payment_id != $application->degree_id) and !in_array($step, [0, 6])){$data['step'] = 0;}
+            }
             
             $isMaster = in_array('degree', $data) and stristr($data['degree']->deg_name??"", "master");
             $data['isMaster'] = $isMaster;
@@ -343,11 +346,13 @@ class HomeController extends Controller
         $data = [];
         $appl = ApplicationForm::find($application_id);
         $transaction = $appl->transaction;
-        if(($appl->degree_id == null) and ($step != 1)){$step = 1;}
-        elseif(($transaction == null and $appl->degree_id != null) and !in_array($step, [1, 7])){$step = 7;}
-        elseif(($appl->degree_id != null) and ($transaction != null) and ($transaction->payment_id != $appl->degree_id) and !in_array($step, [1,7])){$step = 7;}
+        $tranzak_transaction = $appl->tranzak_transaction;
+        if($tranzak_transaction == null){
+            if(($appl->degree_id == null) and ($step != 1)){$step = 1;}
+            elseif(($transaction == null and $appl->degree_id != null) and !in_array($step, [1, 7])){$step = 7;}
+            elseif(($appl->degree_id != null) and ($transaction != null) and ($transaction->payment_id != $appl->degree_id) and !in_array($step, [1,7])){$step = 7;}
+        }
             
-        
         if($step == 5){
             $data_p1=[];
             $_data = $request->schools_attended;
