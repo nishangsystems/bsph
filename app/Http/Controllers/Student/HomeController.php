@@ -368,7 +368,7 @@ class HomeController extends Controller
             $batch = \App\Models\Batch::find(Helpers::instance()->getCurrentAccademicYear());
             
             $pay_channel = $batch->pay_channel;
-            if($pay_channel != null){
+            if($pay_channel == null){
                 session()->flash('error', "Payment channel not set");
                 return back();
             }
