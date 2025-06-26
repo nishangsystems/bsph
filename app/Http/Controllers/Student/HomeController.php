@@ -365,7 +365,13 @@ class HomeController extends Controller
         }elseif($step == 7){
             
             // dd('check point');
-            $pay_channel = 'momo';
+            $batch = \App\Models\Batch::find(Helpers::instance()->getCurrentAccademicYear());
+            
+            $pay_channel = $batch->pay_channel;
+            if($pay_channel != null){
+                session()->flash('error', "Payment channel not set");
+                return back();
+            }
             $application = auth('student')->user()->applicationForms()->where('year_id', Helpers::instance()->getCurrentAccademicYear())->first();
             switch($pay_channel){
                 case 'momo':
@@ -379,8 +385,7 @@ class HomeController extends Controller
                         'payment_purpose'=>'APPLICATION FEE', 
                         'tel'=> (strlen($request->momo_number) ==  9 ? '237'.$request->momo_number : $request->momo_number)
                     ];
-                    $response = Http::post(env('PAYMENT_URL', "https://momoapi.buibsystems.org/api/make-payments"), $req_data);
-                    // $response = Http::post(env('PAYMENT_URL'), $req_data);
+                    $response = Http::post(env('PAYMENT_URL'), $req_data);
                     $resp_data = $response->collect();
                     // dd($resp_data);
                     if($resp_data->count() > 0 and $resp_data->first() != null){
