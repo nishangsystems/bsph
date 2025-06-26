@@ -6,6 +6,8 @@
                 <tr style="border-bottom: 0.3rem double green; padding-bottom: 1rem;">
                     <th colspan="6"></th>
                 </tr>
+            </thead>
+            <tbody>
                 <tr>
                     <th class="text-capitalize text-center py-2"></th>
                     <th colspan="4" class="text-capitalize text-center">
@@ -26,8 +28,6 @@
                         </div>
                     </th>
                 </tr>
-            </thead>
-            <tbody>
                 <tr>
                     <td colspan="6" class="pb-2 pt-5" style="text-decoration: underline; text-transform: uppercase; font-size: larger;">1. @lang('text.applicant_details') (Must be filled **)</td>
                 </tr>
