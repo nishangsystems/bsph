@@ -304,11 +304,11 @@ $em_key = time().random_int(3000, 3099);
 
                         <div class="py-2 col-sm-6 col-md-3 col-xl-2">
                             <div class="">
-                                <select class="form-control text-primary" required onchange="set_payment_channel(this)" id="">
+                                <select class="form-control text-primary" required onchange="set_payment_channel(this)" id="" @if(in_array($application->payment_method, ['CBCHS', 'BANK', 'BURSARY'])) disabled @endif>
                                     <option value=""></option>
-                                    <option value="CBCHS Station" data-action="" {{ old('fee_payment_channel', $application->fee_payment_channel??'') == "CBCHS Station" ? 'selected' : '' }}>CBCHS Station</option>
-                                    <option value="Bank payment" data-action="" {{ old('fee_payment_channel', $application->fee_payment_channel??'') == "Bank payment" ? 'selected' : '' }}>Bank payment</option>
-                                    <option value="School Bursary" data-action="" {{ old('fee_payment_channel', $application->fee_payment_channel??'') == "School Bursary" ? 'selected' : '' }}>School Bursary</option>
+                                    <option value="CBCHS Station" data-action="" {{ $application->payment_method == "CBCHS" ? 'selected' : '' }}>CBCHS Station</option>
+                                    <option value="Bank payment" data-action="" {{ $application->payment_method == "BANK" ? 'selected' : '' }}>Bank payment</option>
+                                    <option value="School Bursary" data-action="" {{ $application->payment_method == "BURSARY" ? 'selected' : '' }}>School Bursary</option>
                                     <option value="Others" data-action="specify">Others? (Specify)</option>
                                 </select>
                             </div>
