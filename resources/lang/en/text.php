@@ -1129,5 +1129,6 @@ return [
     'applicant_personal_details'=>'applicant personal details',
     'word_mobile'=>'mobile',
     'program_details'=>'program details',
+    'change_payment_method'=>'change payment method',
     ''
 ]; 

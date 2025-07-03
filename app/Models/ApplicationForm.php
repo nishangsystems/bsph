@@ -24,7 +24,8 @@ class ApplicationForm extends Model
         'id_date_of_issue', 'id_expiry_date', 'id_place_of_issue', 'disability',
         'emergency_name', 'emergency_address', 'emergency_tel', 'emergency_email', 
         'fee_payment_channel', 'emergency_personality', 'previous_training', 'level', 
-        'marital_status', 'bypass_reason', 'admitted_at', 'info_source', 'info_source_identity'
+        'marital_status', 'bypass_reason', 'admitted_at', 'info_source', 'info_source_identity',
+        'payment_method',
     ];
 
     public function firstName(){

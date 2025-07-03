@@ -50,6 +50,9 @@ $em_key = time().random_int(3000, 3099);
                 <form enctype="multipart/form-data" id="application_form" method="post" action="{{ route('student.application.start', [2, $application->id]) }}">
                     @csrf
                     <div class="py-2 row border-top border-x">
+                        <div style="display: flex; justify-content: end; padding-block: 0.3rem; padding-inline: 0.7rem;" class="col-12">
+                            <a href="{{ route('student.application.start', ['id'=>$application->id, 'step'=>6]) }}" class="btn btn-danger px-4 text-capitalize">@lang('text.change_payment_method')</a>
+                        </div>
                         <h4 class="py-3 border-bottom border-top bg-white text-primary my-4 text-uppercase col-sm-12 col-md-12 col-lg-12" style="font-weight:800;">{{ __('text.word_stage') }} 1: {{ __('text.personal_details_bilang') }} : <span class="text-danger">APPLYING FOR A(AN) {{ $degree->deg_name }} PROGRAM</span></h4>
                         <div class="py-2 col-sm-5 col-md-4 col-md-3 col-xl-3">
                             <div class="">
@@ -735,37 +738,55 @@ $em_key = time().random_int(3000, 3099);
                 @break
 
             @case(6)
+            @case(6.5)
                 <form enctype="multipart/form-data" id="application_form" method="post" action="{{ route('student.application.start', [7, $application->id]) }}">
                     @csrf
-                    <div class="py-2 row bg-light border-top shadow">
+                    <hr>
+                    <div class="py-2 row">
                         
-                        <div class="col-sm-12 col-md-12 col-lg-12 d-flex">
-                            <div class="col-sm-10 col-md-8 col-lg-6 rounded bg-white py-5 my-3 shadow mx-auto">
-                                <div class="py-4 text-info text-center ">You are about to make a payment of {{ $degree->amount }} CFA for application fee
-                                </div>
-                                <div class="py-3">
-                                    <label class="text-secondary text-capitalize">{{ __('text.momo_number_used_in_payment') }} (<span class="text-danger">{{ __('text.without_country_code') }}</span>)</label>
-                                    <div class="">
-                                        <input type="tel" class="form-control text-primary"  name="momo_number" value="{{ $application->momo_number }}">
+                        @if($step == 6.5)
+                            <div class="col-sm-12 col-md-12 col-lg-12 d-flex">
+                                <div class="col-sm-10 col-md-8 col-lg-6 rounded bg-white py-5 my-3 shadow mx-auto">
+                                    <div class="py-4 text-info text-center ">You are about to make a payment of {{ $degree->amount }} CFA for application fee
                                     </div>
-                                </div>
-                                <div class="py-3">
-                                    <label class="text-secondary text-capitalize">{{ __('text.word_amount') }} </label>
-                                    <div class="">
-                                        <input readonly type="text" class="form-control text-primary"  name="amount" value="{{ $degree->amount }}">
+                                    <div class="py-3">
+                                        <label class="text-secondary text-capitalize">{{ __('text.momo_number_used_in_payment') }} (<span class="text-danger">{{ __('text.without_country_code') }}</span>)</label>
+                                        <div class="">
+                                            <input type="tel" class="form-control text-primary"  name="momo_number" value="{{ $application->momo_number }}">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="py-5 d-flex justify-content-center">
-                                    <a href="{{ route('student.application.start', [$step-1, $application->id]) }}" class="px-4 py-1 btn btn-xs btn-danger">{{ __('text.word_back') }}</a>
-                                    <input type="submit" class="px-4 py-1 btn btn-xs btn-primary" value="{{ __('text.save_and_continue') }}">
+                                    <div class="py-3">
+                                        <label class="text-secondary text-capitalize">{{ __('text.word_amount') }} </label>
+                                        <div class="">
+                                            <input readonly type="text" class="form-control text-primary"  name="amount" value="{{ $degree->amount }}">
+                                        </div>
+                                    </div>
+                                    <div class="py-5 d-flex justify-content-center">
+                                        <a href="{{ route('student.application.start', [$step-1, $application->id]) }}" class="px-4 py-1 btn btn-xs btn-danger">{{ __('text.word_back') }}</a>
+                                        <input type="submit" class="px-4 py-1 btn btn-xs btn-primary" value="{{ __('text.save_and_continue') }}">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @else
+                            <div class="col-sm-12 col-md-8">
+                                <select name="payment_method" class="form-control" id="">
+                                    <option value=""></option>
+                                    <option value="MOMO" {{ $application->payment_method == 'MOMO' ? 'selected' : '' }}>MOMO</option>
+                                    <option value="CBCHS" {{ $application->payment_method == 'CBCHS' ? 'selected' : '' }}>CBCHS Station</option>
+                                    <option value="BANK" {{ $application->payment_method == 'BANK' ? 'selected' : '' }}>Bank payment</option>
+                                    <option value="BURSARY" {{ $application->payment_method == 'BURSARY' ? 'selected' : '' }}>School Bursary</option>
+                                    <option value="OTHER"  {{ $application->payment_method == 'OTHER' ? 'selected' : '' }}>Other</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-12 col-md-4">
+                                <button type="submit" class="form-control btn btn-sm btn-primary">@lang('text.word_save')</button>
+                            </div>
+                        @endif
                         
                         
                     </div>
                 </form>
-                @break
+            @break
         @endswitch
     </div>
 @endsection
