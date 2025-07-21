@@ -11,7 +11,7 @@ class ApplicationForm extends Model
 
     protected $nullables = [];
     protected $connection = 'mysql2';
-    protected $dates = ['admitted_at', 'dob', 'created_at', 'updated_at', 'date_from', 'date_to'];
+    protected $dates = ['admitted_at', 'dob', 'created_at', 'updated_at', 'date_from', 'date_to', 'submitted'];
     protected $fillable = [
         'student_id', 'year_id', 'gender', 'name', 'dob', 'pob', 
         'nationality', 'region', 'division', 'residence', 'phone', 
@@ -25,7 +25,7 @@ class ApplicationForm extends Model
         'emergency_name', 'emergency_address', 'emergency_tel', 'emergency_email', 
         'fee_payment_channel', 'emergency_personality', 'previous_training', 'level', 
         'marital_status', 'bypass_reason', 'admitted_at', 'info_source', 'info_source_identity',
-        'payment_method',
+        'payment_method', 'payment_proof',
     ];
 
     public function firstName(){

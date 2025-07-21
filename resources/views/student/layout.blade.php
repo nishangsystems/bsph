@@ -110,7 +110,8 @@
 
         <div class="navbar-buttons navbar-header pull-right" role="navigation">
             <ul class="nav ace-nav d-flex flex-nowrap" style="">
-                <li class="grenn dropdown-modal">
+            
+                {{-- <li class="grenn dropdown-modal">
                     <a data-toggle="dropdown" class="dropdown-toggle text-white font-weight-bold text-capitalize" href="#" id="navbarDropdownMenuLink" style="background-color: {{$bg2}};">
                         {{ Config::get('languages')[Session::has('appLocale') ? Session::get('appLocale') : App::getLocale()] }}
                     </a>
@@ -121,7 +122,7 @@
                         @endif
                     @endforeach
                     </div>
-                </li>
+                </li> --}}
                 <li class="grenn dropdown-modal">
                     <a data-toggle="dropdown" class="dropdown-toggle text-white font-weight-bold" id="bg_primary_1" style="background-color: {{$bg2}};">
                         Batch : {{ \App\Models\Batch::find(Session::get('mode', \App\Helpers\Helpers::instance()->getCurrentAccademicYear()))->name ?? ''}}
@@ -286,8 +287,13 @@
                     </li>
                     <li class="active">Student Dashboard</li>
                     <li class="active"> Full Name: <b style="color: #e30000">{{auth('student')->user()->name}}</b></li>
-                    <li class="active text-capitalize"> {{__('text.word_matricule')}}: <b style="color: #e30000">{{auth('student')->user()->matric}}</b></li>
-
+                    @if(auth('student')->user()->applicationForms()->whereNotNull('submitted')->where('year_id', \App\Helpers\Helpers::instance()->getCurrentAccademicYear())->count() > 0)
+                        <li class="active">
+                            <span class="font-weight-bold text-uppercase px-3 px-1 text-success">
+                                &Lang; Application Submitted successfully &Rang;
+                            </span>
+                        </li>
+                    @endif</span>
                 </ul><!-- /.breadcrumb -->
             </div>
 
@@ -295,8 +301,8 @@
                 <div>
                     <div id="user-profile-1" class="user-profile row">
                         <div style="width:100%; padding-block:1.5rem; font-size:2rem; font-weight:600; padding-inline:2rem;" class="shadow bg-light mx-1">
-                            <span class="d-block w-100 text-danger text-center">PLEASE REMEMBER TO SUBMIT YOUR FORM AT THE END OF THIS PROCESS. <span class="text-dark">NEED HELP? CALL - </span>:<span class="text-primary">{{ $help_contacts }}</span></span>
-                            {{-- <span class="d-block w-100 text-danger text-center"><span class="text-primary">MOMO NUMBER -</span><span class="text-secondary"> NUMÉRO MOMO</span> :6 71 98 92 92 | MOMO NAME - <span class="text-secondary">NON SUR MOMO</span> :<span class="text-dark">EMELIE BERINYUY ASHUMBENG</span> | UNDERGRADUATE APPLICATION FEE - :<span class="text-primary">5,000 XAF</span> BACHELOR APPLICATION FEE - :<span class="text-primary">10,000 XAF </span> MASTERS APPLICATION FEE - :<span class="text-primary">20,000 XAF </span></span> --}}
+                            <span class="d-block w-100 text-danger text-center">PLEASE REMEMBER TO SUBMIT YOUR FORM AT THE END OF THIS PROCESS. <span class="text-dark">NEED HELP? CALL - </span>:<span class="text-primary">{{ $help_contacts }}</span></span> <br />
+                            <span class="text-center">Are you applying for BSc Nursing or BSc Midwivery? <a href="" class="text-primary" style="font-weight: 600">APPLY HERE</a>
                         </div>
                     </div>
                 </div>

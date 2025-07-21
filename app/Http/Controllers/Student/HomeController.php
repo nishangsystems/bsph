@@ -167,7 +167,7 @@ class HomeController extends Controller
     {
         try {
 
-            if(auth('student')->user()->applicationForms()->where('submitted', 1)->where('year_id', Helpers::instance()->getCurrentAccademicYear())->count() > 0){
+            if(auth('student')->user()->applicationForms()->whereNotNull('submitted')->where('year_id', Helpers::instance()->getCurrentAccademicYear())->count() > 0){
                 return redirect()->route('student.home')->with('error', "You are allowed to submit only one application form per year");
             }
 
@@ -226,20 +226,24 @@ class HomeController extends Controller
             $transaction = $application->transaction;
             $tranzak_transaction = $application->tranzak_transaction;
             $data['step'] = $step;
-            if($tranzak_transaction == null and $application->payment_method == 'MOMO'){
+            if($step == 6.5 and $application->is_filled()){$data['step'] = $step;}
+            elseif($tranzak_transaction == null and $application->payment_method == 'MOMO'){
                 if(($application->degree_id == null) and ($step != 0)){$data['step'] = 0;}
-                elseif(($transaction == null and $application->degree_id != null) and !in_array($step, [0, 6, 6.5])){$data['step'] = $step == 6 ? 6 : 6.5;}
-                elseif(($application->degree_id != null) and ($transaction != null) and ($transaction->payment_id != $application->degree_id) and $step == 1 ){$data['step'] = $step == 6 ? 6 : 6.5;}
+                // elseif(($transaction == null and $application->degree_id != null) and !in_array($step, [0, 6, 6.5])){$data['step'] = $step == 6 ? 6 : 6.5;}
+                // elseif(($application->degree_id != null) and ($transaction != null) and ($transaction->payment_id != $application->degree_id) and $step == 1 ){$data['step'] = $step == 6 ? 6 : 6.5;}
                 elseif(($application->degree_id != null) and ($transaction != null) and ($transaction->payment_id != $application->degree_id) and !in_array($step, [0, 6])){$data['step'] = 0;}
+            }elseif($application->payment_method == null and $application->degree_id != null  and $data['step'] > 0){
+                $data['step'] = 6;
             }
             
-            $isMaster = in_array('degree', $data) and stristr($data['degree']->deg_name??"", "master");
-            $data['isMaster'] = $isMaster;
-            if ($step == 3) {
-                if(!$isMaster){
-                    $data['step'] = 4;
-                }
-            }
+            
+            // $isMaster = in_array('degree', $data) and stristr($data['degree']->deg_name??"", "master");
+            // $data['isMaster'] = $isMaster;
+            // if ($step == 3) {
+            //     if(!$isMaster){
+            //         $data['step'] = 4;
+            //     }
+            // }
             
             $data['title'] = (isset($data['degree']) and ($data['degree'] != null)) ? $data['degree']->deg_name." APPLICATION" : "APPLICATION";
 
@@ -293,15 +297,17 @@ class HomeController extends Controller
                 break;
             
 
-            case 5:
-                
-                
+            case 4:
                 $validity = Validator::make($request->all(), [
                     'schools_attended'=>'required|array', 
                 ]);
                 break;
+
+            case 5:
+                $validity = Validator::make($request->all(), []);
+                break;
                 
-            case 6:
+            case 6: case 6.5:
                 // dd($request->all());
                 $validity = Validator::make($request->all(), [
                     
@@ -321,7 +327,7 @@ class HomeController extends Controller
         }
 
         if($step == 8){
-            ApplicationForm::where('id', $application_id)->update(['submitted'=>1]);
+            ApplicationForm::where('id', $application_id)->update(['submitted'=>now()]);
             // // SEND SMS
             $phone_number = auth('student')->user()->phone;
             if(str_starts_with($phone_number, '+')){
@@ -336,25 +342,26 @@ class HomeController extends Controller
             return redirect(route('student.application.form.download', ['id'=>$application_id]));
         }
 
-
+        
         // dd($request->all());
         if($validity->fails()){
             session()->flash('error', $validity->errors()->first());
             return back()->withInput();
         }
-
+        
+        // dd($step);
         // persist data
         $data = [];
         $appl = ApplicationForm::find($application_id);
         $transaction = $appl->transaction;
         $tranzak_transaction = $appl->tranzak_transaction;
-        if($tranzak_transaction == null){
-            if(($appl->degree_id == null) and ($step != 1)){$step = 1;}
-            elseif(($transaction == null and $appl->degree_id != null) and !in_array($step, [1, 7])){$step = 7;}
-            elseif(($appl->degree_id != null) and ($transaction != null) and ($transaction->payment_id != $appl->degree_id) and !in_array($step, [1,7])){$step = 7;}
-        }
-            
-        if($step == 5){
+        // if($tranzak_transaction == null){
+        //     if(($appl->degree_id == null) and ($step != 1)){$step = 1;}
+        //     elseif(($transaction == null and $appl->degree_id != null) and !in_array($step, [1, 7])){$step = 7;}
+        //     elseif(($appl->degree_id != null) and ($transaction != null) and ($transaction->payment_id != $appl->degree_id) and !in_array($step, [1,7])){$step = 7;}
+        // }
+
+        if($step == 4){
             $data_p1=[];
             $_data = $request->schools_attended;
             // dd($_data);
@@ -368,19 +375,46 @@ class HomeController extends Controller
             
             $data = collect($data)->filter(function($value, $key){return !in_array($key, ['_token', 'first_name', 'other_names']) and $value != null;})->toArray();
             $application = ApplicationForm::updateOrInsert(['id'=> $application_id, 'student_id'=>auth('student')->id()], $data);
+        }elseif($step == 5){
+            $data = $request->all();
+            // dd($request->al_results);
+            if($request->ol_results != null){
+                $ol_results = [];
+                foreach($request->ol_results as $rec){
+                    $ol_results[] = ['subject'=>$rec['subject'], 'grade'=>$rec['grade']];
+                }
+                $data['ol_results'] = json_encode($ol_results);
+            }
+            if($request->al_results != null){
+                $al_results = [];
+                foreach($request->al_results as $rec){
+                    $al_results[] = ['subject'=>$rec['subject'], 'grade'=>$rec['grade']];
+                }
+                $data['al_results'] = json_encode($al_results);
+            }
+            $data = collect($data)->filter(function($value, $key){return $key != '_token';})->toArray();
+            ApplicationForm::updateOrInsert(['id'=> $application_id, 'student_id'=>auth('student')->id()], $data);
+
         }elseif($step == 7){
             
             // dd('check point');
             if($request->payment_method != null){
                 $appl->update(['payment_method'=>$request->payment_method]);
-                if($appl->payment_method == 'MOMO'){    return redirect(route('student.application.start', ['id'=>$application_id, 'step'=>6.5]));    }
-                else{   return redirect(route('student.application.start', ['id'=>$application_id, 'step'=>1]));    }
+                return redirect(route('student.application.start', ['id'=>$application_id, 'step'=>1]));
+            }elseif($request->payment_proof != null){
+                if(($file = $request->file('payment_proof')) != null){
+                    $extension = $file->getClientOriginalExtension();
+                    $filename = 'payment_proof'.$appl->id.'_'.time().'.'.$extension;
+                    $file->storeAs('payment_proof', $filename, ['disk'=>'public_uploads']);
+                    ApplicationForm::where(['id'=> $application_id, 'student_id' => auth('student')->id()])->update(['submitted'=>now(), 'payment_proof'=>asset('uploads/payment_proof/'.$filename)]);
+                    return redirect(route('student.application.form.download'))->with('success', "You have completed your application process");
+                }
             }else{
                 $batch = \App\Models\Batch::find(Helpers::instance()->getCurrentAccademicYear());
                 
                 $pay_channel = $batch->pay_channel;
                 if($pay_channel == null){
-                    session()->flash('error', "Payment channel not set");
+                    session()->flash('error', "System payment channel not set");
                     return back();
                 }
                 $application = auth('student')->user()->applicationForms()->where('year_id', Helpers::instance()->getCurrentAccademicYear())->first();
@@ -452,7 +486,7 @@ class HomeController extends Controller
             // dd('check point X3');
             $data = $request->all();
             if(array_key_exists('first_name', $data)){
-                $data['name'] = $data['first_name']."\\n ".$data['other_names'];
+                $data['name'] = $data['first_name']."   ".$data['other_names'];
             }
             $data = collect($data)->filter(function($value, $key){return !in_array($key, ['_token', 'first_name', 'other_names']) and $value != null;})->toArray();
             $application = ApplicationForm::updateOrInsert(['id'=> $application_id, 'student_id'=>auth('student')->id()], $data);
@@ -488,9 +522,9 @@ class HomeController extends Controller
         try {
             
             // check if application is open now
-            if(!(Helpers::instance()->application_open())){
-                return redirect(route('student.home'))->with('error', 'Application closed for '.Helpers::instance()->getYear()->name);
-            }
+            // if(!(Helpers::instance()->application_open())){
+            //     return redirect(route('student.home'))->with('error', 'Application closed for '.Helpers::instance()->getYear()->name);
+            // }
             //code...
             $transaction_status = (object) $request->all();
             // return $transaction_status;
@@ -505,8 +539,8 @@ class HomeController extends Controller
                     $appl = ApplicationForm::find($appl_id);
                     $appl->transaction_id = $transaction_instance->id;
                     $appl->save();
-    
-                    return redirect(route('student.application.start', ['id'=>$appl->id, 'step'=>1]))->with('success', "Payment successful.");
+                    $this->persist_application(new Request(), 8, $appl->id);
+                    return redirect(route('student.application.form.download'))->with('success', "Payment successful. Application submitted successfully");
                     break;
                 
                 case 'CANCELLED':
@@ -553,7 +587,7 @@ class HomeController extends Controller
         # code...
         $application = ApplicationForm::find($appl_id);
         if($application != null){
-            $application->submitted = 1;
+            $application->submitted = now();
             $application->save();
             return back()->with('success', 'Application submitted.');
         }
@@ -566,7 +600,7 @@ class HomeController extends Controller
         $data['title'] = "Download Application Form";
         $data['_this'] = $this;
         // $data['applications'] = auth('student')->user()->applicationForms->whereNotNull('transaction_id');
-        $data['applications'] = auth('student')->user()->applicationForms()->where('submitted', 1)->get();
+        $data['applications'] = auth('student')->user()->applicationForms()->whereNotNull('submitted')->get();
         return view('student.online.download_form', $data);
     }
 

@@ -22,7 +22,7 @@
                 <tr>
                     <th class="text-capitalize text-center py-2"></th>
                     <th colspan="4" class="text-capitalize text-center">
-                        <div style="border: 0.3rem solid rgb(129, 131, 108); border-radius: 0.8rem; background-color: rgb(167, 169, 148); padding: 2rem 3rem; margin: 1rem 4rem;">
+                        <div style="border: 0.3rem solid rgb(129, 131, 108); border-radius: 0.8rem; background-color: rgb(167, 169, 148); padding: 2rem 3rem; margin: 1rem auto; max-width: 70%;">
                             <label class="text-capitalize">@lang('text.for_official_use_only')</label>:<br>
                             <label class="text-capitalize">@lang('text.registration_number')</label>:
                         </div>
@@ -182,36 +182,10 @@
                     <td colspan="6" class="pb-2 bt-5" style="text-decoration: underline; text-transform: capitalize; font-size: larger; padding-top: 2rem;">5. Where did you get information about the program you are applying for?</td>
                 </tr>
                 <tr class="border-bottom mb-2">
-                    <td colspan="5" class="py-1 text-secondary">BSPH website {!! $application->info_source == 'BSPH website' ? '&nbsp;&nbsp;&nbsp;&check;' : '' !!}</td>
-                    <td colspan="" class="py-1"><b></b></td>
+                    <td colspan="5" class="py-1 text-secondary">{!! $application->info_source !!}</td>
+                    <td colspan="" class="py-1"><b>{{ $application->info_source_identity }}</b></td>
                 </tr>
-                <tr class="border-bottom mb-2">
-                    <td colspan="5" class="py-1 text-secondary">School Marketing Officer {!! $application->info_source == 'School Marketing Officer' ? '&nbsp;&nbsp;&nbsp;&check;' : '' !!}</td>
-                    <td colspan="" class="py-1"><b></b></td>
-                </tr>
-                <tr class="border-bottom mb-2">
-                    <td colspan="3" class="py-1 text-secondary">BSPH student {!! $application->info_source == 'BSPH student' ? '&nbsp;&nbsp;&nbsp;&check;' : '' !!}</td>
-                    <td colspan="3" class="py-1"><b>{{ $application->info_source_identity }}</b></td>
-                </tr>
-                <tr class="border-bottom mb-2">
-                    <td colspan="5" class="py-1 text-secondary">CBC website {!! $application->info_source == 'CBC website' ? '&nbsp;&nbsp;&nbsp;&check;' : '' !!}</td>
-                    <td colspan="" class="py-1"><b></b></td>
-                </tr>
-                <tr class="border-bottom mb-2">
-                    <td colspan="5" class="py-1 text-secondary">BSPH advert (Flyers, posters, billboard): {!! $application->info_source == 'BSPH advert' ? '&nbsp;&nbsp;&nbsp;&check;' : '' !!}</td>
-                    <td colspan="" class="py-1"><b></b></td>
-                </tr>
-                <tr class="border-bottom mb-2">
-                    <td colspan="3" class="py-1 text-secondary">BSPH Social Media {!! $application->info_source == 'BSPH Social Media' ? '&nbsp;&nbsp;&nbsp;&check;' : '' !!}</td>
-                    <td colspan="3" class="py-1"><b>{{ $application->info_source_identity }}</b></td>
-                </tr>
-                <tr class="border-bottom mb-2">
-                    <td colspan="6" class="py-1 text-secondary">BSPH outdoor marketing (visit to school, social gathering, sporting activities) {!! $application->info_source == 'BSPH outdoor marketing' ? '&nbsp;&nbsp;&nbsp;&check;' : '' !!}</td>
-                </tr>
-                <tr class="border-bottom mb-2">
-                    <td colspan="3" class="py-1 text-secondary">Others (church, or name of person/number) {!! $application->info_source == 'Others' ? '&nbsp;&nbsp;&nbsp;&check;' : '' !!}</td>
-                    <td colspan="3" class="py-1 text-secondary">{{ $application->info_source_identity }}</td>
-                </tr>
+                
 
 
 
@@ -219,14 +193,8 @@
                     <td colspan="6" class="pb-2 bt-5" style="text-decoration: underline; text-transform: capitalize; font-size: larger; padding-top: 2rem;">6. Do you have a disability?</td>
                 </tr>
                 <tr>
-                    <td class="py-2" colspan=""> - <b>Yes {!! $application->disability != null ? '&nbsp;&nbsp;&nbsp;&check;' : '' !!}</b></td>
-                    <td class="py-2" colspan="2"><b>{{ $application->disability }}</b></td>
-                    <td class="py-2" colspan="3">(kindly attach a document indicating the type of disability)</td>
-                </tr>
-                <tr>
-                    <td class="py-2" colspan="2"> - <b>No {!! $application->disability == null ? '&nbsp;&nbsp;&nbsp;&check;' : '' !!}</b></td>
-                    <td class="py-2" colspan=""></td>
-                    <td class="py-2" colspan="3"></td>
+                    <td class="py-2" colspan=""><b>{{ $application->disability == null ? 'None' : $application->disability }}</b></td>
+                    <td class="py-2" colspan="4">(kindly attach a document indicating the type of disability)</td>
                 </tr>
 
 
@@ -235,12 +203,8 @@
                     <td colspan="6" class="pb-2 bt-5" style="text-decoration: underline; text-transform: capitalize; font-size: larger; padding-top: 2rem;">7. Do you have any known medical Condition?</td>
                 </tr>
                 <tr>
-                    <td class="py-2" colspan="2"> - <b>Yes {!! $application->health_condition != null ? '&nbsp;&nbsp;&nbsp;&check;' : '' !!}</b></td>
+                    <td class="py-2" colspan="2"> - <b>{!! $application->health_condition != null ? 'YES' : '' !!}</b></td>
                     <td class="py-2" colspan="4"><b>{{ $application->health_condition }}</b></td>
-                </tr>
-                <tr>
-                    <td class="py-2" colspan="2"> - <b>No {!! $application->disability == null ? '&nbsp;&nbsp;&nbsp;&check;' : '' !!}</b></td>
-                    <td class="py-2" colspan="4"></td>
                 </tr>
 
 
@@ -252,20 +216,8 @@
                     <td class="py-2" colspan="6"> How did you pay your registration fee?</td>
                 </tr>
                 <tr>
-                    <td class="py-2" colspan="6"> - <b>CBCHS Station: (attach receipt) {!! $application->fee_payment_channel == 'CBCHS Station' ? '&nbsp;&nbsp;&nbsp;&check;' : '' !!}</b></td>
-                </tr>
-                <tr>
-                    <td class="py-2" colspan="6"> - <b>Bank payment: (attach receipt) {!! $application->fee_payment_channel == 'Bank payment' ? '&nbsp;&nbsp;&nbsp;&check;' : '' !!}</b></td>
-                </tr>
-                <tr>
-                    <td class="py-2" colspan="6"> - <b>School Bursary: (Photocopy of receipt) {!! $application->fee_payment_channel == 'School Bursary' ? '&nbsp;&nbsp;&nbsp;&check;' : '' !!}</b></td>
-                </tr>
-                <tr>
-                    <td class="py-2" colspan="2"> - <b>Others {!! !in_array($application->fee_payment_channel, ['Bank payment', 'School Bursary', 'CBCHS Station', null]) ? '&nbsp;&nbsp;&nbsp;&check;' : '' !!}</b></td>
-                    <td class="py-2" colspan="4"> - <b> {{ $application->fee_payment_channel }}</b></td>
-                </tr>
-                <tr>
-                    <td class="py-2 text-uppercase" colspan="6"><b><i>NB: FORM WILL NOT BE COLLECTED WITHOUT PROOF OF PAYMENT!!</i></b></td>
+                    <td class="py-2" colspan="3"> - <b> {{ $application->fee_payment_channel }}</b></td>
+                    <td class="py-2" colspan="3"> - <b><i>NB: FORM WILL NOT BE COLLECTED WITHOUT PROOF OF PAYMENT!!</i></b></td>
                 </tr>
 
 
@@ -279,7 +231,7 @@
                 <br>
                 <tr>
                     <td class="py-2 border-bottom" colspan="3"> Signature: </td>
-                    <td class="py-2 border-bottom" colspan="3"> Date: </td>
+                    <td class="py-2 border-bottom" colspan="3"> Date: {{ $application->submitted->format('l M dS Y') }}</td>
                 </tr>
 
                 

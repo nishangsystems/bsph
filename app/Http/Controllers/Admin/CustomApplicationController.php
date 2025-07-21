@@ -39,7 +39,7 @@ class CustomApplicationController extends Controller
 
         $data = $request->all();
         $data['transaction_id'] = -10000;
-        $data['submitted'] = 1;
+        $data['submitted'] = now();
         $data['year_id'] = $this->current_accademic_year;
         if(ApplicationForm::where(['name'=>$data['name'], 'phone'=>$data['phone'], 'year_id'=>$this->current_accademic_year])->count() > 0){
             session()->flash('error', "Application form with same and phone number already exists for the current accademic year");

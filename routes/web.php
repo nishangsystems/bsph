@@ -46,9 +46,9 @@ Route::get('/clear', function () {
 //     // $response = $client->sms()->send(
 //     //     new \Vonage\SMS\Message\SMS("237699131895", '+237672908239', 'A text message sent using the Nexmo SMS API')
 //     // );
-    
+
 //     // $message = $response->current();
-    
+
 //     // if ($message->getStatus() == 0) {
 //     //     echo "The message was sent successfully\n";
 //     // } else {

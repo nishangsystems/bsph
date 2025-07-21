@@ -18,8 +18,7 @@
     <link rel="stylesheet" href="{{asset('assets/css/ace-skins.min.css')}}"/>
     <link rel="stylesheet" href="{{asset('assets/css/ace-rtl.min.css')}}"/>
     <script src="{{asset('assets/js/ace-extra.min.js')}}"></script>
-    <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}" class="ace-main-stylesheet"
-          id="main-ace-style"/>
+    <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}" class="ace-main-stylesheet" id="main-ace-style"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('libs')}}/datatables.net-bs4/css/dataTables.bootstrap4.css">
     <link rel="stylesheet" type="text/css" href="{{ asset('libs')}}/datatables.net-bs4/css/responsive.dataTables.min.css">
 
@@ -74,7 +73,9 @@
 
 <body class="no-skin">
     <div class="container-fluid" style="background-color: white;">
-        <img src="{{\App\Helpers\Helpers::instance()->getHeader()}}" class="w-100 h-auto">
+        @if(!isset($lhead))
+            <img src="{{\App\Helpers\Helpers::instance()->getHeader()}}" class="w-100 h-auto">
+        @endif
         <div class="text-center text-black h3 py-2 text-capitalize">{{$title ?? ''}}</div>
         @yield('section')
     </div>

@@ -101,9 +101,10 @@ class AppService{
             $data['program2'] = collect($data['programs'])->where('id', $data['application']->program_second_choice)->first();
             $data['program3'] = collect($data['programs'])->where('id', $data['application']->program_third_choice)->first();
             
-            // $title = $application->degree??''.' APPLICATION FOR '.$application->campus->name??' --- '.' CAMPUS';
-            $title = __('text.inst_tapplication_form', ['degree'=>$data['degree']->deg_name]);
+            $title = "APPLICATION FORM INTO BAPTIST SCHOOL OF PUBLIC HEALTH (BSPH)";
+            // $title = __('text.inst_tapplication_form', ['degree'=>$data['degree']->deg_name]);
             $data['title'] = $title;
+            $data['lhead'] = 0;
 
             // if(in_array(null, array_values($data))){ return redirect(route('student.application.start', [0, $application_id]))->with('message', "Make sure your form is correctly filled and try again.");}
             // return view('student.online.form_dawnloadable', $data);
