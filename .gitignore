@@ -9,6 +9,7 @@
 /storage/app/files/*.jpg
 /storage/app/files/*.jpeg
 /storage/app/files/*.png
+/storage/fonts/Helvetica-BoldOblique.afm.json
 /vendor
 /files
 /bg_image
