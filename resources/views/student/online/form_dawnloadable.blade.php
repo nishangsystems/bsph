@@ -120,6 +120,7 @@
                     <td class="border py-1" colspan="5"><b>{{ $application->emergency_email }}</b></td>
                 </tr>
 
+                <tr><td colspan="6"><hr></td></tr>
 
 
                 <tr>
@@ -142,6 +143,7 @@
                 </tr>
 
 
+                <tr><td colspan="6"><hr></td></tr>
 
                 <tr>
                     <td colspan="6" class="pb-2 bt-5" style="text-decoration: underline; text-transform: uppercase; font-size: larger; padding-top: 2rem;">3. Education Background</td>
@@ -166,8 +168,28 @@
                 <tr>
                     <td colspan="6" class="border"><b>(Attach copies of A-Level and O-Level certificates or their equivalent for foreign Applicants as Application will not be reviewed without the documents.)</b></td>
                 </tr>
-
-
+                <tr><td colspan="6"><hr></td></tr>
+                <tr style="text-transform: uppercase; text-align: center;" class="bg-light">
+                    <th colspan="3" class="py-1 border"><h5>@lang('text.ordinary_level_results')</h5></th>
+                    <th colspan="3" class="py-1 border"><h5>@lang('text.advanced_level_results')</h5></th>
+                </tr>
+                <tr>
+                    <td class="bg-light py-1 border text-uppercase text-center"><h6><span class="text-capitalize">@lang('text.center_no')</span>: <b>{{ $application->ol_center_number }}</b></h6></td>
+                    <td class="bg-light py-1 border text-uppercase text-center"><h6><span class="text-capitalize">@lang('text.candidate_no')</span>: <b>{{ $application->ol_candidate_number }}</b></h6></td>
+                    <td class="bg-light py-1 border text-uppercase text-center"><h6><span class="text-capitalize">@lang('text.word_year')</span>: <b>{{ $application->ol_year }}</b></h6></td>
+                    <td class="bg-light py-1 border text-uppercase text-center"><h6><span class="text-capitalize">@lang('text.center_no')</span>: <b>{{ $application->al_center_number }}</b></h6></td>
+                    <td class="bg-light py-1 border text-uppercase text-center"><h6><span class="text-capitalize">@lang('text.candidate_no')</span>: <b>{{ $application->al_candidate_number }}</b></h6></td>
+                    <td class="bg-light py-1 border text-uppercase text-center"><h6><span class="text-capitalize">@lang('text.word_year')</span>: <b>{{ $application->al_year }}</b></h6></td>
+                </tr>
+                @for($i = 0; $i < $result_count; $i++)
+                    <tr>
+                        <td colspan="2" class="py-1 border text-uppercase text-center">@isset($ol_results[$i]) {{ $ol_results[$i]->subject }} @endisset</td>
+                        <td colspan="1" class="py-1 border text-uppercase text-center">@isset($ol_results[$i]) {{ $ol_results[$i]->grade }} @endisset</td>
+                        <td colspan="2" class="py-1 border text-uppercase text-center">@isset($al_results[$i]) {{ $al_results[$i]->subject }} @endisset</td>
+                        <td colspan="1" class="py-1 border text-uppercase text-center">@isset($al_results[$i]) {{ $al_results[$i]->grade }} @endisset</td>
+                    </tr>
+                @endfor
+                <tr><td colspan="6"><hr></td></tr>
 
                 <tr>
                     <td colspan="6" class="pb-2 bt-5" style="padding-top: 2rem;">4. Explain in a short paragraph how the course you are applying for will assist you to achieve your goals in life</td>
@@ -177,6 +199,7 @@
                 </tr>
 
 
+                <tr><td colspan="6"><hr></td></tr>
 
                 <tr>
                     <td colspan="6" class="pb-2 bt-5" style="text-decoration: underline; text-transform: capitalize; font-size: larger; padding-top: 2rem;">5. Where did you get information about the program you are applying for?</td>
@@ -188,6 +211,7 @@
                 
 
 
+                <tr><td colspan="6"><hr></td></tr>
 
                 <tr>
                     <td colspan="6" class="pb-2 bt-5" style="text-decoration: underline; text-transform: capitalize; font-size: larger; padding-top: 2rem;">6. Do you have a disability?</td>
@@ -198,6 +222,7 @@
                 </tr>
 
 
+                <tr><td colspan="6"><hr></td></tr>
 
                 <tr>
                     <td colspan="6" class="pb-2 bt-5" style="text-decoration: underline; text-transform: capitalize; font-size: larger; padding-top: 2rem;">7. Do you have any known medical Condition?</td>
@@ -208,6 +233,7 @@
                 </tr>
 
 
+                <tr><td colspan="6"><hr></td></tr>
 
                 <tr>
                     <td colspan="6" class="pb-2 bt-5" style="text-decoration: underline; text-transform: capitalize; font-size: larger; padding-top: 2rem;">8. REGISTRATION/APPLICATION FEE PAYMENT</td>
@@ -221,6 +247,7 @@
                 </tr>
 
 
+                <tr><td colspan="6"><hr></td></tr>
                 
                 <tr>
                     <td colspan="6" class="pb-2 bt-5" style="text-decoration: underline; text-transform: capitalize; font-size: larger; padding-top: 2rem;">9. APPLICANT DECLARATION</td>

@@ -89,27 +89,31 @@ class AppService{
 
     public function application_form($application_id){
         $application = ApplicationForm::find($application_id);
-            $data['campuses'] = json_decode($this->api_service->campuses())->data;
-            $data['application'] = ApplicationForm::find($application_id);
-            $data['degree'] = collect(json_decode($this->api_service->degrees())->data??[])->where('id', $data['application']->degree_id)->first();
-            $data['campus'] = collect($data['campuses'])->where('id', $data['application']->campus_id)->first();
-            $data['certs'] = json_decode($this->api_service->certificates())->data;
-            
-            $data['programs'] = json_decode($this->api_service->campusDegreeCertificatePrograms($data['application']->campus_id, $data['application']->degree_id, $data['application']->entry_qualification))->data;
-            $data['cert'] = collect($data['certs'])->where('id', $data['application']->entry_qualification)->first();
-            $data['program1'] = collect($data['programs'])->where('id', $data['application']->program_first_choice)->first();
-            $data['program2'] = collect($data['programs'])->where('id', $data['application']->program_second_choice)->first();
-            $data['program3'] = collect($data['programs'])->where('id', $data['application']->program_third_choice)->first();
-            
-            $title = "APPLICATION FORM INTO BAPTIST SCHOOL OF PUBLIC HEALTH (BSPH)";
-            // $title = __('text.inst_tapplication_form', ['degree'=>$data['degree']->deg_name]);
-            $data['title'] = $title;
-            $data['lhead'] = 0;
+        $data['campuses'] = json_decode($this->api_service->campuses())->data;
+        $data['application'] = ApplicationForm::find($application_id);
+        $data['degree'] = collect(json_decode($this->api_service->degrees())->data??[])->where('id', $data['application']->degree_id)->first();
+        $data['campus'] = collect($data['campuses'])->where('id', $data['application']->campus_id)->first();
+        $data['certs'] = json_decode($this->api_service->certificates())->data;
+        
+        $data['programs'] = json_decode($this->api_service->campusDegreeCertificatePrograms($data['application']->campus_id, $data['application']->degree_id, $data['application']->entry_qualification))->data;
+        $data['cert'] = collect($data['certs'])->where('id', $data['application']->entry_qualification)->first();
+        $data['program1'] = collect($data['programs'])->where('id', $data['application']->program_first_choice)->first();
+        $data['program2'] = collect($data['programs'])->where('id', $data['application']->program_second_choice)->first();
+        $data['program3'] = collect($data['programs'])->where('id', $data['application']->program_third_choice)->first();
+        
+        $title = "APPLICATION FORM INTO BAPTIST SCHOOL OF PUBLIC HEALTH (BSPH)";
+        // $title = __('text.inst_tapplication_form', ['degree'=>$data['degree']->deg_name]);
+        $data['title'] = $title;
+        $data['lhead'] = 0;
 
-            // if(in_array(null, array_values($data))){ return redirect(route('student.application.start', [0, $application_id]))->with('message', "Make sure your form is correctly filled and try again.");}
-            // return view('student.online.form_dawnloadable', $data);
-            $pdf = PDF::loadView('student.online.form_dawnloadable', $data);
-            $filename = $title.' - '.$application->name.'.pdf';
-            return $pdf->download($filename);
+        $data['ol_results'] = json_decode($application->ol_results);
+        $data['al_results'] = json_decode($application->al_results);
+        $data['result_count'] = ($ol_count = count($data['ol_results'])) > ($al_count = count($data['al_results'])) ? $ol_count : $al_count; 
+        // dd($data);
+        // if(in_array(null, array_values($data))){ return redirect(route('student.application.start', [0, $application_id]))->with('message', "Make sure your form is correctly filled and try again.");}
+        // return view('student.online.form_dawnloadable', $data);
+        $pdf = PDF::loadView('student.online.form_dawnloadable', $data);
+        $filename = $title.' - '.$application->name.'.pdf';
+        return $pdf->download($filename);
     }
 }

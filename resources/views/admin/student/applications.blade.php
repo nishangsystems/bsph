@@ -43,6 +43,7 @@
                                 @if(isset($download))
                                    <a href="{{ Request::url() }}/{{  $appl->id }}?_atn=_dld" class="btn btn-xs btn-primary mt-1">{{ $download }}</a>
                                 @endif
+                                {{-- <a href="{{ route('admin.applications.show')}}/{{  $appl->id }}?_atn=_dld" class="btn btn-xs btn-primary mt-1">{{ $download }}</a> --}}
                             </td>
                         </tr>
                     @endforeach
