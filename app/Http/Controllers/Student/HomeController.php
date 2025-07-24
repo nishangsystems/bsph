@@ -283,7 +283,7 @@ class HomeController extends Controller
                     'id_number'=>'required', 'id_place_of_issue'=>'required', 'id_date_of_issue'=>'required', 
                     'id_expiry_date'=>'required', 'disability'=>'nullable', 'health_condition'=>'nullable', 
                     'emergency_address'=>'required', 'emergency_tel'=>'required', 'emergency_name'=>'required', 
-                    'emergency_email'=>'required|email', 'emergency_personality'=>'required'
+                    'emergency_email'=>'email', 'emergency_personality'=>'required'
                 ]);
                 break;
                 

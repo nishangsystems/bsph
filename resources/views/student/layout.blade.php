@@ -302,7 +302,21 @@
                     <div id="user-profile-1" class="user-profile row">
                         <div style="width:100%; padding-block:1.5rem; font-size:2rem; font-weight:600; padding-inline:2rem;" class="shadow bg-light mx-1">
                             <span class="d-block w-100 text-danger text-center">PLEASE REMEMBER TO SUBMIT YOUR FORM AT THE END OF THIS PROCESS. <span class="text-dark">NEED HELP? CALL - </span>:<span class="text-primary">{{ $help_contacts }}</span></span> <br />
-                            <span class="text-center">Are you applying for BSc Nursing or BSc Midwivery? <a href="" class="text-primary" style="font-weight: 600">APPLY HERE</a>
+                            @if (auth('student')->user()->applicationForms()->where('year_id', \App\Helpers\Helpers::instance()->getCurrentAccademicYear())->whereNotNull('submitted'))
+                                <div style="font-size: 1.4rem; color: #f67a06ff; padding: 1.8rem 4rem; margin-inline: auto; width: 80%; border: 3px ridge #8a8a8a; border-radius: 0.7rem;">
+                                    To complete the application process, print out the completed application form and together with the following documents, send the complete application file to: <b><i>The Registrar, Baptist School of Public Health, Mutengene.</i></b> Documents include photocopies of: 
+                                    <ul>
+                                        <li class="list-item">Birth Certificate</li>
+                                        <li class="list-item">National Identity Card</li>
+                                        <li class="list-item">Ordinary and Advanced Level slips/certificate</li>
+                                        <li class="list-item">Baccalaureate or Technical result slips</li>
+                                        <li class="list-item">Disability card</li>
+                                        <li class="list-item">Medical Report</li>
+                                    </ul>
+                                </div>
+                            @else
+                                <span class="text-center">Are you applying for BSc Nursing or BSc Midwivery? <a href="" class="text-primary" style="font-weight: 600">APPLY HERE</a>
+                            @endif
                         </div>
                     </div>
                 </div>

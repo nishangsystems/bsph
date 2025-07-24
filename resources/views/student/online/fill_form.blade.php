@@ -468,8 +468,8 @@ $em_key = time().random_int(3000, 3099);
                                 </table>
                             </div>
                             <hr>
-                            <div class="d-flex justify-content-end py-2">
-                                <span class="btn btn-warning text-uppercase px-3 rounded" onclick="toggleALResults()">TOGGLE AL RESULTS</span>
+                            <div class="d-flex justify-content-center py-4">
+                                <span class="btn btn-primary text-uppercase px-3 rounded" onclick="toggleALResults()">ADD ADVANCED LEVEL RESULTS</span>
                             </div>
                             <div class="py-2 border card px-2 {{ $application->al_results == null ? 'hidden' : '' }}" id="al_toggle_view">
                                 <h5 style="text-transform: uppercase; font-weight: 700; margin-bottom: 2rem;" class="text-primary text-center">@lang('text.advanced_level_results')</h5>
