@@ -185,13 +185,13 @@ $em_key = time().random_int(3000, 3099);
 
                         <div class="py-2 col-sm-6 col-md-4 col-xl-4">
                             <div class="row">
-                                <div class="col-2">
+                                <div class="col-sm-2">
                                     <select name="" id="" class="form-control" onchange="toggleDisability(this)">
                                         <option value="YES" selected>YES</option>
                                         <option value="NONE">NONE</option>
                                     </select>
                                 </div>
-                                <div class="col-10">
+                                <div class="col-sm-9">
                                     <input type="text" class="form-control text-primary" name="disability"  value="{{ old('disability', $application->disability) }}" id="disability" required>
                                 </div>
                             </div>
@@ -200,13 +200,13 @@ $em_key = time().random_int(3000, 3099);
 
                         <div class="py-2 col-sm-6 col-md-5 col-xl-4">
                             <div class="row">
-                                <div class="col-2">
+                                <div class="col-sm-2">
                                     <select name="" id="" class="form-control" onchange="toggleHealthCondition(this)">
                                         <option value="YES" selected>YES</option>
                                         <option value="NONE">NONE</option>
                                     </select>
                                 </div>
-                                <div class="col-10">
+                                <div class="col-sm-9">
                                     <input type="text" class="form-control text-primary" name="health_condition" id="health_condition" value="{{ old('health_condition', $application->health_condition) }}" required>
                                 </div>
                             </div>
@@ -311,7 +311,7 @@ $em_key = time().random_int(3000, 3099);
                         
                         <div class="py-2 col-sm-6 col-md-6 col-xl-12">
                             <div class="">
-                                <textarea rows="1" class="form-control text-primary"  name="enrollment_purpose" required>
+                                <textarea rows="1" class="form-control text-primary" maxlength="50"  name="enrollment_purpose" required>
                                     {{ old('enrollment_purpose', $application->enrollment_purpose??'') }}
                                 </textarea>
                             </div>
