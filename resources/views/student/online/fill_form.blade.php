@@ -1026,7 +1026,7 @@ $em_key = time().random_int(3000, 3099);
                             <div class="col-sm-12 col-md-8">
                                 <select name="payment_method" class="form-control" id="">
                                     <option value=""></option>
-                                    <option value="MOMO" {{ $application->payment_method == 'MOMO' ? 'selected' : '' }}>MOMO</option>
+                                    {{-- <option value="MOMO" {{ $application->payment_method == 'MOMO' ? 'selected' : '' }}>MOMO</option> --}}
                                     <option value="CBCHS" {{ $application->payment_method == 'CBCHS' ? 'selected' : '' }}>CBCHS Station</option>
                                     <option value="BANK" {{ $application->payment_method == 'BANK' ? 'selected' : '' }}>Bank payment</option>
                                     <option value="BURSARY" {{ $application->payment_method == 'BURSARY' ? 'selected' : '' }}>School Bursary</option>
