@@ -984,7 +984,7 @@ $em_key = time().random_int(3000, 3099);
                         @if($step == 6.5)
                             <div class="col-sm-12 col-md-12 col-lg-12 d-flex">
                                 <div class="col-sm-10 col-md-8 col-lg-6 rounded bg-white py-5 my-3 shadow mx-auto">
-                                    @if ($application->payment_method == 'MOMO')
+                                    {{-- @if ($application->payment_method == 'MOMO')
                                         <div class="container-fluid">
                                             <div class="py-4 text-info text-center ">You are about to make a payment of {{ $degree->amount }} CFA for application fee
                                             </div>
@@ -1001,7 +1001,7 @@ $em_key = time().random_int(3000, 3099);
                                                 </div>
                                             </div>
                                         </div>
-                                    @else
+                                    @else --}}
                                         <div class="container-fluid">
                                             <div class="card py-3">
                                                 <p>Uplaod a proof of payment. A clear photo of the payment receipt (From Bank, CBCHS Stattion, Bursary, ...) </p>
@@ -1015,7 +1015,7 @@ $em_key = time().random_int(3000, 3099);
                                                 </div>
                                             </div>
                                         </div>
-                                    @endif
+                                    {{-- @endif --}}
                                     <div class="py-5 d-flex justify-content-center">
                                         <a href="{{ route('student.application.start', [$step-1, $application->id]) }}" class="px-4 py-1 btn btn-xs btn-danger">{{ __('text.word_back') }}</a>
                                         <input type="submit" class="px-4 py-1 btn btn-xs btn-primary" value="{{ __('text.save_and_continue') }}">
