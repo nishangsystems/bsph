@@ -26,7 +26,7 @@
             <div class="py-2 col-sm-3 col-md-2 col-lg-3">
                 <label class="text-secondary  text-capitalize">{{ __('text.date_of_birth_bilang') }}</label>
                 <div class="">
-                    <label class="form-control text-primary border-0 ">{{ $application->dob->format('dS M Y') ?? '' }}</label>
+                    <label class="form-control text-primary border-0 ">{{ $application->dob?->format('dS M Y') ?? '' }}</label>
                 </div>
             </div>
             <div class="py-2 col-sm-6 col-md-4 col-lg-3">
