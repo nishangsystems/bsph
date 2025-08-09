@@ -190,7 +190,11 @@ class HomeController extends Controller
 
             if ($request->_prg != null) {
                 # code...
+                if($request->_prg == 173){
+                    return redirect("https://bsph.cbchealthservices.org/admissions/#ad-requirements");
+                }
                 $application->program_first_choice = $request->_prg;
+                $application->save();
             }
 
             $data['application'] = $application;

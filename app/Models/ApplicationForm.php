@@ -46,7 +46,9 @@ class ApplicationForm extends Model
             $tokens = explode(' ', $this->name);
             if(count($tokens) > 3){
                 $last_name = $tokens[2]." ".$tokens[3];
-            }elseif(count($tokens) != 1){
+            }elseif(count($tokens) == 3){
+                $last_name = $tokens[1]." ".$tokens[2];
+            }elseif(count($tokens) == 2){
                 $last_name = $tokens[1];
             }
             return $last_name;

@@ -64,7 +64,7 @@ $em_key = time().random_int(3000, 3099);
                             <div class="">
                                 <input type="text" class="form-control text-primary"  name="other_names" value="{{ old('other_names', $application->otherNames()) }}" required>
                             </div>
-                            <label class="text-secondary  text-capitalize">{{ __('text.other_names_bilang') }}<i class="text-danger text-xs">*</i></label>
+                            <label class="text-secondary  text-capitalize">{{ __('text.middle_and_last_name') }}<i class="text-danger text-xs">*</i></label>
                         </div>
                         <div class="py-2 col-sm-5 col-md-4 col-xl-2">
                             <div class="">
@@ -77,7 +77,7 @@ $em_key = time().random_int(3000, 3099);
                         </div>
                         <div class="py-2 col-sm-7 col-md-3 col-xl-3">
                             <div class="">
-                                <input type="date" class="form-control text-primary"  name="dob" value="{{ old('dob', $application->dob) }}" required>
+                                <input type="date" class="form-control text-primary"  name="dob" value="{{ old('dob', $application->dob->format('Y-m-d')) }}" required>
                             </div>
                             <label class="text-secondary  text-capitalize">{{ __('text.date_of_birth_bilang') }}<i class="text-danger text-xs">*</i></label>
                         </div>
@@ -238,16 +238,16 @@ $em_key = time().random_int(3000, 3099);
                             <div class="">
                                 <input class="form-control text-primary" type="email" name="emergency_email" value="{{ old('emergency_email', $application->emergency_email??'') }}">
                             </div>
-                            <label class="text-secondary  text-capitalize">{{ __('text.emergency_email') }}</label>
+                            <label class="text-secondary  text-capitalize">{{ __('text.emergency_email') }} (optional)</label>
                         </div>
                         <div class="col-sm-12 col-md-4 col-lg-4 col-xl-3">
                             <div class="">
                                 <select class="form-control text-primary"  name="emergency_personality" required>
                                     <option value=""></option>
-                                    <option value="PARENT" {{ old('emergency_personality', $application->emergency_personality??'') == 'PARENT' }}>PARENT</option>
-                                    <option value="SPOUSE" {{ old('emergency_personality', $application->emergency_personality??'') == 'SPOUSE' }}>SPOUSE</option>
-                                    <option value="FRIEND" {{ old('emergency_personality', $application->emergency_personality??'') == 'FRIEND' }}>FRIEND</option>
-                                    <option value="RELATIVE" {{ old('emergency_personality', $application->emergency_personality??'') == 'RELATIVE' }}>RELATIVE</option>
+                                    <option value="PARENT" {{ old('emergency_personality', $application->emergency_personality??'') == 'PARENT' ? 'selected' : '' }}>PARENT</option>
+                                    <option value="SPOUSE" {{ old('emergency_personality', $application->emergency_personality??'') == 'SPOUSE' ? 'selected' : '' }}>SPOUSE</option>
+                                    <option value="FRIEND" {{ old('emergency_personality', $application->emergency_personality??'') == 'FRIEND' ? 'selected' : ''}}>FRIEND</option>
+                                    <option value="RELATIVE" {{ old('emergency_personality', $application->emergency_personality??'') == 'RELATIVE' ? 'selected' : '' }}>RELATIVE</option>
                                 </select>
                             </div>
                             <label class="text-secondary  text-capitalize">{{ __('text.emergency_relationship') }}<i class="text-danger text-xs">*</i></label>
@@ -394,7 +394,10 @@ $em_key = time().random_int(3000, 3099);
                                         <select name="ol_year" required class="form-control" id="">
                                             <option value="">@lang('text.academic_year')</option>
                                             @for($i = $this_year-25; $i <= $this_year; $i++)
-                                                <option value="{{ ($i-1).'/'.$i }}" {{ ($i-1).'/'.$i == old('ol_year', $application->ol_year) ? 'selected' : '' }}>{{ $i-1 }}/{{ $i }}</option>
+                                                @php
+                                                    $yr = ($i-1).'/'.$i;
+                                                @endphp
+                                                <option value="{{ $yr }}" {{ $yr == old('ol_year', $application->ol_year) ? 'selected' : '' }}>{{ $yr }}</option>
                                             @endfor
                                         </select>
                                         <small class="text-danger"><i>@lang('text.word_year')</i>*</small>
@@ -488,8 +491,11 @@ $em_key = time().random_int(3000, 3099);
                                         @endphp
                                         <select name="al_year" required class="form-control" id="">
                                             <option value="">@lang('text.academic_year')</option>
+                                            @php
+                                                $yr = ($i-1).'/'.$i;
+                                            @endphp
                                             @for($i = $this_year-25; $i <= $this_year; $i++)
-                                                <option value="{{ ($i-1).'/'.$i }}" {{ ($i-1).'/'.$i == old('al_year', $application->ol_year) ? 'selected' : '' }}>{{ $i-1 }}/{{ $i }}</option>
+                                                <option value="{{ $yr }}" {{ $yr == old('al_year', $application->ol_year) ? 'selected' : '' }}>{{ $yr }}</option>
                                             @endfor
                                         </select>
                                         <small class="text-danger"><i>@lang('text.word_year')</i>*</small>
@@ -675,7 +681,7 @@ $em_key = time().random_int(3000, 3099);
                             <div class="">
                                 <label class="form-control text-primary border-0 ">{{ $application->otherNames() }}</label>
                             </div>
-                            <label class="text-secondary  text-capitalize">@lang('text.other_names_bilang')</label>
+                            <label class="text-secondary  text-capitalize">@lang('text.middle_and_last_name')</label>
                         </div>
                         <div class="py-2 col-sm-3 col-md-3 col-lg-2">
                             <div class="">
