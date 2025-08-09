@@ -1108,7 +1108,7 @@ return [
     'emergency_relationship'=>'emergency relationship',
     'emergency_contact_details'=>'emergency contact details',
     'emergency_email'=>'emergency email',
-    'third_choice'=>'third choice',
+    'third_choice'=>'3rd choice',
     'enrollment_purpose_phrase'=>'Explain in not more than 50 words how the course you are applying for will assist you to achieve your goals in life',
     'information_source'=>'information source',
     'specify_information_source'=>'specify information source',
