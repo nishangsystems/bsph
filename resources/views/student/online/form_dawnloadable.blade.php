@@ -131,15 +131,15 @@
                 </tr>
                 <tr>
                     <td class="border py-1 text-secondary">@lang('text.first_choice')</td>
-                    <td class="border py-1" colspan="5"><b>{{ $program1->name }}</b></td>
+                    <td class="border py-1" colspan="5"><b>{{ $program1?->name??'' }}</b></td>
                 </tr>
                 <tr>
                     <td class="border py-1 text-secondary">@lang('text.second_choice')</td>
-                    <td class="border py-1" colspan="5"><b>{{ $program2->name }}</b></td>
+                    <td class="border py-1" colspan="5"><b>{{ $program2?->name??null }}</b></td>
                 </tr>
                 <tr>
                     <td class="border py-1 text-secondary">@lang('text.third_choice')</td>
-                    <td class="border py-1" colspan="5"><b>{{ $program3->name }}</b></td>
+                    <td class="border py-1" colspan="5"><b>{{ $program3?->name??null }}</b></td>
                 </tr>
 
 
