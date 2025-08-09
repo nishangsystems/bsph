@@ -52,12 +52,11 @@
                 </tr>
                 <tr>
                     <td class="py-1 border text-secondary text-capitalize">@lang('text.word_gender')**</td>
-                    <td class="py-1 border" colspan="2"><span>Male     <b>{!! $application->gender == 'male' ? '&check;' : '' !!} </b></span></td>
-                    <td class="py-1 border" colspan="3"><span>Female       <b>{!! $application->gender == 'female' ? '&check;' : '' !!}</b></span></td>
+                    <td class="py-1 border" colspan="5"><b>{!! $application->gender??'' !!} </b></td>
                 </tr>
                 <tr>
                     <td class="py-1 border text-secondary text-capitalize">@lang('text.word_address')**</td>
-                    <td class="py-1 border" colspan="5"><b>{{ $application->address }}</b></td>
+                    <td class="py-1 border" colspan="5"><b>{{ $application->residence }}</b></td>
                 </tr>
                 <tr>
                     <td class="py-1 border text-secondary text-capitalize">@lang('text.word_contact')**</td>
@@ -68,8 +67,7 @@
                 </tr>
                 <tr>
                     <td class="py-1 border text-secondary text-capitalize">@lang('text.marital_status')**</td>
-                    <td class="py-1 border" colspan="2"><span>Married     <b>{!! $application->marital_status == 'married' ? '&check;' : '' !!} </b></span></td>
-                    <td class="py-1 border" colspan="3"><span>Not Married       <b>{!! $application->marital_status == 'single' ? '&check;' : '' !!}</b></span></td>
+                    <td class="py-1 border text-capitalize" colspan="5">     <b>{!! $application->marital_status??'' !!} </b></td>
                 </tr>
                 <tr>
                     <td class="py-1 border text-secondary text-capitalize">@lang('text.word_nationality')</td>
@@ -77,7 +75,11 @@
                 </tr>
                 <tr>
                     <td class="py-1 border text-secondary text-capitalize">@lang('text.word_region')</td>
-                    <td class="py-1 border" colspan="5"><b>{{ $application->_region->name }}</b></td>
+                    <td class="py-1 border" colspan="5"><b>{{ $application->_region->region }}</b></td>
+                </tr>
+                <tr>
+                    <td class="py-1 border text-secondary text-capitalize">@lang('text.word_division')</td>
+                    <td class="py-1 border" colspan="5"><b>{{ $application->_division->name }}</b></td>
                 </tr>
                 <tr>
                     <td class="py-1 border text-secondary text-capitalize" colspan="2" rowspan="2">Passport details (For International applicants) / <b>National Identity Card (NIC) (For Nationals)</b></td>
@@ -242,7 +244,7 @@
                     <td class="py-2" colspan="6"> How did you pay your registration fee?</td>
                 </tr>
                 <tr>
-                    <td class="py-2" colspan="3"> - <b> {{ $application->fee_payment_channel }}</b></td>
+                    <td class="py-2" colspan="3"> - <b> {{ $application->fee_payment_channel == null ? $application->payment_method : $application->dee_payment_channel }}</b></td>
                     <td class="py-2" colspan="3"> - <b><i>NB: FORM WILL NOT BE COLLECTED WITHOUT PROOF OF PAYMENT!!</i></b></td>
                 </tr>
 
