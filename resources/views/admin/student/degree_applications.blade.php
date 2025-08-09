@@ -16,9 +16,9 @@
                             <td class="border-left border-right">{{ $k++ }}</td>
                             <td class="border-left border-right">{{ $deg->deg_name }}</td>
                             @if($campus_id != null)
-                            <td class="border-left border-right">{{ \App\Models\ApplicationForm::where('degree_id', $deg->id)->whereNotNull('transaction_id')->where('campus_id', $campus_id)->count() }}</td>
+                            <td class="border-left border-right">{{ \App\Models\ApplicationForm::where('degree_id', $deg->id)->whereNotNull('submitted')->where('campus_id', $campus_id)->count() }}</td>
                             @else
-                            <td class="border-left border-right">{{ \App\Models\ApplicationForm::where('degree_id', $deg->id)->whereNotNull('transaction_id')->count() }}</td>
+                            <td class="border-left border-right">{{ \App\Models\ApplicationForm::where('degree_id', $deg->id)->whereNotNull('submitted')->count() }}</td>
                             @endif
                             <td class="border-left border-right"><a class="btn btn-sm btn-primary text-capitalize" href="{{ route('admin.applications.by_degree', ['id'=>$deg->id]) }}">{{ __('text.word_all') }}</a></td>
                         </tr>

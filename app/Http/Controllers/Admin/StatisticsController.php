@@ -134,7 +134,7 @@ class StatisticsController extends Controller
         switch($request->filter){
             case 'degree':
                 $data['title'] = "Application Fee Bypass Statistics Filtered By Degree";
-                $forms = ApplicationForm::where(['year_id'=>$this->current_year])->whereNotNull('transaction_id')->where('transaction_id', '!=', -10000)->whereNotNull('bypass_reason')->groupBy('degree_id')
+                $forms = ApplicationForm::where(['year_id'=>$this->current_year])->whereNotNull('submitted')->where('transaction_id', '!=', -10000)->whereNotNull('bypass_reason')->groupBy('degree_id')
                 ->select(['degree_id', DB::raw("COUNT(*) as _count")])
                 ->having('_count', '>', 0)->distinct()->get()->each(function($rec)use($degrees){
                     $rec->degree = $degrees->where('id', $rec->degree_id)->first()->deg_name??null;
@@ -144,7 +144,7 @@ class StatisticsController extends Controller
                 
                 default:
                 $data['title'] = "Application Fee Bypass Statistics Filtered By Program";
-                $forms = ApplicationForm::where(['year_id'=>$this->current_year])->whereNotNull('transaction_id')->where('transaction_id', '!=', -10000)->whereNotNull('bypass_reason')->groupBy('program_first_choice')
+                $forms = ApplicationForm::where(['year_id'=>$this->current_year])->whereNotNull('submitted')->where('transaction_id', '!=', -10000)->whereNotNull('bypass_reason')->groupBy('program_first_choice')
                     ->select(['program_first_choice', DB::raw("COUNT(*) as _count")])
                     ->having('_count', '>', 0)->distinct()->get()->each(function($rec)use($programs){
                         $rec->program = $programs->where('id', $rec->program_first_choice)->first()->name??null;

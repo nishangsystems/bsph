@@ -52,7 +52,7 @@ class HomeController extends Controller
 
     public function index()
     {
-        if(auth('student')->user()->applicationForms()->whereNotNull('transaction_id')->where('year_id', Helpers::instance()->getCurrentAccademicYear())->count() > 0){
+        if(auth('student')->user()->applicationForms()->whereNotNull('submitted')->where('year_id', Helpers::instance()->getCurrentAccademicYear())->count() > 0){
             return redirect(route('student.programs.index'));
         }
         return redirect(route('student.application.start', 0));
@@ -619,7 +619,7 @@ class HomeController extends Controller
     {
         # code...
         $data['title'] = "Payment Data";
-        $data['payments'] = ApplicationForm::where('student_id', auth('student')->id())->whereNotNull('transaction_id')->get();
+        $data['payments'] = ApplicationForm::where('student_id', auth('student')->id())->whereNotNull('submitted')->get();
         if(request('appl') != null){
             $data['appl'] = ApplicationForm::find(request('appl'));
         }
