@@ -315,7 +315,7 @@
                                     </ul>
                                 </div>
                             @else
-                                <span class="text-center">Are you applying for BSc Nursing or BSc Midwivery? <a href="" class="text-primary" style="font-weight: 600">APPLY HERE</a>
+                                <span class="text-center">Are you applying for BSc Nursing or BSc Midwivery? <a href="https://bsph.cbchealthservices.org/admissions/#ad-requirements" class="text-primary" style="font-weight: 600">APPLY HERE</a>
                             @endif
                         </div>
                     </div>
