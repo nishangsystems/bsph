@@ -1169,7 +1169,7 @@ class ProgramController extends Controller
             $data['title'] = "Admit Student";
             $data['_this'] = $this;
             $data['action'] = __('text.word_admit');
-            $data['applications'] = ApplicationForm::whereNotNull('transaction_id')->where('admitted', 0)->where('year_id', Helpers::instance()->getCurrentAccademicYear())->get();
+            $data['applications'] = ApplicationForm::whereNotNull('submitted')->where('admitted', 0)->where('year_id', Helpers::instance()->getCurrentAccademicYear())->get();
             return view('admin.student.applications', $data);
         }
         if(!$request->has('matric') or ($request->matric == null)){
