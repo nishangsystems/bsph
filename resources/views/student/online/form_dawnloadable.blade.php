@@ -207,8 +207,8 @@
                     <td colspan="6" class="pb-2 bt-5" style="text-decoration: underline; text-transform: capitalize; font-size: larger; padding-top: 2rem;">5. Where did you get information about the program you are applying for?</td>
                 </tr>
                 <tr class="border-bottom mb-2">
-                    <td colspan="5" class="py-1 text-secondary">{!! $application->info_source !!}</td>
-                    <td colspan="" class="py-1"><b>{{ $application->info_source_identity }}</b></td>
+                    <td colspan="2" class="py-1 text-secondary">{!! $application->info_source !!}</td>
+                    <td colspan="4" class="py-1"><b>{{ $application->info_source_identity }}</b></td>
                 </tr>
                 
 
