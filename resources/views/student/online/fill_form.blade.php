@@ -491,10 +491,10 @@ $em_key = time().random_int(3000, 3099);
                                         @endphp
                                         <select name="al_year" required class="form-control" id="">
                                             <option value="">@lang('text.academic_year')</option>
-                                            @php
-                                                $yr = ($i-1).'/'.$i;
-                                            @endphp
                                             @for($i = $this_year-25; $i <= $this_year; $i++)
+                                                @php
+                                                    $yr = ($i-1).'/'.$i;
+                                                @endphp
                                                 <option value="{{ $yr }}" {{ $yr == old('al_year', $application->ol_year) ? 'selected' : '' }}>{{ $yr }}</option>
                                             @endfor
                                         </select>
