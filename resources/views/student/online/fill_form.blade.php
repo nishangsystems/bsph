@@ -77,7 +77,7 @@ $em_key = time().random_int(3000, 3099);
                         </div>
                         <div class="py-2 col-sm-7 col-md-3 col-xl-3">
                             <div class="">
-                                <input type="date" class="form-control text-primary"  name="dob" value="{{ old('dob', $application->dob->format('Y-m-d')) }}" required>
+                                <input type="date" class="form-control text-primary"  name="dob" value="{{ old('dob', $application->dob?->format('Y-m-d')??null) }}" required>
                             </div>
                             <label class="text-secondary  text-capitalize">{{ __('text.date_of_birth_bilang') }}<i class="text-danger text-xs">*</i></label>
                         </div>
