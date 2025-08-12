@@ -220,7 +220,7 @@ class HomeController extends Controller
                 $data['cert'] = collect($data['certs'])->where('id', $data['application']->entry_qualification)->first();
                 // dd($data['programs']);
             }
-            if($data['application']->program_first_choice != null){
+            if($data['application']->program_first_choice != null and isset($data['programs'])){
                 $data['program1'] = collect($data['programs'])->where('id', $data['application']->program_first_choice)->first();
                 $data['program2'] = collect($data['programs'])->where('id', $data['application']->program_second_choice)->first();
                 $data['program3'] = collect($data['programs'])->where('id', $data['application']->program_third_choice)->first();
