@@ -1001,6 +1001,30 @@ class ProgramController extends Controller
         # code...
         $data['application'] = ApplicationForm::find($id);
         $data['title'] = "Application Details For ".$data['application']->name;
+        $data['campuses'] = json_decode($this->api_service->campuses())->data;
+        $data['programs'] = collect(json_decode($this->api_service->campusPrograms($data['application']->campus_id))->data)->where('degree_id', $data['application']->degree_id);
+
+        if($data['application']->degree_id != null){
+            $data['degree'] = collect(json_decode($this->api_service->degrees())->data)->where('id', $data['application']->degree_id)->first();
+        }
+        if($data['application']->campus_id != null){
+            $data['campus'] = collect($data['campuses'])->where('id', $data['application']->campus_id)->first();
+        }
+        if($data['application']->degree_id != null){
+            $data['certs'] = json_decode($this->api_service->certificates())->data;
+        }
+        if($data['application']->entry_qualification != null){
+            $data['programs'] = json_decode($this->api_service->campusDegreeCertificatePrograms($data['application']->campus_id, $data['application']->degree_id, $data['application']->entry_qualification))->data;
+            $data['cert'] = collect($data['certs'])->where('id', $data['application']->entry_qualification)->first();
+        }
+        if($data['application']->program_first_choice != null){
+            $data['program1'] = collect($data['programs'])->where('id', $data['application']->program_first_choice)->first();
+            $data['program2'] = collect($data['programs'])->where('id', $data['application']->program_second_choice)->first();
+            $data['program3'] = collect($data['programs'])->where('id', $data['application']->program_third_choice)->first();
+            // return $data;
+        }   
+
+        return view('admin.student.show_form', $data);
         
     }
 
@@ -1092,10 +1116,10 @@ class ProgramController extends Controller
         }
 
         // return $this->api_service->campuses();
-        $data['programs'] = collect(json_decode($this->api_service->programs())->data);
-
+        
         $data['campuses'] = json_decode($this->api_service->campuses())->data;
         $data['application'] = ApplicationForm::find($id);
+        $data['programs'] = collect(json_decode($this->api_service->campusPrograms($data['application']->campus_id))->data)->where('degree_id', $data['application']->degree_id);
 
         if($data['application']->degree_id != null){
             $data['degree'] = collect(json_decode($this->api_service->degrees())->data)->where('id', $data['application']->degree_id)->first();

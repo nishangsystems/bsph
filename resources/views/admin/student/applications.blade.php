@@ -38,6 +38,7 @@
                             <td class="border-left border-right">{{ $programs->where('id', $appl->program_second_choice)->first()->name??null }}</td>
                             <td class="border-left border-right">
                                 @isset($action)
+                                    <a href="{{ route('admin.admission.show', $appl->id) }}" class="btn btn-xs btn-success mt-1">@lang('text.word_show')</a>|
                                     <a href="{{ Request::url().'/'.$appl->id }}" class="btn btn-xs btn-primary mt-1">{{ $action }}</a>
                                 @endisset
                                 @if(isset($download))

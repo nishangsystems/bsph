@@ -1136,5 +1136,6 @@ return [
     'word_photo'=>'photo',
     'payment_method'=>'payment method',
     'middle_and_last_name'=>'middle & last name',
+    'proof_of_payment'=>'proof of payment',
     ''
 ]; 
