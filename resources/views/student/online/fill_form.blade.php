@@ -187,8 +187,8 @@ $em_key = time().random_int(3000, 3099);
                             <div class="row">
                                 <div class="col-sm-2">
                                     <select name="" id="" class="form-control" onchange="toggleDisability(this)">
-                                        <option value="YES" selected>YES</option>
-                                        <option value="NONE">NONE</option>
+                                        <option value="YES" {{ old('disability', $application->disability) != null ? 'selected' : '' }}>YES</option>
+                                        <option value="NONE" {{ old('disability', $application->disability) == null ? 'selected' : '' }}>NONE</option>
                                     </select>
                                 </div>
                                 <div class="col-sm-9">
@@ -202,8 +202,8 @@ $em_key = time().random_int(3000, 3099);
                             <div class="row">
                                 <div class="col-sm-2">
                                     <select name="" id="" class="form-control" onchange="toggleHealthCondition(this)">
-                                        <option value="YES" selected>YES</option>
-                                        <option value="NONE">NONE</option>
+                                        <option value="YES" {{ old('health_condition', $application->health_condition) != null ? 'selected' : '' }}>YES</option>
+                                        <option value="NONE" {{ old('health_condition', $application->health_condition) == null ? 'selected' : '' }}>NONE</option>
                                     </select>
                                 </div>
                                 <div class="col-sm-9">
