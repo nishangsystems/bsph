@@ -1058,9 +1058,9 @@ class ProgramController extends Controller
 
         # code...
         // return $this->api_service->campuses();
-        $data['programs'] = collect(json_decode($this->api_service->programs())->data);
-        $data['campuses'] = json_decode($this->api_service->campuses())->data;
         $data['application'] = ApplicationForm::find($id);
+        $data['campuses'] = json_decode($this->api_service->campuses())->data;
+        $data['programs'] = collect(json_decode($this->api_service->campusPrograms($data['application']->campus_id))->data)->where('degree_id', $data['application']->degree_id);
 
         if($data['application']->degree_id != null){
             $data['degree'] = collect(json_decode($this->api_service->degrees())->data)->where('id', $data['application']->degree_id)->first();
@@ -1078,10 +1078,11 @@ class ProgramController extends Controller
         if($data['application']->program_first_choice != null){
             $data['program1'] = collect($data['programs'])->where('id', $data['application']->program_first_choice)->first();
             $data['program2'] = collect($data['programs'])->where('id', $data['application']->program_second_choice)->first();
+            $data['program3'] = collect($data['programs'])->where('id', $data['application']->program_third_choice)->first();
             // return $data;
-        }
+        }   
         
-        $data['title'] = "APPLICATION FORM FOR ".$data['degree']->deg_name;
+        $data['title'] = "EDIT APPLICATION FORM FOR ".$data['degree']->deg_name;
         return view('admin.student.edit_form', $data);
         
     }
@@ -1089,6 +1090,8 @@ class ProgramController extends Controller
     public function update_application_form(Request $request, $id)
     {
         # code...
+
+        dd($request->all());
         $validity = Validator::make($request->all(), ['name'=>'required']);
         if($validity->fails()){
             return back()->with('error', $validity->errors()->first());
