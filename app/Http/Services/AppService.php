@@ -109,7 +109,7 @@ class AppService{
 
         $data['ol_results'] = json_decode($application->ol_results);
         $data['al_results'] = json_decode($application->al_results);
-        $data['result_count'] = ($ol_count = count($data['ol_results'])) > ($al_count = count($data['al_results'])) ? $ol_count : $al_count; 
+        $data['result_count'] = ($ol_count = count($data['ol_results']? $data['ol_results'] : [])) > ($al_count = count($data['al_results'] ? $data['al_results'] : [])) ? $ol_count : $al_count; 
         // dd($data);
         // if(in_array(null, array_values($data))){ return redirect(route('student.application.start', [0, $application_id]))->with('message', "Make sure your form is correctly filled and try again.");}
         // return view('student.online.form_dawnloadable', $data);
