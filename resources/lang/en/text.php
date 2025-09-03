@@ -834,7 +834,7 @@ return [
     'personal_details_bilang'=>'personal details / information personnel',
     'word_gender_bilang'=>'gender / sexe',
     'word_surname_bilang'=>'surname (family name) / nom',
-    'first_name_bilang'=>'first (given) name / prenom',
+    'first_name_bilang'=>'first name / prenom',
     'date_of_birth_bilang'=>'date of birth / date de naissance',
     'place_of_birth_bilang'=>'place of birth / lieu de naissance',
     'word_region_bilang'=>'region / region',

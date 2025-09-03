@@ -43,7 +43,8 @@ class ApplicationForm extends Model
     public function otherNames(){
         if($this->name != null){
             $last_name = '';
-            $tokens = explode(' ', $this->name);
+            $tokens = collect(explode(' ', $this->name))->filter(function($item){return strlen($item) != 0;})->values()->toArray();
+            // dd($tokens);
             if(count($tokens) > 3){
                 $last_name = $tokens[2]." ".$tokens[3];
             }elseif(count($tokens) == 3){

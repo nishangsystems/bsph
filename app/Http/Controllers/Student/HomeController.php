@@ -178,7 +178,7 @@ class HomeController extends Controller
             
             
             # code...
-            // return $this->api_service->campuses();
+            // return json_decode($this->api_service->campuses())->data;
             $data['campuses'] = json_decode($this->api_service->campuses())->data;
             $application = ApplicationForm::where(['student_id'=>auth('student')->id(), 'year_id'=>Helpers::instance()->getCurrentAccademicYear()])->first();
             if($application == null){
@@ -187,6 +187,8 @@ class HomeController extends Controller
                 $application->year_id = Helpers::instance()->getCurrentAccademicYear();
                 $application->save();
             }
+
+            $data['all_programs'] = collect(json_decode($this->api_service->programs())->data)->sortBy('name');
 
             if ($request->_prg != null) {
                 # code...
@@ -389,12 +391,20 @@ class HomeController extends Controller
                 foreach($request->ol_results as $rec){
                     $ol_results[] = ['subject'=>$rec['subject'], 'grade'=>$rec['grade']];
                 }
+                if(count($ol_results) < 4){
+                    session()->flash('error', "You must enter atleast 4 subjects for GCE Ordinary Level");
+                    return back()->withInput();
+                }
                 $data['ol_results'] = json_encode($ol_results);
             }
             if($request->al_results != null){
                 $al_results = [];
                 foreach($request->al_results as $rec){
                     $al_results[] = ['subject'=>$rec['subject'], 'grade'=>$rec['grade']];
+                }
+                if(count($al_results) < 2){
+                    session()->flash('error', "You must enter atleast 2 subjects for GCE Advanced Level");
+                    return back()->withInput();
                 }
                 $data['al_results'] = json_encode($al_results);
             }

@@ -259,7 +259,7 @@
                 </tr>
                 <br>
                 <tr>
-                    <td class="py-2 border-bottom" colspan="3"> Signature: </td>
+                    <td class="py-2 border-bottom" colspan="3"> <b>Signature:</b> </td>
                     <td class="py-2 border-bottom" colspan="3"> Date: {{ $application->submitted->format('l M dS Y') }}</td>
                 </tr>
 

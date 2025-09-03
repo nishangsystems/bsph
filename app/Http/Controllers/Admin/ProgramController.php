@@ -1091,7 +1091,6 @@ class ProgramController extends Controller
     {
         # code...
 
-        dd($request->all());
         $validity = Validator::make($request->all(), ['name'=>'required']);
         if($validity->fails()){
             return back()->with('error', $validity->errors()->first());
