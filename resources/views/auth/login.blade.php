@@ -226,7 +226,7 @@
 										<div class="toolbar clearfix"  style="border: 0px; font-size: xsmall !important; width: 77% !important; margin-inline: auto; ">
 											<span style="text-decoration: none !important; color: black !important;">{{__('text.need_an_account?')}}</span>
 											<a href="{{ route('registration') }}" class="btn rounded-3 btn-sm btn-black" style="border-radius: 2rem; color: #fff !important; background-color: #f00 !important; border: 1px solid {{ $bg1 }} !important; font-weight: semibold !important;">
-												{{__('text.want_to_register')}}
+												NEW APPLICANT
 												{{-- <i class="ace-icon fa fa-arrow-right"></i> --}}
 												</a>
 											</a>
