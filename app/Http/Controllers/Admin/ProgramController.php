@@ -1230,6 +1230,12 @@ class ProgramController extends Controller
         return back();
     }
 
+    public function delete_application_form(Request $request, $id){
+        $form = ApplicationForm::find($id);
+        if($form != null){$form->delete();}
+        return back()->with('success', "Operation Complete");
+    }
+
     public function admit_application_form(Request $request, $id=null)
     {
         # code...

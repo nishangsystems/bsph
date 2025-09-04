@@ -181,6 +181,8 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
         Route::get('finance/summary', [ProgramController::class, 'finance_summary_report'])->name('finance.summary');
 
         Route::get('admitted', [ProgramController::class, 'admitted_students'])->name('admitted_students');
+        
+        Route::get('delete{id}', [ProgramController::class, 'delete_application_form'])->name('delete');
     });
 
     Route::prefix('reports')->name('reports.')->group(function(){

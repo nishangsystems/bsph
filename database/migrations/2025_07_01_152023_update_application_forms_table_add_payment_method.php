@@ -16,6 +16,7 @@ class UpdateApplicationFormsTableAddPaymentMethod extends Migration
         //
         Schema::connection('mysql2')->table('application_forms', function(Blueprint $table){
             $table->enum('payment_method', ['MOMO', 'CBCHS', 'BANK', 'BURSERY', 'OTHER']);
+            $table->softDeletes();
         });
     }
 
