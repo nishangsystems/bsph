@@ -162,27 +162,27 @@ $em_key = time().random_int(3000, 3099);
                     <div class="row">
                         <div class="col-sm-2">
                             <select name="" id="" class="form-control" onchange="toggleDisability(this)">
-                                <option value="YES" {{ old('disability', $application->disability) != null ? 'selected' : '' }}>YES</option>
-                                <option value="NONE" {{ old('disability', $application->disability) == null ? 'selected' : '' }}>NONE</option>
+                                <option value="YES" {{ strlen(old('disability', $application->disability)) > 0 ? 'selected' : '' }}>YES</option>
+                                <option value="NONE" {{ strlen(old('disability', $application->disability)) == 0 ? 'selected' : '' }}>NONE</option>
                             </select>
                         </div>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control text-primary" name="disability"  value="{{ old('disability', $application->disability) }}" id="disability" required>
+                            <input type="text" class="form-control text-primary" name="disability"  value="{{ old('disability', $application->disability) }}" id="disability" {{ strlen(old('disability', $application->disability)) > 0 ? '' : 'readonly' }}>
                         </div>
                     </div>
-                    <label class="text-secondary  text-capitalize">{{ __('text.word_disability') }}<i class="text-danger text-xs">*(<b>None</b> if none)</i></label>
+                    <label class="text-secondary  text-capitalize">{{ __('text.word_disability') }}<i class="text-danger text-xs">*Select (<b>None</b> if none)</i></label>
                 </div>
 
                 <div class="py-2 col-sm-6 col-md-5 col-xl-4">
                     <div class="row">
                         <div class="col-sm-2">
                             <select name="" id="" class="form-control" onchange="toggleHealthCondition(this)">
-                                <option value="YES" {{ old('health_condition', $application->health_condition) != null ? 'selected' : '' }}>YES</option>
-                                <option value="NONE" {{ old('health_condition', $application->health_condition) == null ? 'selected' : '' }}>NONE</option>
+                                <option value="YES" {{ strlen(old('health_condition', $application->health_condition)) > 0 ? 'selected' : '' }}>YES</option>
+                                <option value="NONE" {{ strlen(old('health_condition', $application->health_condition)) == 0 ? 'selected' : '' }}>NONE</option>
                             </select>
                         </div>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control text-primary" name="health_condition" id="health_condition" value="{{ old('health_condition', $application->health_condition) }}" required>
+                            <input type="text" class="form-control text-primary" name="health_condition" id="health_condition" value="{{ old('health_condition', $application->health_condition) }}" {{ strlen(old('health_condition', $application->health_condition)) > 0 ? '' : 'readonly' }}>
                         </div>
                     </div>
                     <label class="text-secondary text-capitalize">{{ __('text.health_condition') }}<i class="text-danger text-xs">*(<b>None</b> if none)</i></label>
@@ -246,7 +246,7 @@ $em_key = time().random_int(3000, 3099);
                     <div class="">
                         <select class="form-control text-primary"  name="program_second_choice">
                             <option>{{ __('text.select_program') }}</option>
-                            @foreach (collect($programs)->where('appliable', 1)->sortBy('name') as $program)
+                            @foreach ($all_programs->where('appliable', 1)->sortBy('name') as $program)
                                 <option value="{{ $program->id }}" {{ old('program_second_choice', $application->program_second_choice) == $program->id ? 'selected' : '' }}>{{ $program->name }}</option>
                             @endforeach
                         </select>
@@ -257,7 +257,7 @@ $em_key = time().random_int(3000, 3099);
                     <div class="">
                         <select class="form-control text-primary"  name="program_third_choice">
                             <option>{{ __('text.select_program') }}</option>
-                            @foreach (collect($programs)->where('appliable', 1)->sortBy('name') as $program)
+                            @foreach ($all_programs->where('appliable', 1)->sortBy('name') as $program)
                                 <option value="{{ $program->id }}" {{ old('program_third_choice', $application->program_third_choice) == $program->id ? 'selected' : '' }}>{{ $program->name }}</option>
                             @endforeach
                         </select>
@@ -267,7 +267,10 @@ $em_key = time().random_int(3000, 3099);
                 <div class="py-2 col-sm-6 col-md-3 col-xl-3">
                     <div class="">
                         <select class="form-control text-primary"  name="level" required id="cplevels">
-                            
+                            <option value=""></option>
+                            @foreach ($levels as $level)
+                                <option value="{{ $level->level }}" {{ old('level', $application->level) == $level->level ? 'selected' : '' }}>{{ $level->level }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <label class="text-secondary  text-capitalize">{{ __('text.word_level') }}<i class="text-danger text-xs">*</i></label>
@@ -275,30 +278,21 @@ $em_key = time().random_int(3000, 3099);
                 
                 <div class="py-2 col-sm-6 col-md-6 col-xl-12">
                     <div class="">
-                        <textarea rows="1" class="form-control text-primary" maxlength="50"  name="enrollment_purpose" required>
-                            {{ old('enrollment_purpose', $application->enrollment_purpose??'') }}
-                        </textarea>
+                        <input class="form-control text-primary rounded" maxlength="250"  name="enrollment_purpose" value="{{ old('enrollment_purpose', $application->enrollment_purpose??'') }}" required>
                     </div>
                     <label class="text-secondary  text-capitalize">{{ __('text.enrollment_purpose_phrase') }}<i class="text-danger text-xs">*</i></label>
                 </div>
 
                 <div class="py-2 col-sm-6 col-md-3 col-xl-2">
                     <div class="">
-                        <select class="form-control text-primary" required onchange="set_payment_channel(this)" id="" @if(in_array($application->payment_method, ['CBCHS', 'BANK', 'BURSARY'])) disabled @endif>
+                        <select class="form-control text-primary" required onchange="set_payment_channel(this)" id="" name="fee_payment_channel">
                             <option value=""></option>
                             {{-- <option value="MOMO" data-action="" {{ $application->payment_method == "MOMO" ? 'selected' : '' }}>MOMO</option> --}}
-                            <option value="CBCHS Station" data-action="" {{ $application->fee_payment_channel == "CBCHS Station" ? 'selected' : '' }}>CBCHS Station</option>
-                            <option value="Bank payment" data-action="" {{ $application->fee_payment_channel == "Bank payment" ? 'selected' : '' }}>Bank payment</option>
-                            <option value="School Bursary" data-action="" {{ $application->fee_payment_channel == "School Bursary" ? 'selected' : '' }}>School Bursary</option>
-                            <option value="Others" {{ $application->fee_payment_channel == "OTHER" ? 'selected' : '' }} data-action="specify">Others? (Specify)</option>
+                            <option value="CBCHS Station" data-action="" {{ $application->payment_method == "CBCHS" ? 'selected' : '' }}>CBCHS Station</option>
+                            <option value="Bank payment" data-action="" {{ $application->payment_method == "BANK" ? 'selected' : '' }}>Bank payment</option>
+                            <option value="School Bursary" data-action="" {{ $application->payment_method == "BURSAER" ? 'selected' : '' }}>School Bursary</option>
+                            <option value="Others" {{ $application->payment_method == "OTHER" ? 'selected' : '' }} data-action="specify">Others? (Specify)</option>
                         </select>
-                    </div>
-                    <label class="text-secondary  text-capitalize">{{ __('text.how_did_you_pay_application_fee') }}?<i class="text-danger text-xs">*</i></label>
-                </div>
-
-                <div class="py-2 col-sm-6 col-md-4 col-xl-3">
-                    <div class="">
-                        <input type="text" name="fee_payment_channel" value="{{ old('fee_payment_channel', $application->fee_payment_channel??'') }}" class="form-control text-primary" required {{ $application->payment_method == "OTHER" ? '' : 'readonly' }} id="payment_channel">
                     </div>
                     <label class="text-secondary  text-capitalize">{{ __('text.how_did_you_pay_application_fee') }}?<i class="text-danger text-xs">*</i></label>
                 </div>
@@ -319,7 +313,7 @@ $em_key = time().random_int(3000, 3099);
                     </div>
                     <label class="text-secondary  text-capitalize">{{ __('text.information_source_phrase') }}<i class="text-danger text-xs">*</i></label>
                 </div>
-                <div class="py-2 col-sm-6 col-md-4 col-xl-4 hidden" id="source_identity">
+                <div class="py-2 col-sm-6 col-md-4 col-xl-4" id="source_identity">
                     <div class="">
                         <input type="text" class="form-control text-primary"  name="info_source_identity" value="{{ old('info_source_identity', $application->info_source_identity) }}">
                     </div>
@@ -444,12 +438,12 @@ $em_key = time().random_int(3000, 3099);
                                         $counter++
                                     @endphp
                                     <div class="text-capitalize container-fluid row py-3">
-                                        <div class="col-sm-7 col-md-7 col-xl-8">
+                                        <div class="col-sm-7 col-md-4 col-xl-4">
                                             <input type="text" class="form-control text-primary"  name="ol_results[{{ $ol_key }}][subject]" required value="{{ $_result->subject }}">
                                             <span>{{ trans_choice('text.word_subject', 1) }}<i class="text-danger text-xs">*</i></span>
                                         </div>
-                                        <div class="col-sm-2 col-md-2 col-xl-2">
-                                            <select class="form-control text-primary"  name="ol_results[{{ $ol_key }}][grade]" required>
+                                        <div class="col-sm-3 col-md-2 col-xl-2">
+                                            <select class="form-control text-primary"  name="ol_results[{{ $ol_key }}][grade]">
                                                 <option value=""></option>
                                                 <option value="A" {{ $_result->grade == 'A' ? 'selected' : '' }}>A</option>
                                                 <option value="B" {{ $_result->grade == 'B' ? 'selected' : '' }}>B</option>
@@ -459,9 +453,17 @@ $em_key = time().random_int(3000, 3099);
                                                 <option value="F" {{ $_result->grade == 'F' ? 'selected' : '' }}>F</option>
                                                 <option value="Compensatory" {{ $_result->grade == 'Compensatory' ? 'selected' : '' }}>Compensatory</option>
                                             </select>
-                                            <span>@lang('text.word_grade')<i class="text-danger text-xs">*</i></span>
+                                            <span>@lang('text.word_grade')</span>
                                         </div>
-                                        <div class="col-sm-3 col-md-3 col-xl-2">
+                                        <div class="col-sm-2 col-md-2 col-xl-2">
+                                            <input type="text" class="form-control text-primary"  name="ol_results[{{ $ol_key }}][coef]" value="{{ $_result->coef??'' }}">
+                                            <span>COEF</span>
+                                        </div>
+                                        <div class="col-sm-6 col-md-2 col-xl-2">
+                                            <input type="text" class="form-control text-primary"  name="ol_results[{{ $ol_key }}][nc]" value="{{ $_result->nc??'' }}">
+                                            <span>NOTE * COEF</span>
+                                        </div>
+                                        <div class="col-sm-3 col-md-2 col-xl-2">
                                             <span class="btn btn-sm px-4 py-1 btn-danger rounded" onclick="dropOLResult(event)">{{ __('text.word_drop') }}</span>
                                         </div>
                                     </div>
@@ -472,12 +474,12 @@ $em_key = time().random_int(3000, 3099);
                                         $counter++
                                     @endphp
                                     <div class="text-capitalize container-fluid row py-3">
-                                        <div class="col-sm-7 col-md-7 col-xl-8">
+                                        <div class="col-sm-7 col-md-4 col-xl-4">
                                             <input type="text" class="form-control text-primary"  name="ol_results[{{ $ol_key }}][subject]" required>
                                             <span>{{ trans_choice('text.word_subject', 1) }}<i class="text-danger text-xs">*</i></span>
                                         </div>
-                                        <div class="col-sm-2 col-md-2 col-xl-2">
-                                            <select class="form-control text-primary"  name="ol_results[{{ $ol_key }}][grade]" required>
+                                        <div class="col-sm-3 col-md-2 col-xl-2">
+                                            <select class="form-control text-primary"  name="ol_results[{{ $ol_key }}][grade]">
                                                 <option value=""></option>
                                                 <option value="A">A</option>
                                                 <option value="B">B</option>
@@ -487,9 +489,17 @@ $em_key = time().random_int(3000, 3099);
                                                 <option value="F">F</option>
                                                 <option value="Compensatory">Compensatory</option>
                                             </select>
-                                            <span>@lang('text.word_grade')<i class="text-danger text-xs">*</i></span>
+                                            <span>@lang('text.word_grade')</span>
                                         </div>
-                                        <div class="col-sm-3 col-md-3 col-xl-2">
+                                        <div class="col-sm-2 col-md-2 col-xl-2">
+                                            <input type="text" class="form-control text-primary"  name="ol_results[{{ $ol_key }}][coef]">
+                                            <span>COEF</span>
+                                        </div>
+                                        <div class="col-sm-6 col-md-2 col-xl-2">
+                                            <input type="text" class="form-control text-primary"  name="ol_results[{{ $ol_key }}][nc]">
+                                            <span>NOTE * COEF</span>
+                                        </div>
+                                        <div class="col-sm-3 col-md-2 col-xl-2">
                                             <span class="btn btn-sm px-4 py-1 btn-danger rounded" onclick="dropOLResult(event)">{{ __('text.word_drop') }}</span>
                                         </div>
                                     </div>
@@ -522,7 +532,7 @@ $em_key = time().random_int(3000, 3099);
                                         @php
                                             $yr = ($i-1).'/'.$i;
                                         @endphp
-                                        <option value="{{ $yr }}" {{ $yr == old('al_year', $application->ol_year) ? 'selected' : '' }}>{{ $yr }}</option>
+                                        <option value="{{ $yr }}" {{ $yr == old('al_year', $application->al_year) ? 'selected' : '' }}>{{ $yr }}</option>
                                     @endfor
                                 </select>
                                 <small class="text-danger"><i>@lang('text.word_year')</i>*</small>
@@ -542,12 +552,12 @@ $em_key = time().random_int(3000, 3099);
                                         $counter++
                                     @endphp
                                     <div class="text-capitalize container-fluid row py-3">
-                                        <div class="col-sm-7 col-md-7 col-xl-8">
+                                        <div class="col-sm-7 col-md-4 col-xl-4">
                                             <input type="text" class="form-control text-primary"  name="al_results[{{ $al_key }}][subject]" required value="{{ $_result->subject }}">
                                             <span>{{ trans_choice('text.word_subject', 1) }}<i class="text-danger text-xs">*</i></span>
                                         </div>
-                                        <div class="col-sm-2 col-md-2 col-xl-2">
-                                            <select class="form-control text-primary"  name="al_results[{{ $al_key++ }}][grade]" required>
+                                        <div class="col-sm-3 col-md-2 col-xl-2">
+                                            <select class="form-control text-primary"  name="al_results[{{ $al_key++ }}][grade]">
                                                 <option value=""></option>
                                                 <option value="A" {{ $_result->grade == 'A' ? 'selected' : '' }}>A</option>
                                                 <option value="B" {{ $_result->grade == 'B' ? 'selected' : '' }}>B</option>
@@ -557,9 +567,17 @@ $em_key = time().random_int(3000, 3099);
                                                 <option value="F" {{ $_result->grade == 'F' ? 'selected' : '' }}>F</option>
                                                 <option value="Compensatory" {{ $_result->grade == 'Compensatory' ? 'selected' : '' }}>Compensatory</option>
                                             </select>
-                                            <span>@lang('text.word_grade')<i class="text-danger text-xs">*</i></span>
+                                            <span>@lang('text.word_grade')</span>
                                         </div>
-                                        <div class="col-sm-3 col-md-3 col-xl-2">
+                                        <div class="col-sm-2 col-md-2 col-xl-2">
+                                            <input type="text" class="form-control text-primary"  name="al_results[{{ $al_key }}][coef]" value="{{ $_result->coef??'' }}">
+                                            <span>COEF</span>
+                                        </div>
+                                        <div class="col-sm-6 col-md-2 col-xl-2">
+                                            <input type="text" class="form-control text-primary"  name="al_results[{{ $al_key }}][nc]" value="{{ $_result->nc??'' }}">
+                                            <span>NOTE * COEF</span>
+                                        </div>
+                                        <div class="col-sm-3 col-md-2 col-xl-2">
                                             <span class="btn btn-sm px-4 py-1 btn-danger rounded" onclick="dropALResult(event)">{{ __('text.word_drop') }}</span>
                                         </div>
                                     </div>
@@ -570,12 +588,12 @@ $em_key = time().random_int(3000, 3099);
                                         $counter++
                                     @endphp
                                     <div class="text-capitalize container-fluid row py-3">
-                                        <div class="col-sm-7 col-md-7 col-xl-8">
+                                        <div class="col-sm-7 col-md-4 col-xl-4">
                                             <input type="text" class="form-control text-primary"  name="al_results[{{ $al_key }}][subject]" required>
                                             <span>{{ trans_choice('text.word_subject', 1) }}<i class="text-danger text-xs">*</i></span>
                                         </div>
-                                        <div class="col-sm-2 col-md-2 col-xl-2">
-                                            <select class="form-control text-primary"  name="al_results[{{ $al_key }}][grade]" required>
+                                        <div class="col-sm-3 col-md-2 col-xl-2">
+                                            <select class="form-control text-primary"  name="al_results[{{ $al_key++ }}][grade]">
                                                 <option value=""></option>
                                                 <option value="A">A</option>
                                                 <option value="B">B</option>
@@ -585,9 +603,17 @@ $em_key = time().random_int(3000, 3099);
                                                 <option value="F">F</option>
                                                 <option value="Compensatory">Compensatory</option>
                                             </select>
-                                            <span>@lang('text.word_grade')<i class="text-danger text-xs">*</i></span>
+                                            <span>@lang('text.word_grade')</span>
                                         </div>
-                                        <div class="col-sm-3 col-md-3 col-xl-2">
+                                        <div class="col-sm-2 col-md-2 col-xl-2">
+                                            <input type="text" class="form-control text-primary"  name="al_results[{{ $al_key }}][coef]">
+                                            <span>COEF</span>
+                                        </div>
+                                        <div class="col-sm-6 col-md-2 col-xl-2">
+                                            <input type="text" class="form-control text-primary"  name="al_results[{{ $al_key }}][nc]">
+                                            <span>NOTE * COEF</span>
+                                        </div>
+                                        <div class="col-sm-3 col-md-2 col-xl-2">
                                             <span class="btn btn-sm px-4 py-1 btn-danger rounded" onclick="dropALResult(event)">{{ __('text.word_drop') }}</span>
                                         </div>
                                     </div>
@@ -649,12 +675,12 @@ $em_key = time().random_int(3000, 3099);
         let addOLResult = function(){
             let key = '_key_'+Date.now()+'_'+Math.random()*10000;
             let html = `<div class="text-capitalize container-fluid row py-3">
-                            <div class="col-sm-7 col-md-7 col-xl-8">
+                            <div class="col-sm-7 col-md-4 col-xl-4">
                                 <input type="text" class="form-control text-primary"  name="ol_results[${key}][subject]" required>
                                 <span>{{ trans_choice('text.word_subject', 1) }}<i class="text-danger text-xs">*</i></span>
                             </div>
-                            <div class="col-sm-2 col-md-2 col-xl-2">
-                                <select class="form-control text-primary"  name="ol_results[${key}][grade]" required>
+                            <div class="col-sm-3 col-md-2 col-xl-2">
+                                <select class="form-control text-primary"  name="ol_results[${key}][grade]">
                                     <option value=""></option>
                                     <option value="A">A</option>
                                     <option value="B">B</option>
@@ -664,9 +690,17 @@ $em_key = time().random_int(3000, 3099);
                                     <option value="F">F</option>
                                     <option value="Compensatory">Compensatory</option>
                                 </select>
-                                <span>@lang('text.word_grade')<i class="text-danger text-xs">*</i></span>
+                                <span>@lang('text.word_grade')</span>
                             </div>
-                            <div class="col-sm-3 col-md-3 col-xl-2">
+                            <div class="col-sm-2 col-md-2 col-xl-2">
+                                <input type="text" class="form-control text-primary"  name="ol_results[${key}][coef]">
+                                <span>COEF</span>
+                            </div>
+                            <div class="col-sm-6 col-md-2 col-xl-2">
+                                <input type="text" class="form-control text-primary"  name="ol_results[${key}][nc]">
+                                <span>NOTE * COEF</span>
+                            </div>
+                            <div class="col-sm-3 col-md-2 col-xl-2">
                                 <span class="btn btn-sm px-4 py-1 btn-danger rounded" onclick="dropOLResult(event)">{{ __('text.word_drop') }}</span>
                             </div>
                         </div>`;
@@ -677,12 +711,12 @@ $em_key = time().random_int(3000, 3099);
         let addALResult = function(){
             let key = '_key_'+Date.now()+'_'+Math.random()*10000;
             let html = `<div class="text-capitalize container-fluid row py-3">
-                            <div class="col-sm-7 col-md-7 col-xl-8">
+                            <div class="col-sm-7 col-md-4 col-xl-4">
                                 <input type="text" class="form-control text-primary"  name="al_results[${key}][subject]" required>
                                 <span>{{ trans_choice('text.word_subject', 1) }}<i class="text-danger text-xs">*</i></span>
                             </div>
-                            <div class="col-sm-2 col-md-2 col-xl-2">
-                                <select class="form-control text-primary"  name="al_results[${key}][grade]" required>
+                            <div class="col-sm-3 col-md-2 col-xl-2">
+                                <select class="form-control text-primary"  name="al_results[${key}][grade]">
                                     <option value=""></option>
                                     <option value="A">A</option>
                                     <option value="B">B</option>
@@ -694,7 +728,15 @@ $em_key = time().random_int(3000, 3099);
                                 </select>
                                 <span>@lang('text.word_grade')<i class="text-danger text-xs">*</i></span>
                             </div>
-                            <div class="col-sm-3 col-md-3 col-xl-2">
+                            <div class="col-sm-2 col-md-2 col-xl-2">
+                                <input type="text" class="form-control text-primary"  name="al_results[${key}][coef]">
+                                <span>COEF</span>
+                            </div>
+                            <div class="col-sm-6 col-md-2 col-xl-2">
+                                <input type="text" class="form-control text-primary"  name="al_results[${key}][nc]">
+                                <span>NOTE * COEF</span>
+                            </div>
+                            <div class="col-sm-3 col-md-2 col-xl-2">
                                 <span class="btn btn-sm px-4 py-1 btn-danger rounded" onclick="dropOLResult(event)">{{ __('text.word_drop') }}</span>
                             </div>
                         </div>`;
@@ -840,11 +882,11 @@ $em_key = time().random_int(3000, 3099);
         let source_identity = (element)=>{
             let option_action = $(element).find(':selected').data('action');
             if(option_action == 'specify'){
-                let hint = $(element).find(':selected').data('hint');
-                $('#source_identity').removeClass('hidden');
-                $('#source_identity input').attr('placeholder', "Specify "+hint);
+                // let hint = $(element).find(':selected').data('hint');
+                // $('#source_identity').removeClass('hidden');
+                // $('#source_identity input').attr('placeholder', "Specify "+hint);
             }else{
-                $('#source_identity').addClass('hidden');
+                // $('#source_identity').addClass('hidden');
             }
         }
 
