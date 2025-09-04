@@ -28,53 +28,36 @@ class AppService{
             $department = $programs->where('id', $program->parent_id)->first()??null;
             $degree = collect(json_decode($this->api_service->degrees())->data)->where('id', $appl->degree_id)->first()??null;
             $config = Config::where('year_id', Helpers::instance()->getCurrentAccademicYear())->first();
-            
-            // get program admins
-            $admins = ProgramAdmin::first();
-            if ($admins == null) {
-                # code...
-                session()->flash('error', 'Administrators not yet set for this program');
-                return back()->withInput();
-            }
-            
-            // get program fee settings
-            $fees = $this->api_service->class_portal_fee_structure($appl->program_first_choice, $appl->level, $appl->year_id, $option=1)['data'];
-            // dd($fees);
-            if($fees == null){
-                session()->flash('error', 'Fees not set for this program. Contact school system for fee settings');
-                return back()->withInput();
-            }
-
-            // dd($fees);
-
-            $data['platform_links'] = [];
-            
+            $data['appl'] = $appl;
             $data['year'] = substr($appl->year->name, -4);
             $data['_year'] = substr($appl->year->name, 2, 2);
             // dd($data);
             $data['title'] = "ADMISSION LETTER";
+            $data['filters'] = collect([
+                ['program'=>178, 'duration'=>4, 'mentor'=>'University of Buea'],
+                ['program'=>179, 'duration'=>3, 'mentor'=>'University of Buea'],
+                ['program'=>170, 'duration'=>3, 'mentor'=>'University of Buea'],
+                ['program'=>173, 'duration'=>4, 'mentor'=>'University of Dschang'],
+                ['program'=>167, 'duration'=>4, 'mentor'=>'University of Ngoundere'],
+                ['program'=>172, 'duration'=>3, 'mentor'=>'University of Zimbabwe'],
+                ['program'=>164, 'duration'=>3, 'mentor'=>'MINSUP'],
+                ['program'=>168, 'duration'=>3, 'mentor'=>'MINSUP'],
+                ['program'=>161, 'duration'=>3, 'mentor'=>'MINSUP'],
+                ['program'=>174, 'duration'=>2, 'mentor'=>'Baptist School of Public Health'],
+                ['program'=>175, 'duration'=>2, 'mentor'=>'Baptist School of Public Health'],
+            ]);
             $data['name'] = $appl->name;
             $data['matric'] =  $appl->matric;
-            $data['auth_no'] =  time().'/'.random_int(150553, 998545).'/XGS4';
-            $data['registrar'] = $admins->registrar??'REGISTRAR-NOT-SET';
-            $data['chancellor'] = $admins->chancellor??'CHANCELLOR-NOT-SET';
-            $data['p_chancellor'] = $admins->pro_chancellor??'Pro CHANCELLOR-NOT-SET';
-            $data['v_chancellor'] = $admins->vice_chancellor??"VC-NOT-SET";
-            $data['dvc1'] = $admins->dvc_admin??"DVC-NOT-SET";
-            $data['dvc2'] = $admins->dvc_academic??"DVC-NOT-SET";
-            $data['dvc3'] = $admins->dvc_coop??"DVC-NOT-SET";
-            $data['fee1_dateline'] = $config->fee1_latest_date;
-            $data['fee2_dateline'] = $config->fee2_latest_date;
+            $data['auth_no'] =  time().'/'.random_int(150553, 998545).'R'.$program->id.'BSPH'.$appl_id;
             $data['help_email'] =  $config->help_email;
             $data['campus'] = $campus->name??null;
             $data['degree'] = ($program->deg_name??null) == null ? ("NOT SET") : $program->deg_name;
-            $data['program'] = str_replace($data['degree'], ' ', $program->name??"");
+            $data['_degree'] = $degree;
+            $data['program'] = str_replace($degree->deg_name??'', ' ', $program->name??"");
             $data['_program'] = $program;
             $data['matric_sn'] = substr($appl->matric, -3);
             $data['department'] = $department->name??'-------';
-            $data['fee'] = $fees[0]??$fees;
-            $data['page2'] = AdmissionLetterPage2::where('program_id', $program->id??0)->first();
-            $data['start_of_lectures'] = Config::where('year_id', Helpers::instance()->getCurrentAccademicYear())->first()->start_of_lectures??'';
+            $data['start_of_lectures'] = Config::where('year_id', Helpers::instance()->getCurrentAccademicYear())->first()->start_of_lectures?->format('F dS Y');
             // dd($program);
             if($data['degree'] ==  null){
                 session()->flash('error', 'Program Degree Name not set');

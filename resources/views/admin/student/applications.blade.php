@@ -45,7 +45,12 @@
                                         <a href="{{ Request::url().'/'.$appl->id }}" class="btn btn-xs btn-primary mt-1">{{ $action }}</a>
                                     @endif
                                 @endisset
-                                <a href="{{ route('admin.applications.delete', $appl->id)}}" class="btn btn-xs btn-danger mt-1">@lang('text.word_delete')</a>
+                                @isset($adml)
+                                    <a href="{{ Request::url() }}/{{ $appl->id }}?_atn=_dld" class="btn btn-xs btn-success mt-1">@lang('text.word_download')</a>
+                                @endisset
+                                @if(empty($appl->admitted))
+                                    <a href="{{ route('admin.applications.delete', $appl->id)}}" class="btn btn-xs btn-danger mt-1">@lang('text.word_delete')</a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach
