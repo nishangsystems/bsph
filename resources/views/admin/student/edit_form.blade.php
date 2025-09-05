@@ -308,7 +308,7 @@ $em_key = time().random_int(3000, 3099);
                             <option value="BSPH advert" {{ old('info_source', $application->info_source) == "BSPH advert" ? 'selected' : '' }} data-action="">BSPH Advert (Flyers, posters, billboard)</option>
                             <option value="BSPH Social Media" {{ old('info_source', $application->info_source) == "BSPH Social Media" ? 'selected' : '' }} data-action="specify" data-hint="which media">BSPH Social Media (Specify)</option>
                             <option value="BSPH outdoor marketing" {{ old('info_source', $application->info_source) == "BSPH outdoor marketing" ? 'selected' : '' }} data-action="">BSPH outdoor marketing (visit to school, social gathering, sporting activities)</option>
-                            <option value="Others" data-action="specify" data-hint="which individaul/gathering you got information from">Others (church, name of person/number, ...) (specify)</option>
+                            <option value="Others" {{ old('info_source', $application->info_source) == "Others" ? 'selected' : '' }} data-action="specify" data-hint="which individaul/gathering you got information from">Others (church, name of person/number, ...) (specify)</option>
                         </select>
                     </div>
                     <label class="text-secondary  text-capitalize">{{ __('text.information_source_phrase') }}<i class="text-danger text-xs">*</i></label>
@@ -329,10 +329,6 @@ $em_key = time().random_int(3000, 3099);
                         <div class="card-body container-fluid">
                             <h5 class="font-weight-bold text-capitalize text-center h4">{{ __('text.schools_attended') }}</h5>
                             <table class="table table-light" style="table-layout:fixed; max-width:inherit;">
-                                <div class="text-capitalize">
-                                    <h5 class="text-dark font-weight-semibold text-uppercase text-center d-flex justify-content-end h5"><span class="btn btn-sm btn-primary rounded" onclick="addSchoolAttended()">add</span> </h5>
-                                </div>
-                                <hr>
                                 <div id="schools_attended">
                                     @php $counter = 1; @endphp
                                     @foreach (json_decode($application->schools_attended)??[] as $_result)
@@ -387,6 +383,10 @@ $em_key = time().random_int(3000, 3099);
                                             </div>
                                         </div>
                                     @endwhile
+                                </div>
+                                <hr>
+                                <div class="text-capitalize">
+                                    <h5 class="text-dark font-weight-semibold text-uppercase text-center h5"><span class="btn btn-sm btn-primary rounded" onclick="addSchoolAttended()">add</span> </h5>
                                 </div>
                             </table>
                         </div>
@@ -619,7 +619,7 @@ $em_key = time().random_int(3000, 3099);
                             </div>
                             <hr>
                             <div class="text-capitalize">
-                                <h5 class="text-dark font-weight-semibold text-uppercase text-center d-flex justify-content-end h5"><span class="btn btn-sm btn-primary rounded" onclick="addALResult()">add</span> </h5>
+                                <h5 class="text-dark font-weight-semibold text-uppercase text-center h5"><span class="btn btn-sm btn-primary rounded" onclick="addALResult()">add</span> </h5>
                             </div>
                         </table>
                     </div>

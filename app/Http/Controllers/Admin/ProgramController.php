@@ -1094,58 +1094,56 @@ class ProgramController extends Controller
     {
         # code...
 
-        $validity = Validator::make($request->all(), ['name'=>'required']);
-        if($validity->fails()){
-            return back()->with('error', $validity->errors()->first());
-        }
-
-        $appl = ApplicationForm::find($id);
-        
-
-        $data = $request->all();
-        $data_p1=[];
-        $_data = $request->schools_attended;
-        // dd($_data);
-        if($_data != null){
-            foreach ($_data as $key => $value) {
-                $data_p1[] = ['school'=>$value['school'], 'date_from'=>$value['date_from'], 'date_to'=>$value['date_to'], 'qualification'=>$value['qualification']];
+        try{
+            $appl = ApplicationForm::find($id);
+            
+    
+            $data = $request->all();
+            $data_p1=[];
+            $_data = $request->schools_attended;
+            // dd($_data);
+            if($_data != null){
+                foreach ($_data as $key => $value) {
+                    $data_p1[] = ['school'=>$value['school'], 'date_from'=>$value['date_from'], 'date_to'=>$value['date_to'], 'qualification'=>$value['qualification']];
+                }
+                $data['schools_attended'] = json_encode($data_p1);
+                // dd($data);
             }
-            $data['schools_attended'] = json_encode($data_p1);
-            // dd($data);
-        }
-        
-        if($request->ol_results != null){
-            $ol_results = [];
-            foreach($request->ol_results as $rec){
-                $ol_results[] = ['subject'=>$rec['subject']??'', 'grade'=>$rec['grade']??'', 'coef'=>$rec['coef']??'', 'nc'=>$rec['nc']??''];
+            
+            if($request->ol_results != null){
+                $ol_results = [];
+                foreach($request->ol_results as $rec){
+                    $ol_results[] = ['subject'=>$rec['subject']??'', 'grade'=>$rec['grade']??'', 'coef'=>$rec['coef']??'', 'nc'=>$rec['nc']??''];
+                }
+                if(count($ol_results) < 4){
+                    session()->flash('error', "You must enter atleast 4 subjects for GCE Ordinary Level");
+                    return back()->withInput();
+                }
+                $data['ol_results'] = json_encode($ol_results);
             }
-            if(count($ol_results) < 4){
-                session()->flash('error', "You must enter atleast 4 subjects for GCE Ordinary Level");
-                return back()->withInput();
+            if($request->al_results != null){
+                $al_results = [];
+                foreach($request->al_results as $rec){
+                    $al_results[] = ['subject'=>$rec['subject']??'', 'grade'=>$rec['grade']??'', 'coef'=>$rec['coef']??'', 'nc'=>$rec['nc']??''];
+                }
+                if(count($al_results) < 2){
+                    session()->flash('error', "You must enter atleast 2 subjects for GCE Advanced Level");
+                    return back()->withInput();
+                }
+                $data['al_results'] = json_encode($al_results);
             }
-            $data['ol_results'] = json_encode($ol_results);
+            
+            $data['name'] = $data['first_name']." ".$data['other_names']??'';
+            
+            $data = collect($data)->filter(function($value, $key){return !in_array($key, ['_token', 'first_name', 'other_names']) and $value != null;})->toArray();
+            $appl->update( $data);
+            // dd('check point X4');
+    
+            return back()->with('success', __('text.word_done'));
+        }catch(\Throwable $th){
+            session()->flash('error', $th->getMessage());
+            return back()->withInput();
         }
-        if($request->al_results != null){
-            $al_results = [];
-            foreach($request->al_results as $rec){
-                $al_results[] = ['subject'=>$rec['subject']??'', 'grade'=>$rec['grade']??'', 'coef'=>$rec['coef']??'', 'nc'=>$rec['nc']??''];
-            }
-            if(count($al_results) < 2){
-                session()->flash('error', "You must enter atleast 2 subjects for GCE Advanced Level");
-                return back()->withInput();
-            }
-            $data['al_results'] = json_encode($al_results);
-        }
-        
-        // dd('check point X3');
-        if(array_key_exists('first_name', $data)){
-            $data['name'] = $data['first_name']." ".$data['other_names'];
-        }
-        $data = collect($data)->filter(function($value, $key){return !in_array($key, ['_token', 'first_name', 'other_names']) and $value != null;})->toArray();
-        $appl->update( $data);
-        // dd('check point X4');
-
-        return back()->with('success', __('text.word_done'));
     }
 
     public function uncompleted_application_form(Request $request, $id=null)
