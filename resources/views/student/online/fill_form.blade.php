@@ -620,7 +620,7 @@ $em_key = time().random_int(3000, 3099);
                             
                             <div class="card my-1">
                                 <div class="card-body container-fluid">
-                                    <h5 class="font-weight-bold text-capitalize text-center h4">{{ __('text.schools_attended') }}</h5>
+                                    <h5 class="font-weight-bold text-capitalize text-center h4">{{ __('text.schools_attended') }} (OL, AL, Diploma)</h5>
                                     <table class="table table-light" style="table-layout:fixed; max-width:inherit;">
                                         <div id="schools_attended">
                                             @php $counter = 1; @endphp

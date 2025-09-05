@@ -280,7 +280,7 @@ return [
     'word_semester'=>'semester',
     'program_levels'=>'program levels',
     'word_levels'=>'levels',
-    'word_drop'=>'drop',
+    'word_drop'=>'remove',
     'word_subjects'=>'courses',
     'word_programs'=>'programs',
     'word_fees'=>'fees',
