@@ -428,7 +428,6 @@ $em_key = time().random_int(3000, 3099);
                                                         <option value="D" {{ $_result->grade == 'D' ? 'selected' : '' }}>D</option>
                                                         <option value="E" {{ $_result->grade == 'E' ? 'selected' : '' }}>E</option>
                                                         <option value="U" {{ $_result->grade == 'U' ? 'selected' : '' }}>U</option>
-                                                        <option value="Compensatory" {{ $_result->grade == 'Compensatory' ? 'selected' : '' }}>Compensatory</option>
                                                     </select>
                                                     <span>@lang('text.word_grade')</span>
                                                 </div>
@@ -463,8 +462,7 @@ $em_key = time().random_int(3000, 3099);
                                                         <option value="C">C</option>
                                                         <option value="D">D</option>
                                                         <option value="E">E</option>
-                                                        <option value="F">F</option>
-                                                        <option value="Compensatory">Compensatory</option>
+                                                        <option value="U">U</option>
                                                     </select>
                                                     <span>@lang('text.word_grade')</span>
                                                 </div>
@@ -1172,8 +1170,7 @@ $em_key = time().random_int(3000, 3099);
                                     <option value="C">C</option>
                                     <option value="D">D</option>
                                     <option value="E">E</option>
-                                    <option value="F">F</option>
-                                    <option value="Compensatory">Compensatory</option>
+                                    <option value="U">U</option>
                                 </select>
                                 <span>@lang('text.word_grade')</span>
                             </div>
@@ -1208,8 +1205,8 @@ $em_key = time().random_int(3000, 3099);
                                     <option value="C">C</option>
                                     <option value="D">D</option>
                                     <option value="E">E</option>
+                                    <option value="O">O</option>
                                     <option value="F">F</option>
-                                    <option value="Compensatory">Compensatory</option>
                                 </select>
                                 <span>@lang('text.word_grade')<i class="text-danger text-xs">*</i></span>
                             </div>

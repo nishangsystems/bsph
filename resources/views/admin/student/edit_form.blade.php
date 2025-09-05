@@ -399,7 +399,7 @@ $em_key = time().random_int(3000, 3099);
                 <div class="col-sm-12 col-md-12 col-lg-12 py-2 px-2">
                     <div class="py-2 border card px-2">
                         <h5 style="text-transform: uppercase; font-weight: 700; margin-bottom: 2rem;" class="text-primary text-center">@lang('text.ordinary_level_results')</h5>
-                        <div class="row">
+                        <div class="row container-fluid">
                             <div class="col-sm-6 col-md-4">
                                 <input type="text" name="ol_center_number" class="form-control" value="{{ $application->ol_center_number }}" required>
                                 <small class="text-danger"><i>@lang('text.center_no')</i>*</small>
@@ -426,10 +426,6 @@ $em_key = time().random_int(3000, 3099);
                         </div>
                         
                         <table class="table table-light" style="table-layout:fixed; max-width:inherit;">
-                            <div class="text-capitalize">
-                                <h5 class="text-dark font-weight-semibold text-uppercase text-center d-flex justify-content-end h5"><span class="btn btn-sm btn-primary rounded" onclick="addOLResult()">add</span> </h5>
-                            </div>
-                            <hr>
                             <div id="ol_results">
                                 @php $counter = 1; @endphp
                                 @foreach (json_decode($application->ol_results)??[] as $_result)
@@ -450,7 +446,7 @@ $em_key = time().random_int(3000, 3099);
                                                 <option value="C" {{ $_result->grade == 'C' ? 'selected' : '' }}>C</option>
                                                 <option value="D" {{ $_result->grade == 'D' ? 'selected' : '' }}>D</option>
                                                 <option value="E" {{ $_result->grade == 'E' ? 'selected' : '' }}>E</option>
-                                                <option value="F" {{ $_result->grade == 'F' ? 'selected' : '' }}>F</option>
+                                                <option value="U" {{ $_result->grade == 'U' ? 'selected' : '' }}>U</option>
                                                 <option value="Compensatory" {{ $_result->grade == 'Compensatory' ? 'selected' : '' }}>Compensatory</option>
                                             </select>
                                             <span>@lang('text.word_grade')</span>
@@ -486,7 +482,7 @@ $em_key = time().random_int(3000, 3099);
                                                 <option value="C">C</option>
                                                 <option value="D">D</option>
                                                 <option value="E">E</option>
-                                                <option value="F">F</option>
+                                                <option value="U">U</option>
                                                 <option value="Compensatory">Compensatory</option>
                                             </select>
                                             <span>@lang('text.word_grade')</span>
@@ -505,6 +501,10 @@ $em_key = time().random_int(3000, 3099);
                                     </div>
                                 @endwhile
                             </div>
+                            <hr>
+                            <div class="text-capitalize">
+                                <h5 class="text-dark font-weight-semibold text-uppercase text-center h5"><span class="btn btn-sm btn-primary rounded" onclick="addOLResult()">add</span> </h5>
+                            </div>
                         </table>
                     </div>
                     <hr>
@@ -513,7 +513,7 @@ $em_key = time().random_int(3000, 3099);
                     </div>
                     <div class="py-2 border card px-2 {{ $application->al_results == null ? 'hidden' : '' }}" id="al_toggle_view">
                         <h5 style="text-transform: uppercase; font-weight: 700; margin-bottom: 2rem;" class="text-primary text-center">@lang('text.advanced_level_results')</h5>
-                        <div class="row">
+                        <div class="row container-fluid">
                             <div class="col-sm-6 col-md-4">
                                 <input type="text" name="al_center_number" class="form-control" value="{{ $application->al_center_number }}" required>
                                 <small class="text-danger"><i>@lang('text.center_no')</i>*</small>
@@ -540,10 +540,6 @@ $em_key = time().random_int(3000, 3099);
                         </div>
                         
                         <table class="table table-light" style="table-layout:fixed; max-width:inherit;">
-                            <div class="text-capitalize">
-                                <h5 class="text-dark font-weight-semibold text-uppercase text-center d-flex justify-content-end h5"><span class="btn btn-sm btn-primary rounded" onclick="addALResult()">add</span> </h5>
-                            </div>
-                            <hr>
                             <div id="al_results">
                                 @php $counter = 1; @endphp
                                 @foreach (json_decode($application->al_results)??[] as $_result)
@@ -564,6 +560,7 @@ $em_key = time().random_int(3000, 3099);
                                                 <option value="C" {{ $_result->grade == 'C' ? 'selected' : '' }}>C</option>
                                                 <option value="D" {{ $_result->grade == 'D' ? 'selected' : '' }}>D</option>
                                                 <option value="E" {{ $_result->grade == 'E' ? 'selected' : '' }}>E</option>
+                                                <option value="O" {{ $_result->grade == 'O' ? 'selected' : '' }}>O</option>
                                                 <option value="F" {{ $_result->grade == 'F' ? 'selected' : '' }}>F</option>
                                                 <option value="Compensatory" {{ $_result->grade == 'Compensatory' ? 'selected' : '' }}>Compensatory</option>
                                             </select>
@@ -600,6 +597,7 @@ $em_key = time().random_int(3000, 3099);
                                                 <option value="C">C</option>
                                                 <option value="D">D</option>
                                                 <option value="E">E</option>
+                                                <option value="O">O</option>
                                                 <option value="F">F</option>
                                                 <option value="Compensatory">Compensatory</option>
                                             </select>
@@ -618,6 +616,10 @@ $em_key = time().random_int(3000, 3099);
                                         </div>
                                     </div>
                                 @endwhile
+                            </div>
+                            <hr>
+                            <div class="text-capitalize">
+                                <h5 class="text-dark font-weight-semibold text-uppercase text-center d-flex justify-content-end h5"><span class="btn btn-sm btn-primary rounded" onclick="addALResult()">add</span> </h5>
                             </div>
                         </table>
                     </div>
@@ -687,8 +689,7 @@ $em_key = time().random_int(3000, 3099);
                                     <option value="C">C</option>
                                     <option value="D">D</option>
                                     <option value="E">E</option>
-                                    <option value="F">F</option>
-                                    <option value="Compensatory">Compensatory</option>
+                                    <option value="U">U</option>
                                 </select>
                                 <span>@lang('text.word_grade')</span>
                             </div>
@@ -723,8 +724,8 @@ $em_key = time().random_int(3000, 3099);
                                     <option value="C">C</option>
                                     <option value="D">D</option>
                                     <option value="E">E</option>
+                                    <option value="O">O</option>
                                     <option value="F">F</option>
-                                    <option value="Compensatory">Compensatory</option>
                                 </select>
                                 <span>@lang('text.word_grade')<i class="text-danger text-xs">*</i></span>
                             </div>
