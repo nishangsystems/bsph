@@ -389,7 +389,7 @@ class HomeController extends Controller
             if($request->ol_results != null){
                 $ol_results = [];
                 foreach($request->ol_results as $rec){
-                    $ol_results[] = ['subject'=>$rec['subject'], 'grade'=>$rec['grade'], 'coef'=>$rec['coef'], 'nc'=>$rec['nc']];
+                    $ol_results[] = ['subject'=>$rec['subject']??'', 'grade'=>$rec['grade']??'', 'coef'=>$rec['coef']??'', 'nc'=>$rec['nc']??''];
                 }
                 if(count($ol_results) < 4){
                     session()->flash('error', "You must enter atleast 4 subjects for GCE Ordinary Level");
@@ -400,7 +400,7 @@ class HomeController extends Controller
             if($request->al_results != null){
                 $al_results = [];
                 foreach($request->al_results as $rec){
-                    $al_results[] = ['subject'=>$rec['subject'], 'grade'=>$rec['grade'], 'coef'=>$rec['coef'], 'nc'=>$rec['nc']];
+                    $al_results[] = ['subject'=>$rec['subject']??'', 'grade'=>$rec['grade']??'', 'coef'=>$rec['coef']??'', 'nc'=>$rec['nc']??''];
                 }
                 if(count($al_results) < 2){
                     session()->flash('error', "You must enter atleast 2 subjects for GCE Advanced Level");

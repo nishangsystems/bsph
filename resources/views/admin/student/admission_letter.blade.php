@@ -33,13 +33,13 @@
         <p>This selection is based on available information that you have satisfied the Entry Requirements for the above-mentioned program of study. Should the information you have provided be found at any time to be false or should you be found to be deficient in the entry requirements during your study, you will be dismissed from the Institution.</p>
         <p>You are required to be of good character for the full duration of your program of study. You may be withdrawn from the Institution at any time for unsatisfactory academic work or gross misconduct, pursuant to the statutes of the Institution.</p>
         <p>The admission is subject to your ability to pay all fees in full promptly. You are required to pay  the 1st installment according to the fee structure attached on or  before the day of resumption of classes. The amount to be paid is detailed in the schedule of fees attached.</p>
-        <p>The fees for subsequent academic years are subject to change (as the need arises). Should you default at any time during study you would be withdrawn. Note that Fees paid are NOT REFUNDABLE.  Your final un-conditional admission offer will be subject to a review Jury of the {{ $filters->where('program', $_program->id)->first()['mentor']??'' }}</p>
+        <p>The fees for subsequent academic years are subject to change (as the need arises). Should you default at any time during study you would be withdrawn. Note that Fees paid are NOT REFUNDABLE.  Your final un-conditional admission offer will be subject to a review Jury of the <b>{{ $filters->where('program', $_program->id)->first()['mentor']??'' }}</b></p>
         <p>You are expected to have the student’s handbook.</p>
         <p>Resumption date is {{ $start_of_lectures }}. </p>
         <p>Yours sincerely,</p>
         <p>Dr. Nkuoh Godlove <br> Academic Dean </p>
         <p>Baptist School of Public Health</p>
 
-        <div style="position: absolute; bottom: 0; top: auto; right: 0; font-size: large; font-weight: 800; font-style: italic;">Nuturing Excellence, Exemplifying Professionalism</div>
+        <div style="position: absolute; bottom: 0; top: auto; right: 0; font-size: large; font-weight: 900; font-style: italic;">Nuturing Excellence, Exemplifying Professionalism</div>
     </div>
 @endsection
