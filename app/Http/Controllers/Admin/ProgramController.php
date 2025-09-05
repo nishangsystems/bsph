@@ -1035,6 +1035,7 @@ class ProgramController extends Controller
         if($id == null){
             $data['title'] = "Print Student Application Form";
             $data['_this'] = $this;
+            $data['delete'] = true;
             $data['action'] = __('text.word_print');
             $data['download'] = __('text.word_download');
             $data['applications'] = ApplicationForm::whereNotNull('submitted')->get();

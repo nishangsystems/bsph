@@ -48,7 +48,8 @@
                                 @isset($adml)
                                     <a href="{{ Request::url() }}/{{ $appl->id }}?_atn=_dld" class="btn btn-xs btn-success mt-1">@lang('text.word_download')</a>
                                 @endisset
-                                @if(empty($appl->admitted))
+                                
+                                @if(Auth::user()->hasPermissionTo('delete_application_form') and empty($appl->admitted) and $delete == true)
                                     <a href="{{ route('admin.applications.delete', $appl->id)}}" class="btn btn-xs btn-danger mt-1">@lang('text.word_delete')</a>
                                 @endif
                             </td>
