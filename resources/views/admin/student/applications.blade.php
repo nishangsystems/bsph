@@ -50,7 +50,7 @@
                                 @endisset
                                 
                                 @if(Auth::user()->hasPermissionTo('delete_application_form') and empty($appl->admitted) and $delete??false == true)
-                                    <a onclick="confirm(`You have requested to delete an application form for {{ $appl->name??'' }}. Confirm to proceed.`) ? (window.location=`{{ route('admin.applications.delete', $appl->id)}}`) : null" class="btn btn-xs btn-danger mt-1">@lang('text.word_delete')</a>
+                                    <a onclick="confirm(`You have requested to delete an application form for {{ $appl->name??'' }}. You will lose all of the applicant's data. Confirm to proceed. NOTE: THIS OPERATION IS IRREVERSIBLE`) ? (window.location=`{{ route('admin.applications.delete', $appl->id)}}`) : null" class="btn btn-xs btn-danger mt-1">@lang('text.word_delete')</a>
                                 @endif
                             </td>
                         </tr>
