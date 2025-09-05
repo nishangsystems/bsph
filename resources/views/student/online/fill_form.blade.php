@@ -407,10 +407,6 @@ $em_key = time().random_int(3000, 3099);
                                 </div>
                                 
                                 <table class="table table-light" style="table-layout:fixed; max-width:inherit;">
-                                    <div class="text-capitalize">
-                                        <h5 class="text-dark font-weight-semibold text-uppercase text-center d-flex justify-content-end h5"><span class="btn btn-sm btn-primary rounded" onclick="addOLResult()">add</span> </h5>
-                                    </div>
-                                    <hr>
                                     <div id="ol_results">
                                         @php $counter = 1; @endphp
                                         @foreach (json_decode($application->ol_results)??[] as $_result)
@@ -431,7 +427,7 @@ $em_key = time().random_int(3000, 3099);
                                                         <option value="C" {{ $_result->grade == 'C' ? 'selected' : '' }}>C</option>
                                                         <option value="D" {{ $_result->grade == 'D' ? 'selected' : '' }}>D</option>
                                                         <option value="E" {{ $_result->grade == 'E' ? 'selected' : '' }}>E</option>
-                                                        <option value="F" {{ $_result->grade == 'F' ? 'selected' : '' }}>F</option>
+                                                        <option value="U" {{ $_result->grade == 'U' ? 'selected' : '' }}>U</option>
                                                         <option value="Compensatory" {{ $_result->grade == 'Compensatory' ? 'selected' : '' }}>Compensatory</option>
                                                     </select>
                                                     <span>@lang('text.word_grade')</span>
@@ -486,6 +482,10 @@ $em_key = time().random_int(3000, 3099);
                                             </div>
                                         @endwhile
                                     </div>
+                                    <hr>
+                                    <div class="text-capitalize">
+                                        <h5 class="text-dark font-weight-semibold text-uppercase text-center d-flex justify-content-end h5"><span class="btn btn-sm btn-primary rounded" onclick="addOLResult()">add</span> </h5>
+                                    </div>
                                 </table>
                             </div>
                             <hr>
@@ -521,10 +521,6 @@ $em_key = time().random_int(3000, 3099);
                                 </div>
                                 
                                 <table class="table table-light" style="table-layout:fixed; max-width:inherit;">
-                                    <div class="text-capitalize">
-                                        <h5 class="text-dark font-weight-semibold text-uppercase text-center d-flex justify-content-end h5"><span class="btn btn-sm btn-primary rounded" onclick="addALResult()">add</span> </h5>
-                                    </div>
-                                    <hr>
                                     <div id="al_results">
                                         @php $counter = 1; @endphp
                                         @foreach (json_decode($application->al_results)??[] as $_result)
@@ -545,8 +541,8 @@ $em_key = time().random_int(3000, 3099);
                                                         <option value="C" {{ $_result->grade == 'C' ? 'selected' : '' }}>C</option>
                                                         <option value="D" {{ $_result->grade == 'D' ? 'selected' : '' }}>D</option>
                                                         <option value="E" {{ $_result->grade == 'E' ? 'selected' : '' }}>E</option>
+                                                        <option value="O" {{ $_result->grade == 'O' ? 'selected' : '' }}>O</option>
                                                         <option value="F" {{ $_result->grade == 'F' ? 'selected' : '' }}>F</option>
-                                                        <option value="Compensatory" {{ $_result->grade == 'Compensatory' ? 'selected' : '' }}>Compensatory</option>
                                                     </select>
                                                     <span>@lang('text.word_grade')</span>
                                                 </div>
@@ -581,8 +577,8 @@ $em_key = time().random_int(3000, 3099);
                                                         <option value="C">C</option>
                                                         <option value="D">D</option>
                                                         <option value="E">E</option>
+                                                        <option value="E">O</option>
                                                         <option value="F">F</option>
-                                                        <option value="Compensatory">Compensatory</option>
                                                     </select>
                                                     <span>@lang('text.word_grade')</span>
                                                 </div>
@@ -599,6 +595,10 @@ $em_key = time().random_int(3000, 3099);
                                                 </div>
                                             </div>
                                         @endwhile
+                                    </div>
+                                    <hr>
+                                    <div class="text-capitalize">
+                                        <h5 class="text-dark font-weight-semibold text-uppercase text-center h5"><span class="btn btn-sm btn-primary rounded" onclick="addALResult()">add</span> </h5>
                                     </div>
                                 </table>
                             </div>
@@ -624,10 +624,6 @@ $em_key = time().random_int(3000, 3099);
                                 <div class="card-body container-fluid">
                                     <h5 class="font-weight-bold text-capitalize text-center h4">{{ __('text.schools_attended') }}</h5>
                                     <table class="table table-light" style="table-layout:fixed; max-width:inherit;">
-                                        <div class="text-capitalize">
-                                            <h5 class="text-dark font-weight-semibold text-uppercase text-center d-flex justify-content-end h5"><span class="btn btn-sm btn-primary rounded" onclick="addSchoolAttended()">add</span> </h5>
-                                        </div>
-                                        <hr>
                                         <div id="schools_attended">
                                             @php $counter = 1; @endphp
                                             @foreach (json_decode($application->schools_attended)??[] as $_result)
@@ -704,6 +700,10 @@ $em_key = time().random_int(3000, 3099);
                                                     </div>
                                                 </div>
                                             @endwhile
+                                        </div>
+                                        <hr>
+                                        <div class="text-capitalize">
+                                            <h5 class="text-dark font-weight-semibold text-uppercase text-center h5"><span class="btn btn-sm btn-primary rounded" onclick="addSchoolAttended()">add</span> </h5>
                                         </div>
                                     </table>
                                 </div>
@@ -965,7 +965,7 @@ $em_key = time().random_int(3000, 3099);
                                 <div class="container-fluid card">
                                     <h6 class="text-center text-uppercase text-primary"><b>@lang('text.ordinary_level_results')</b></h6>
                                     <hr>
-                                    <div class="row">
+                                    <div class="row container-fluid">
                                         <div class="col-4">
                                             <label class="form-control border-light">{{ $application->ol_center_number }}</label>
                                             <small class="text-info"><i>@lang('text.center_no')</i></small>
@@ -985,12 +985,14 @@ $em_key = time().random_int(3000, 3099);
                                                 <label class="form-control rounded text-primary border-light">{{ $res->subject ?? '' }}</label>
                                                 <span class="text-secondary">{{ trans_choice('text.word_subject', 1) }}</span>
                                             </div>
-                                            <div class="col-sm-3 px-2" style="overflow-x: hidden;">
+                                            <div class="col-sm-2 px-2" style="overflow-x: hidden;">
                                                 <label class="form-control rounded text-primary border-light">{{ $res->grade??'' }}</label>
                                                 <span class="text-secondary">@lang('text.word_grade')</span>
-                                            <div class="col-sm-3 px-2" style="overflow-x: hidden;">
+                                            </div>
+                                            <div class="col-sm-2 px-2" style="overflow-x: hidden;">
                                                 <label class="form-control rounded text-primary border-light">{{ $res->coef??'' }}</label>
                                                 <span class="text-secondary">COEF</span>
+                                            </div>
                                             <div class="col-sm-3 px-2" style="overflow-x: hidden;">
                                                 <label class="form-control rounded text-primary border-light">{{ $res->nc??'' }}</label>
                                                 <span class="text-secondary">NOTE * COEF</span>
@@ -1003,7 +1005,7 @@ $em_key = time().random_int(3000, 3099);
                                 <div class="container-fluid card">
                                     <h6 class="text-center text-uppercase text-primary"><b>@lang('text.advanced_level_results')</b></h6>
                                     <hr>
-                                    <div class="row">
+                                    <div class="row container-fluid">
                                         <div class="col-4">
                                             <label class="form-control border-light">{{ $application->al_center_number }}</label>
                                             <small class="text-info"><i>@lang('text.center_no')</i></small>
@@ -1012,7 +1014,7 @@ $em_key = time().random_int(3000, 3099);
                                             <label class="form-control border-light">{{ $application->al_candidate_number }}</label>
                                             <small class="text-info"><i>@lang('text.candidate_no')</i></small>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-3">
                                             <label class="form-control border-light">{{ $application->al_year }}</label>
                                             <small class="text-info"><i>@lang('text.word_year')</i></small>
                                         </div>
@@ -1023,7 +1025,7 @@ $em_key = time().random_int(3000, 3099);
                                                 <label class="form-control rounded text-primary border-light">{{ $res->subject ?? '' }}</label>
                                                 <span class="text-secondary">{{ trans_choice('text.word_subject', 1) }}</span>
                                             </div>
-                                            <div class="col-sm-3 px-2" style="overflow-x: hidden;">
+                                            <div class="col-sm-2 px-2" style="overflow-x: hidden;">
                                                 <label class="form-control rounded text-primary border-light">{{ $res->grade??'' }}</label>
                                                 <span class="text-secondary">@lang('text.word_grade')</span>
                                             </div>
