@@ -992,7 +992,7 @@ class ProgramController extends Controller
         # code...
         $data['title'] = "All Application Forms";
         $data['_this'] = $this;
-        $data['applications'] = ApplicationForm::whereNotNull('submitted')->get();
+        $data['applications'] = ApplicationForm::whereNotNull('submitted')->where('year_id', Helpers::instance()->getCurrentAccademicYear())->get();
         return view('admin.student.applications', $data);
     }
 
@@ -1038,7 +1038,7 @@ class ProgramController extends Controller
             $data['delete'] = true;
             $data['action'] = __('text.word_print');
             $data['download'] = __('text.word_download');
-            $data['applications'] = ApplicationForm::whereNotNull('submitted')->get();
+            $data['applications'] = ApplicationForm::whereNotNull('submitted')->where('year_id', Helpers::instance()->getCurrentAccademicYear())->get();
             return view('admin.student.applications', $data);
         }
 
@@ -1053,7 +1053,7 @@ class ProgramController extends Controller
             $data['title'] = "Edit Student Information";
             $data['_this'] = $this;
             $data['action'] = __('text.word_edit');
-            $data['applications'] = ApplicationForm::where('year_id', Helpers::instance()->getCurrentAccademicYear())->get();
+            $data['applications'] = ApplicationForm::whereNotNull('submitted')->where('year_id', Helpers::instance()->getCurrentAccademicYear())->get();
             return view('admin.student.applications', $data);
         }
 

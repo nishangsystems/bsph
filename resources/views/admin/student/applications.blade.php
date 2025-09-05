@@ -50,7 +50,7 @@
                                 @endisset
                                 
                                 @if(Auth::user()->hasPermissionTo('delete_application_form') and empty($appl->admitted) and $delete == true)
-                                    <a href="{{ route('admin.applications.delete', $appl->id)}}" class="btn btn-xs btn-danger mt-1">@lang('text.word_delete')</a>
+                                    <a href="" onclick="confirm_delete({{ route('admin.applications.delete', $appl->id)}}, 'You have requested to delete an application form for {{ $appl->name??'' }}. Confirm to proceed.')" class="btn btn-xs btn-danger mt-1">@lang('text.word_delete')</a>
                                 @endif
                             </td>
                         </tr>
@@ -62,4 +62,13 @@
             </div>
         </div>
     </div>
+@endsection
+@section('section')
+    <script>
+        let confirm_delete = (url, message)=>{
+            if(confirm(message)){
+                window.location = url;
+            }
+        }
+    </script>
 @endsection
