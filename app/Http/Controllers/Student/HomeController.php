@@ -299,8 +299,9 @@ class HomeController extends Controller
                 # code...
                 
                 $validity = Validator::make($request->all(), [
-                    'program_first_choice'=>'required', 'program_second_choice'=>'required',
-                    'level'=>'required', 
+                    'program_first_choice'=>'required', 'program_second_choice'=>'nullable',
+                    'level'=>'required', 'info_source' => 'required', 'enrollment_purpose'=>'required',
+                    'fee_payment_channel' => 'required'
                 ]);
                 break;
             
@@ -312,7 +313,11 @@ class HomeController extends Controller
                 break;
 
             case 5:
-                $validity = Validator::make($request->all(), []);
+                $validity = Validator::make($request->all(), [
+                    'ol_center_number'=>'required', 'ol_candidate_number'=>'required', 'ol_year'=>'required', 'ol_results'=>'required|array|size:4',
+                    'al_center_number'=>'nullable', 'al_candidate_number'=>'required_with:al_center_number', 'al_year'=>'required_with:al_center_number', 'al_results'=>'required_with:al_center_number|array|size:4',
+                ]);
+                
                 break;
                 
             case 6: case 6.5:
