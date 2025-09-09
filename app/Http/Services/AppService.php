@@ -31,7 +31,11 @@ class AppService{
             $data['appl'] = $appl;
             $data['year'] = substr($appl->year->name, -4);
             $data['_year'] = substr($appl->year->name, 2, 2);
-            // dd($data);
+            $data['fee_structure'] = $this->api_service->class_portal_fee_structure($appl->program_first_choice, $appl->level, $appl->year_id)->get('data')[0];
+            if(!isset($data['fee_structure']['third_instalment'])){
+                $data['fee_structure']['third_instalment'] = $data['fee_structure']['amount'] - $data['fee_structure']['first_instalment']??0 - $data['fee_structure']['second_instalment']??0;
+            }
+            $data['instalments'] = [['year' => -1], ['year'=>0], ['year'=>0]];
             $data['title'] = "ADMISSION LETTER";
             $data['filters'] = collect([
                 ['program'=>178, 'duration'=>4, 'mentor'=>'University of Buea'],
@@ -58,7 +62,7 @@ class AppService{
             $data['matric_sn'] = substr($appl->matric, -3);
             $data['department'] = $department->name??'-------';
             $data['start_of_lectures'] = Config::where('year_id', Helpers::instance()->getCurrentAccademicYear())->first()->start_of_lectures?->format('F dS Y');
-            // dd($program);
+            // dd($data);
             if($data['degree'] ==  null){
                 session()->flash('error', 'Program Degree Name not set');
                 return back()->withInput();
