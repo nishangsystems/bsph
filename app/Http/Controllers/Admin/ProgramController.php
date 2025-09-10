@@ -1152,6 +1152,7 @@ class ProgramController extends Controller
         if($id == null){
             $data['title'] = "Uncompleted Application Forms";
             $data['_this'] = $this;
+            $data['delete'] = true;
             $data['action'] = __('text.word_show');
             $data['applications'] = ApplicationForm::whereNull('submitted')->where('year_id', Helpers::instance()->getCurrentAccademicYear())->get();
             // return $data;
