@@ -668,15 +668,15 @@ $em_key = time().random_int(3000, 3099);
                                                 @endphp
                                                 <div class="text-capitalize row py-3 rounded shadow">
                                                     <div class="col-sm-7 col-md-6 col-xl-3">
-                                                        <input type="text" class="form-control text-primary"  name="schools_attended[{{ $al_key }}][school]">
+                                                        <input type="text" class="form-control text-primary"  name="schools_attended[{{ $al_key }}][school]" required>
                                                         <span>@lang('text.word_school')<i class="text-danger text-xs">*</i></span>
                                                     </div>
                                                     <div class="col-sm-5 col-md-3 col-xl-2">
-                                                        <input type="month" class="form-control text-primary"  name="schools_attended[{{ $al_key }}][date_from]">
+                                                        <input type="month" class="form-control text-primary"  name="schools_attended[{{ $al_key }}][date_from]" required>
                                                         <span>@lang('text.date_from')<i class="text-danger text-xs">*</i></span> 
                                                     </div>
                                                     <div class="col-sm-4 col-md-3 col-xl-2">
-                                                        <input type="month" class="form-control text-primary"  name="schools_attended[{{ $al_key }}][date_to]">
+                                                        <input type="month" class="form-control text-primary"  name="schools_attended[{{ $al_key }}][date_to]" required>
                                                         <span>@lang('text.date_to')<i class="text-danger text-xs">*</i></span>
                                                     </div>
                                                     <div class="col-sm-5 col-md-6 col-xl-3">
