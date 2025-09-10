@@ -25,7 +25,7 @@
             </div>
             <div class="py-2 col-sm-3 col-md-2 col-lg-3">
                 <div class="">
-                    <label class="form-control text-primary border-0 ">{{ $application->dob->format('dS M Y') ?? '' }}</label>
+                    <label class="form-control text-primary border-0 ">{{ $application->dob?->format('dS M Y') ?? '' }}</label>
                 </div>
                 <label class="text-secondary  text-capitalize">{{ __('text.date_of_birth_bilang') }}</label>
             </div>
@@ -43,13 +43,13 @@
             </div>
             <div class="py-2 col-sm-6 col-md-4 col-lg-3">
                 <div class="">
-                    <label class="form-control text-primary border-0 ">{{ $application->_region->region ?? '' }}</label>
+                    <label class="form-control text-primary border-0 ">{{ $application->_region?->region ?? '' }}</label>
                 </div>
                 <label class="text-secondary  text-capitalize">{{ __('text.region_of_origin') }}</label>
             </div>
             <div class="py-2 col-sm-6 col-md-4 col-lg-3">
                 <div class="">
-                    <label class="form-control text-primary border-0 ">{{ $application->_division->name ?? '' }}</label>
+                    <label class="form-control text-primary border-0 ">{{ $application->_division?->name ?? '' }}</label>
                 </div>
                 <label class="text-secondary  text-capitalize">{{ __('text.word_division') }}</label>
             </div>
