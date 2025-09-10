@@ -314,8 +314,8 @@ class HomeController extends Controller
 
             case 5:
                 $validity = Validator::make($request->all(), [
-                    'ol_center_number'=>'required', 'ol_candidate_number'=>'required', 'ol_year'=>'required', 'ol_results'=>'required|array|size:4',
-                    'al_center_number'=>'nullable', 'al_candidate_number'=>'required_with:al_center_number', 'al_year'=>'required_with:al_center_number', 'al_results'=>'required_with:al_center_number|array|size:4',
+                    'ol_center_number'=>'required', 'ol_candidate_number'=>'required', 'ol_year'=>'required', 'ol_results'=>'required|array',
+                    'al_center_number'=>'nullable', 'al_candidate_number'=>'required_with:al_center_number', 'al_year'=>'required_with:al_center_number', 'al_results'=>'required_with:al_center_number|array',
                 ]);
                 
                 break;
