@@ -290,7 +290,7 @@ $em_key = time().random_int(3000, 3099);
                             {{-- <option value="MOMO" data-action="" {{ $application->payment_method == "MOMO" ? 'selected' : '' }}>MOMO</option> --}}
                             <option value="CBCHS Station" data-action="" {{ $application->payment_method == "CBCHS" ? 'selected' : '' }}>CBCHS Station</option>
                             <option value="Bank payment" data-action="" {{ $application->payment_method == "BANK" ? 'selected' : '' }}>Bank payment</option>
-                            <option value="School Bursary" data-action="" {{ $application->payment_method == "BURSAER" ? 'selected' : '' }}>School Bursary</option>
+                            <option value="School Bursary" data-action="" {{ $application->payment_method == "BURSARY" ? 'selected' : '' }}>School Bursary</option>
                             <option value="Others" {{ $application->payment_method == "OTHER" ? 'selected' : '' }} data-action="specify">Others? (Specify)</option>
                         </select>
                     </div>
