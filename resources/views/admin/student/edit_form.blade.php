@@ -399,7 +399,7 @@ $em_key = time().random_int(3000, 3099);
                 <div class="col-sm-12 col-md-12 col-lg-12 py-2 px-2">
                     <div class="py-2 border card px-2">
                         <h5 style="text-transform: uppercase; font-weight: 700; margin-bottom: 2rem;" class="text-primary text-center">@lang('text.ordinary_level_results')</h5>
-                        <span class="text-center text-danger"><i>Subject and Grade for General Education. Subject, Coef & Note*Coef for Technical Education </i></span>
+                        <span class="text-center text-danger"><b>Subject and Grade for General Education. Subject, Coef & Note*Coef for Technical Education</b></span>
                         <div class="row container-fluid">
                             <div class="col-sm-6 col-md-4">
                                 <input type="text" name="ol_center_number" class="form-control" value="{{ $application->ol_center_number }}" required>
@@ -514,7 +514,7 @@ $em_key = time().random_int(3000, 3099);
                     </div>
                     <div class="py-2 border card px-2 {{ $application->al_results == null ? 'hidden' : '' }}" id="al_toggle_view">
                         <h5 style="text-transform: uppercase; font-weight: 700; margin-bottom: 2rem;" class="text-primary text-center">@lang('text.advanced_level_results')</h5>
-                        <span class="text-center text-danger"><i>Subject and Grade for General Education. Subject, Coef & Note*Coef for Technical Education </i></span>
+                        <span class="text-center text-danger"><b>Subject and Grade for General Education. Subject, Coef & Note*Coef for Technical Education</b></span>
                         <div class="row container-fluid">
                             <div class="col-sm-6 col-md-4">
                                 <input type="text" name="al_center_number" class="form-control" value="{{ $application->al_center_number }}" required>
