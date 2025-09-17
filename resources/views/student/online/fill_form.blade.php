@@ -188,13 +188,14 @@ $em_key = time().random_int(3000, 3099);
 
                         <div class="py-2 col-sm-6 col-md-4 col-xl-4">
                             <div class="row">
-                                <div class="col-sm-3 col-md-3 col-lg-3 px-1">
-                                    <select name="" id="" class="form-control rounded" onchange="toggleDisability(this)">
+                                <div class="col-sm-4 col-md-4 col-lg-4 px-1 container-fluid">
+                                    <select name="" id="" class="form-control rounded" onchange="toggleDisability(this)" required>
+                                        <option value=""></option>
                                         <option value="YES" {{ strlen(old('disability', $application->disability??'')) > 0 ? 'selected' : '' }}>YES</option>
                                         <option value="NONE" {{ strlen(old('disability', $application->disability??'')) == 0 ? 'selected' : '' }}>NONE</option>
                                     </select>
                                 </div>
-                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                <div class="col-sm-7 col-md-7 col-lg-7">
                                     <input type="text" class="form-control text-primary" name="disability" {{ strlen(old('disability', $application->disability??'')) > 0 ? '' : 'readonly' }}  value="{{ old('disability', $application->disability) }}" id="disability" required>
                                 </div>
                             </div>
@@ -203,13 +204,14 @@ $em_key = time().random_int(3000, 3099);
 
                         <div class="py-2 col-sm-6 col-md-5 col-xl-4">
                             <div class="row">
-                                <div class="col-sm-3 col-md-3 col-lg-3 px-1">
-                                    <select name="" id="" class="form-control rounded" onchange="toggleHealthCondition(this)">
+                                <div class="col-sm-4 col-md-4 col-lg-4 px-1 container-fluid">
+                                    <select name="" id="" class="form-control rounded" onchange="toggleHealthCondition(this)" required>
+                                        <option value=""></option>
                                         <option value="YES" {{ strlen(old('health_condition', $application->health_condition??'')) > 0 ? 'selected' : '' }}>YES</option>
                                         <option value="NONE" {{ strlen(old('health_condition', $application->health_condition??'')) == 0 ? 'selected' : '' }}>NONE</option>
                                     </select>
                                 </div>
-                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                <div class="col-sm-7 col-md-7 col-lg-7">
                                     <input type="text" class="form-control text-primary" {{ strlen(old('health_condition', $application->health_condition??'')) > 0 ? '' : 'readonly' }} name="health_condition" id="health_condition" value="{{ old('health_condition', $application->health_condition) }}" required>
                                 </div>
                             </div>
