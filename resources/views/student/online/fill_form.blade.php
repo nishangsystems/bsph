@@ -100,7 +100,7 @@ $em_key = time().random_int(3000, 3099);
                         <div class="py-2 col-sm-6 col-md-4 col-xl-3">
                             <div class="">
                                 <select class="form-control text-primary"  name="nationality" required>
-                                    <option></option>
+                                    <option value=""></option>
                                     @foreach(config('all_countries.list') as $key=>$value)
                                         <option value="{{ $value['name'] }}" {{ old('nationality', $application->nationality) == $value['name'] ? 'selected' : ($value['name'] == 'Cameroon' ? 'selected' : '') }}>{{ $value['name']}}</option>
                                     @endforeach
@@ -275,7 +275,7 @@ $em_key = time().random_int(3000, 3099);
                         <div class="py-2 col-sm-6 col-md-4 col-xl-3">
                             <div class="">
                                 <select class="form-control text-primary"  name="program_first_choice" required oninput="loadCplevels(event)">
-                                    <option>{{ __('text.select_program') }}</option>
+                                    <option value="">{{ __('text.select_program') }}</option>
                                     @foreach (collect($programs)->where('appliable', 1)->sortBy('name') as $program)
                                         <option value="{{ $program->id }}" {{ old('program_first_choice', $application->program_first_choice) == $program->id ? 'selected' : '' }}>{{ $program->name }}</option>
                                     @endforeach
@@ -286,7 +286,7 @@ $em_key = time().random_int(3000, 3099);
                         <div class="py-2 col-sm-6 col-md-4 col-xl-3">
                             <div class="">
                                 <select class="form-control text-primary"  name="program_second_choice">
-                                    <option>{{ __('text.select_program') }}</option>
+                                    <option value="">{{ __('text.select_program') }}</option>
                                     @foreach ($all_programs->where('appliable', 1) as $program)
                                         <option value="{{ $program->id }}" {{ old('program_second_choice', $application->program_second_choice) == $program->id ? 'selected' : '' }}>{{ $program->name }}</option>
                                     @endforeach
@@ -297,7 +297,7 @@ $em_key = time().random_int(3000, 3099);
                         <div class="py-2 col-sm-6 col-md-4 col-xl-3">
                             <div class="">
                                 <select class="form-control text-primary"  name="program_third_choice">
-                                    <option>{{ __('text.select_program') }}</option>
+                                    <option value="">{{ __('text.select_program') }}</option>
                                     @foreach ($all_programs->where('appliable', 1) as $program)
                                         <option value="{{ $program->id }}" {{ old('program_third_choice', $application->program_third_choice) == $program->id ? 'selected' : '' }}>{{ $program->name }}</option>
                                     @endforeach
