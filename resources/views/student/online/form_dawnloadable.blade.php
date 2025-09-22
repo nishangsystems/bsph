@@ -230,7 +230,7 @@
                     <td colspan="6" class="pb-2 bt-5" style="text-decoration: underline; text-transform: capitalize; font-size: larger; padding-top: 2rem;">7. Do you have any known medical Condition?</td>
                 </tr>
                 <tr>
-                    <td class="py-2" colspan="2"> - <b>{!! $application->health_condition != null ? 'YES' : '' !!}</b></td>
+                    <td class="py-2" colspan="2"> - <b>{!! $application->health_condition != null ? 'YES' : 'NO' !!}</b></td>
                     <td class="py-2" colspan="4"><b>{{ $application->health_condition }}</b></td>
                 </tr>
 
@@ -244,7 +244,7 @@
                     <td class="py-2" colspan="6"> How did you pay your registration fee?</td>
                 </tr>
                 <tr>
-                    <td class="py-2" colspan="3"> - <b> {{ $application->fee_payment_channel == null ? $application->payment_method : $application->dee_payment_channel }}</b></td>
+                    <td class="py-2" colspan="3"> - <b> {{ $application->fee_payment_channel == null ? $application->payment_method : $application->fee_payment_channel }}</b></td>
                     <td class="py-2" colspan="3"> - <b><i>NB: FORM WILL NOT BE COLLECTED WITHOUT PROOF OF PAYMENT!!</i></b></td>
                 </tr>
 
