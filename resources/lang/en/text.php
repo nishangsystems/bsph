@@ -1112,7 +1112,7 @@ return [
     'enrollment_purpose_phrase'=>'Explain in not more than 50 words how the course you are applying for will assist you to achieve your goals in life',
     'information_source'=>'information source',
     'specify_information_source'=>'specify information source',
-    'how_did_you_pay_application_fee'=>'how did you pay application fee',
+    'how_did_you_pay_application_fee'=>'how do you pay application fee',
     'information_source_phrase'=>'Where did you get information about the program you are applying for',
     'third_choice_bilang'=>'third choice / trioxieme choix',
     'life_purse_of_enrollment'=>'life purse of enrollment',

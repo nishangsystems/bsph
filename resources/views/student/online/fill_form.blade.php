@@ -325,7 +325,7 @@ $em_key = time().random_int(3000, 3099);
                             <div class="">
                                 <select class="form-control text-primary" required onchange="set_payment_channel(this)" id="" name="fee_payment_channel">
                                     <option value=""></option>
-                                    {{-- <option value="MOMO" data-action="" {{ $application->payment_method == "MOMO" ? 'selected' : '' }}>MOMO</option> --}}
+                                    <option value="MOMO" data-action="" {{ $application->payment_method == "MOMO" ? 'selected' : '' }}>MOMO</option>
                                     <option value="CBCHS Station" data-action="" {{ $application->payment_method == "CBCHS" ? 'selected' : '' }}>CBCHS Station</option>
                                     <option value="Bank payment" data-action="" {{ $application->payment_method == "BANK" ? 'selected' : '' }}>Bank payment</option>
                                     <option value="School Bursary" data-action="" {{ $application->payment_method == "BURSARY" ? 'selected' : '' }}>School Bursary</option>
