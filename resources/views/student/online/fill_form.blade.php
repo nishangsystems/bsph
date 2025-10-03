@@ -258,7 +258,7 @@ $em_key = time().random_int(3000, 3099);
                             <label class="text-secondary  text-capitalize">{{ __('text.emergency_relationship') }}<i class="text-danger text-xs">*</i></label>
                         </div>
                         <div class="col-sm-12 col-md-12 col-lg-12 py-4 d-flex justify-content-center">
-                            <a href="{{ url()->previous() }}" class="px-4 py-1 btn btn-lg btn-danger">{{ __('text.word_back') }}</a>
+                            <a href="{{ route('student.application.start', ['step' => 0]) }}" class="px-4 py-1 btn btn-lg btn-danger">{{ __('text.word_back') }}</a>
                             <input type="submit" class="px-4 py-1 btn btn-lg btn-primary" value="{{ __('text.save_and_continue') }}">
                         </div>
                     </div>
@@ -334,7 +334,8 @@ $em_key = time().random_int(3000, 3099);
                             </div>
                             <label class="text-secondary  text-capitalize">{{ __('text.how_did_you_pay_application_fee') }}?<i class="text-danger text-xs">*</i></label>
                         </div>
-{{-- 
+                        
+                        {{-- 
                         <div class="py-2 col-sm-6 col-md-4 col-xl-3">
                             <div class="">
                                 <input type="text" name="fee_payment_channel" value="{{ old('fee_payment_channel', $application->fee_payment_channel??'') }}" class="form-control text-primary" required {{ $application->payment_method == "OTHER" ? '' : 'readonly' }} id="payment_channel">
@@ -366,7 +367,7 @@ $em_key = time().random_int(3000, 3099);
                         </div>
                         
                         <div class="col-sm-12 col-md-12 col-lg-12 py-4 d-flex justify-content-center">
-                            <a href="{{ url()->previous() }}" class="px-4 py-1 btn btn-lg btn-danger">{{ __('text.word_back') }}</a>
+                            <a href="{{ route('student.application.start', ['id'=>$application->id, 'step'=>1]) }}" class="px-4 py-1 btn btn-lg btn-danger">{{ __('text.word_back') }}</a>
                             <input type="submit" class="px-4 py-1 btn btn-lg btn-primary" value="{{ __('text.save_and_continue') }}">
                         </div>
                     </div>
@@ -382,7 +383,7 @@ $em_key = time().random_int(3000, 3099);
                         <div class="col-sm-12 col-md-12 col-lg-12 py-2 px-2">
                             <div class="py-2 border card px-2">
                                 <h5 style="text-transform: uppercase; font-weight: 700; margin-bottom: 2rem;" class="text-primary text-center">@lang('text.ordinary_level_results')</h5>
-                                <span class="text-center text-danger" style="font-size: 1rem;"><b>Subject and Grade for General Education. Subject, Coef & Note*Coef for Technical Education</b></span>
+                                <span class="text-center text-danger" style="font-size: 1.4rem;"><b>Subject and Grade for General Education. Subject, Coef & Note*Coef for Technical Education</b></span>
                                 <div class="row">
                                     <div class="col-sm-6 col-md-4">
                                         <input type="text" name="ol_center_number" class="form-control" value="{{ $application->ol_center_number }}" required>
@@ -495,7 +496,7 @@ $em_key = time().random_int(3000, 3099);
                             </div>
                             <div class="py-2 border card px-2 {{ $application->al_results == null ? 'hidden' : '' }}" id="al_toggle_view">
                                 <h5 style="text-transform: uppercase; font-weight: 700; margin-bottom: 2rem;" class="text-primary text-center">@lang('text.advanced_level_results')</h5>
-                                <span class="text-center text-danger" style="font-size: 1rem;"><b>Subject and Grade for General Education. Subject, Coef & Note*Coef for Technical Education</b></span>
+                                <span class="text-center text-danger" style="font-size: 1.5rem;"><b>Subject and Grade for General Education. Subject, Coef & Note*Coef for Technical Education</b></span>
                                 <div class="row">
                                     <div class="col-sm-6 col-md-4">
                                         <input type="text" name="al_center_number" class="form-control" value="{{ $application->al_center_number }}" required>
@@ -607,7 +608,7 @@ $em_key = time().random_int(3000, 3099);
                         </div>
 
                         <div class="col-sm-12 col-md-12 col-lg-12 py-4 d-flex justify-content-center">
-                            <a href="{{ url()->previous() }}" class="px-4 py-1 btn btn-lg btn-danger">{{ __('text.word_back') }}</a>
+                            <a href="{{ route('student.application.start', [3, $application->id]) }}" class="px-4 py-1 btn btn-lg btn-danger">{{ __('text.word_back') }}</a>
                             <input type="submit" class="px-4 py-1 btn btn-lg btn-primary" value="{{ __('text.save_and_continue') }}">
                         </div>
                     </div>
@@ -713,7 +714,7 @@ $em_key = time().random_int(3000, 3099);
                         </div>
                         
                         <div class="col-sm-12 col-md-12 col-lg-12 py-4 d-flex justify-content-center">
-                            <a href="{{ url()->previous() }}" class="px-4 py-1 btn btn-lg btn-danger">{{ __('text.word_back') }}</a>
+                            <a href="{{ route('student.application.start', [2, $application->id]) }}" class="px-4 py-1 btn btn-lg btn-danger">{{ __('text.word_back') }}</a>
                             <input type="submit" class="px-4 py-1 btn btn-lg btn-primary" value="{{ __('text.save_and_continue') }}">
                         </div>
                     </div>
@@ -1046,7 +1047,7 @@ $em_key = time().random_int(3000, 3099);
                         </div>
 
                         <div class="col-sm-12 col-md-12 col-lg-12 py-4 mt-5 d-flex justify-content-center text-uppercase">
-                            <a href="{{ url()->previous() }}" class="px-4 py-1 btn btn-lg btn-danger">{{ __('text.word_back') }}</a>
+                            <a href="{{ route('student.application.start', [4, $application->id]) }}" class="px-4 py-1 btn btn-lg btn-danger">{{ __('text.word_back') }}</a>
                             {{-- <a href="{{ route('student.home') }}" class="px-4 py-1 btn btn-lg btn-success">{{ __('text.pay_later') }}</a> --}}
                             @if(!$application->is_filled())<button type="submit" class="px-4 py-1 btn btn-lg btn-primary text-uppercase">{{ __('text.word_submit') }}</button>@endif
                         </div>
