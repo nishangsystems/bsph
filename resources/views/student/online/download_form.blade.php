@@ -15,7 +15,7 @@
                     <tr class="border-bottom">
                         <td class="border-left border-right">{{ $k++ }}</td>
                         <td class="border-left border-right">{{ $appl->year->name }}</td>
-                        <td class="border-left border-right">{{ ($programs->where('id', $appl->program_first_choice)->first()->name??null) .' / '.($programs->where('id', $appl->program_second_choice)->first()->name??'') }}</td>
+                        <td class="border-left border-right">{{ ($programs->where('id', $appl->program_first_choice)->first()->name??null) }}</td>
                         <td class="border-left border-right d-flex flex-wrap">
                             <form method="post" action="{{ route('student.application.form.download', $appl->id) }}" target="new">
                                 @csrf
