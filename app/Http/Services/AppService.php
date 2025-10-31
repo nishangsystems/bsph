@@ -43,7 +43,7 @@ class AppService{
                 ['program'=>170, 'duration'=>3, 'mentor'=>'University of Buea'],
                 ['program'=>173, 'duration'=>4, 'mentor'=>'University of Dschang'],
                 ['program'=>167, 'duration'=>4, 'mentor'=>'University of Ngoundere'],
-                ['program'=>172, 'duration'=>3, 'mentor'=>'University of Zimbabwe'],
+                ['program'=>172, 'duration'=>4, 'mentor'=>'University of Zimbabwe'],
                 ['program'=>164, 'duration'=>3, 'mentor'=>'MINSUP'],
                 ['program'=>168, 'duration'=>3, 'mentor'=>'MINSUP'],
                 ['program'=>161, 'duration'=>3, 'mentor'=>'MINSUP'],
