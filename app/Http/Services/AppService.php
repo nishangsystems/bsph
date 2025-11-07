@@ -28,6 +28,7 @@ class AppService{
             $department = $programs->where('id', $program->parent_id)->first()??null;
             $degree = collect(json_decode($this->api_service->degrees())->data)->where('id', $appl->degree_id)->first()??null;
             $config = Config::where('year_id', Helpers::instance()->getCurrentAccademicYear())->first();
+            $duration = collect(json_decode($this->api_service->campusProgramLevels($appl->campus_id, $appl->program_first_choice))->data)->count();
             $data['appl'] = $appl;
             $data['year'] = substr($appl->year->name, -4);
             $data['_year'] = substr($appl->year->name, 2, 2);
@@ -50,6 +51,7 @@ class AppService{
                 ['program'=>174, 'duration'=>2, 'mentor'=>'Baptist School of Public Health'],
                 ['program'=>175, 'duration'=>2, 'mentor'=>'Baptist School of Public Health'],
             ]);
+            $data['duration'] = $duration;
             $data['name'] = $appl->name;
             $data['matric'] =  $appl->matric;
             $data['auth_no'] =  time().'/'.random_int(150553, 998545).'R'.$program->id.'BSPH'.$appl_id;
