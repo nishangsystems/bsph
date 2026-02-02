@@ -34,7 +34,7 @@ class AppService{
             $data['_year'] = substr($appl->year->name, 2, 2);
             $data['fee_structure'] = $this->api_service->class_portal_fee_structure($appl->program_first_choice, $appl->level, $appl->year_id)->get('data')[0];
             if(!isset($data['fee_structure']['third_instalment'])){
-                $data['fee_structure']['third_instalment'] = $data['fee_structure']['amount'] - $data['fee_structure']['first_instalment']??0 - $data['fee_structure']['second_instalment']??0;
+                $data['fee_structure']['third_instalment'] = intval($data['fee_structure']['amount']) - intval($data['fee_structure']['first_instalment']??0) - intval($data['fee_structure']['second_instalment']??0);
             }
             $data['instalments'] = [['year' => -1], ['year'=>0], ['year'=>0]];
             $data['title'] = "ADMISSION LETTER";
