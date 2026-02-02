@@ -216,7 +216,7 @@
                         <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2">3rd installment</td>
                         <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2"></td>
                         <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2"></td>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="1">{{ number_format( $fee_structure['third_instalment']??0) }}</td>
+                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="1">{{ number_format( intval($fee_structure['third_instalment']??0)+33500) }}</td>
                         <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2">30TH March {{ $year + $instalments[2]['year']}}</td>
                     </tr>
                     <tr>
