@@ -1768,4 +1768,98 @@ class ProgramController extends Controller
         return view('admin.student.admitted', $data);
 
     }
+
+
+    public function raw_applications_data(Request $request){
+        $data['title'] = "Raw Applications Data";
+        if($request->download ==1){
+            try{
+                $year_id = $request->year_id ?: Helpers::instance()->getCurrentAccademicYear();
+                $title = str_replace(['/', ' '], '_', "Raw Applications Data For ".Batch::find($year_id)->name);
+                $applications = ApplicationForm::whereNotNull('submitted')->where('year_id', $year_id)->get();
+                
+                $programs = collect(json_decode($this->api_service->programs())->data);
+                $campuses = collect(json_decode($this->api_service->campuses())->data);
+                $degrees = collect(json_decode($this->api_service->degrees())->data);
+                $certificates = collect(json_decode($this->api_service->certificates())->data);
+    
+                // dd($applications);
+                $applications->each(function ($application) use($programs, $campuses, $degrees, $certificates){
+                    $application->program_first_choice = optional($programs->where('id', $application->program_first_choice)->first())->name??'';
+                    $application->program_second_choice = optional($programs->where('id', $application->program_second_choice)->first())->name??'';
+                    $application->program_third_choice = optional($programs->where('id', $application->program_third_choice)->first())->name??'';
+                    $application->campus_name = optional($campuses->where('id', $application->campus_id)->first())->name??'';
+                    $application->degree_name = optional($degrees->where('id', $application->degree_id)->first())->deg_name??'';
+                    $application->certificate_name = optional($certificates->where('id', $application->entry_qualification)->first())->name??'';
+                    $application->date_of_birth = $application->dob != null ? $application->dob->format('d/m/Y') : '';
+                    $application->contact = $application->phone.' / '.$application->phone_2;
+                    $application->age = $application->dob != null ? now()->diffInYears($application->dob) : '';
+                    $application->o_results = 'Obtained ' . $application->ol_year . ' :: ' . ($application->ol_results != null ? collect(json_decode($application->ol_results))->map(function($result){
+                        return $result->subject . ' : ' . $result->grade;
+                    })->implode(', ') : null);
+                    $application->a_results = 'Obtained ' . $application->al_year . ' :: ' . ($application->al_results != null ? collect(json_decode($application->al_results))->map(function($result){
+                        return $result->subject . ' : ' . $result->grade;
+                    })->implode(', ') : null);
+                    $application->info_channel = $application->info_source . ' :: ' . $application->info_source_identity;
+                    $application->fee_payment_method = $application->payment_method .' :: '. ($application->payment_proof ?: $application->tranzak_transaction->reference??'');
+                });
+                $headers = ['Content-Type' => 'text/csv', 'Content-Disposition' => 'attachment, filename='.$title.'.csv'];
+    
+                $loader = function()use($applications){
+                    $writer = fopen('php://output', 'w');
+                    $headings = ["Name","Date of Birth","Contact","Place of Birth","Age","Gender","Address","Nationality","Region of Origin","ID Card Number","Email Address","Marital Status","Guardian's Name","Guardian's Address","Guardian's Contact","Emergency Contact Name","Emergency Contact Address","Emergency Contact Phone","Emergency Contact Relationship","First Choice Program","Second Choice Program","Third Choice Program","Entry Qualification","Degree","Campus","O Level Results","A Level Results","Info Source","Disability","Health Condition","Fee Payment Method"];
+    
+                    // write headings
+                    fputcsv($writer, $headings);
+                    foreach($applications as $application){
+                        fputcsv($writer, [
+                            $application->name,
+                            $application->date_of_birth,
+                            $application->contact,
+                            $application->pob,
+                            $application->age,
+                            $application->gender,
+                            $application->address,
+                            $application->nationality,
+                            $application->_region->region,
+                            $application->id_number,
+                            $application->email,
+                            $application->marital_status,
+                            $application->guardian_name,
+                            $application->guardian_address,
+                            $application->guardian_contact,
+                            $application->emergency_name,
+                            $application->emergency_address,
+                            $application->emergency_tel,
+                            $application->emergency_personality,
+                            $application->program_first_choice,
+                            $application->program_second_choice,
+                            $application->program_third_choice,
+                            $application->entry_qualification,
+                            $application->degree_name,
+                            $application->campus_name,
+                            $application->o_results,
+                            $application->a_results,
+                            $application->info_channel,
+                            $application->disability,
+                            $application->health_condition,
+                            $application->fee_payment_method
+                        ]);
+                    }
+    
+                    fclose($writer);
+                };
+
+                return response()->streamDownload($loader, $title.'.csv', $headers);
+                
+
+            }catch(\Throwable $th){
+                logger($th);
+                session()->flash('error', $th->getMessage());
+                return back();
+            }
+        }
+        $data['years'] = Batch::where('id', '<=', Helpers::instance()->getCurrentAccademicYear())->orderBy('id', 'desc')->get();
+        return view('admin.student.application_raw_download', $data);
+    }
 }

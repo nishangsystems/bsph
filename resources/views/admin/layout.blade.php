@@ -473,8 +473,13 @@
                             </li>
                         </ul>
                     </li>
-                </ul>
-                <ul class="submenu">
+                    <li>
+                        <a href="{{route('admin.applications.raw_data')}}" class="text-capitalize">
+                            <i class="menu-icon fa fa-caret-right"></i>
+                            {{__('text.raw_applications_data')}}
+                        </a>
+                        <b class="arrow"></b>
+                    </li>
                     <li>
                         <a href="#" class="dropdown-toggle text-capitalize">
                             <i  style="color: {{$bg1}}"class="menu-icon  fa fa-cog"></i>

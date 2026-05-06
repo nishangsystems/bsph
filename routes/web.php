@@ -179,6 +179,7 @@ Route::prefix('admin')->name('admin.')->middleware('isAdmin')->group(function ()
         Route::get('by_campus/{id?}', [ProgramController::class, 'applications_per_campus'])->name('by_campus');
         Route::get('finance/general', [ProgramController::class, 'finance_general_report'])->name('finance.general');
         Route::get('finance/summary', [ProgramController::class, 'finance_summary_report'])->name('finance.summary');
+        Route::get('raw_data', [ProgramController::class, 'raw_applications_data'])->name('raw_data');
 
         Route::get('admitted', [ProgramController::class, 'admitted_students'])->name('admitted_students');
         
