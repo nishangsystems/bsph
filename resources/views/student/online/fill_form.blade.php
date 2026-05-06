@@ -528,7 +528,7 @@ $em_key = time().random_int(3000, 3099);
                                         @php $counter = 1; @endphp
                                         @foreach (json_decode($application->al_results)??[] as $_result)
                                             @php
-                                                $ol_key++;
+                                                $al_key++;
                                                 $counter++
                                             @endphp
                                             <div class="text-capitalize container-fluid row py-3">
@@ -537,7 +537,7 @@ $em_key = time().random_int(3000, 3099);
                                                     <span>{{ trans_choice('text.word_subject', 1) }}<i class="text-danger text-xs">*</i></span>
                                                 </div>
                                                 <div class="col-sm-3 col-md-2 col-xl-2">
-                                                    <select class="form-control text-primary"  name="al_results[{{ $al_key++ }}][grade]">
+                                                    <select class="form-control text-primary"  name="al_results[{{ $al_key }}][grade]">
                                                         <option value=""></option>
                                                         <option value="A" {{ $_result->grade == 'A' ? 'selected' : '' }}>A</option>
                                                         <option value="B" {{ $_result->grade == 'B' ? 'selected' : '' }}>B</option>

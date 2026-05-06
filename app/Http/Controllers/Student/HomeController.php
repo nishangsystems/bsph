@@ -404,6 +404,7 @@ class HomeController extends Controller
             }
             if($request->al_results != null){
                 $al_results = [];
+                // dd($request->al_results);
                 foreach($request->al_results as $rec){
                     $al_results[] = ['subject'=>$rec['subject']??'', 'grade'=>$rec['grade']??'', 'coef'=>$rec['coef']??'', 'nc'=>$rec['nc']??''];
                 }
@@ -508,6 +509,11 @@ class HomeController extends Controller
             $data = $request->all();
             if(array_key_exists('first_name', $data)){
                 $data['name'] = $data['first_name']."   ".$data['other_names'];
+            }
+            // automate MOMO as the method for payment of application fee
+            if($step == 1){
+                $data['payment_method'] = 'MOMO';
+                $data['fee_payment_channel'] = 'MOMO';
             }
             $data = collect($data)->filter(function($value, $key){return !in_array($key, ['_token', 'first_name', 'other_names']) and $value != null;})->toArray();
             $application = ApplicationForm::updateOrInsert(['id'=> $application_id, 'student_id'=>auth('student')->id()], $data);
