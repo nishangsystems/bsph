@@ -497,6 +497,7 @@ class HomeController extends Controller
                         }
             
                         session()->flash('error', 'Payment Failed. Make sure you have an internet connection and try again later.');
+                        session()->flash('message', 'Payment Failed. '.$_response->body());
                         return back()->withInput();
                         break;
                 }
