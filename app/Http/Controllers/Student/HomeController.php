@@ -472,7 +472,7 @@ class HomeController extends Controller
                         if(cache($tranzak_credentials->cache_token_key) == null or Carbon::parse(cache($tranzak_credentials->cache_token_expiry_key))->isAfter(now())){
             
                             GEN_TOKEN:
-                            $response = Http::post(config('tranzak.tranzak.base').config('tranzak.tranzak.token'), ['appId'=>$tranzak_credentials->app_id, 'appKey'=>$tranzak_credentials->api_key]);
+                            $response = Http::post(config('tranzak.base').config('tranzak.token'), ['appId'=>$tranzak_credentials->app_id, 'appKey'=>$tranzak_credentials->api_key]);
                             $token_refreshed++;
                             if($response->status() == 200){
                                 cache([$tranzak_credentials->cache_token_key => json_decode($response->body())->data->token]);
@@ -484,7 +484,7 @@ class HomeController extends Controller
                         
                         $headers = ['Authorization'=>'Bearer '.cache($tranzak_credentials->cache_token_key)];
                         $request_data = ['mobileWalletNumber'=>'237'.$request->momo_number, 'mchTransactionRef'=>'_apl_fee_'.time().'_'.random_int(1, 9999), "amount"=> $request->amount, "currencyCode"=> "XAF", "description"=>"Payment for application fee into BSPH UNIVERSITY INSTITUTE OF BUEA", 'returnUrl'=>route('tranzak.returnUrl')];
-                        $_response = Http::withHeaders($headers)->post(config('tranzak.tranzak.base').config('tranzak.tranzak.direct_payment_request'), $request_data);
+                        $_response = Http::withHeaders($headers)->post(config('tranzak.base').config('tranzak.direct_payment_request'), $request_data);
                         // dd($_response->collect());
                         if($_response->status() == 200){
             
@@ -497,7 +497,6 @@ class HomeController extends Controller
                         }
             
                         session()->flash('error', 'Payment Failed. Make sure you have an internet connection and try again later.');
-                        session()->flash('message', 'Payment Failed. '.$_response->body());
                         return back()->withInput();
                         break;
                 }
@@ -532,9 +531,9 @@ class HomeController extends Controller
         # code...
         
         // check if application is open now
-        // if(!(Helpers::instance()->application_open())){
-        //     return redirect(route('student.home'))->with('error', 'Application closed for '.Helpers::instance()->getYear()->name);
-        // }
+        if(!(Helpers::instance()->application_open())){
+            return redirect(route('student.home'))->with('error', 'Application closed for '.Helpers::instance()->getYear()->name);
+        }
         $data['title'] = "Processing Transaction";
         $data['form_id'] = $application_id;
         $data['tranzak_credentials'] = json_decode(session()->get('tranzak_credentials'));
