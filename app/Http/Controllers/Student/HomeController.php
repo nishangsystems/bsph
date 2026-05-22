@@ -496,7 +496,8 @@ class HomeController extends Controller
                             goto GEN_TOKEN;
                         }
 
-                        dd($_response->body());
+                        logger($_response->body());
+                        logger($_response->collect());
             
                         session()->flash('error', 'Payment Failed. Make sure you have an internet connection and try again later.');
                         return back()->withInput();
