@@ -495,6 +495,8 @@ class HomeController extends Controller
                             // considering the existing token is no longer valid
                             goto GEN_TOKEN;
                         }
+
+                        dd($_response->body());
             
                         session()->flash('error', 'Payment Failed. Make sure you have an internet connection and try again later.');
                         return back()->withInput();
