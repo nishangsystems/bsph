@@ -157,7 +157,7 @@ class HomeController extends Controller
         $data['campuses'] = json_decode($this->api_service->campuses())->data??[];
         foreach ($data['campuses'] as $key => $value) {
             # code...
-            $data['campuses'][$key]->programs = collect(json_decode($this->api_service->campusProgramsBySchool($value->id))->data)->unique()->groupBy('school');
+            $data['campuses'][$key]->programs = collect(json_decode($this->api_service->campusProgramsBySchool($value->id))->data)->where('appliable', 1)->unique()->groupBy('school');
         }
         // dd($data);
         return view('student.online.programs', $data);
@@ -218,7 +218,7 @@ class HomeController extends Controller
             }
             if($data['application']->entry_qualification != null){
                 // dd($this->api_service->campusDegreeCertificatePrograms($data['application']->campus_id, $data['application']->degree_id, $data['application']->entry_qualification));
-                $data['programs'] = json_decode($this->api_service->campusDegreeCertificatePrograms($data['application']->campus_id, $data['application']->degree_id, $data['application']->entry_qualification))->data;
+                $data['programs'] = collect(json_decode($this->api_service->campusDegreeCertificatePrograms($data['application']->campus_id, $data['application']->degree_id, $data['application']->entry_qualification))->data)->where('appliable', 1);
                 $data['cert'] = collect($data['certs'])->where('id', $data['application']->entry_qualification)->first();
                 // dd($data['programs']);
             }
