@@ -350,10 +350,10 @@ $em_key = time().random_int(3000, 3099);
                                     <option value="BSPH Website" {{ old('info_source', $application->info_source) == "BSPH Website" ? 'selected' : '' }} data-action="">BSPH WEBSITE</option>
                                     <option value="CBC Website" {{ old('info_source', $application->info_source) == "CBC Website" ? 'selected' : '' }} data-action="">CBC Website</option>
                                     <option value="School Marketing Officer" {{ old('info_source', $application->info_source) == "School Marketing Officer" ? 'selected' : '' }} data-action="">School Marketing Officer</option>
-                                    <option value="BSPH student" {{ old('info_source', $application->info_source) == "BSPH student" ? 'selected' : '' }} data-action="specify" data-hint="student name">BSPH Student (Specify)</option>
-                                    <option value="BSPH advert" {{ old('info_source', $application->info_source) == "BSPH advert" ? 'selected' : '' }} data-action="">BSPH Advert (Flyers, posters, billboard)</option>
-                                    <option value="BSPH Social Media" {{ old('info_source', $application->info_source) == "BSPH Social Media" ? 'selected' : '' }} data-action="specify" data-hint="which media">BSPH Social Media (Specify)</option>
-                                    <option value="BSPH outdoor marketing" {{ old('info_source', $application->info_source) == "BSPH outdoor marketing" ? 'selected' : '' }} data-action="">BSPH outdoor marketing (visit to school, social gathering, sporting activities)</option>
+                                    <option value="BSPH student" {{ old('info_source', $application->info_source) == "BSPH student" ? 'selected' : '' }} data-action="specify" data-hint="student name">BSPH/RTCE Student (Specify)</option>
+                                    <option value="BSPH advert" {{ old('info_source', $application->info_source) == "BSPH advert" ? 'selected' : '' }} data-action="">BSPH/RTCE Advert (Flyers, posters, billboard)</option>
+                                    <option value="BSPH Social Media" {{ old('info_source', $application->info_source) == "BSPH Social Media" ? 'selected' : '' }} data-action="specify" data-hint="which media">BSPH/RTCE Social Media (Specify)</option>
+                                    <option value="BSPH outdoor marketing" {{ old('info_source', $application->info_source) == "BSPH outdoor marketing" ? 'selected' : '' }} data-action="">BSPH/RTCE outdoor marketing (visit to school, social gathering, sporting activities)</option>
                                     <option value="Others" data-action="specify" data-hint="which individaul/gathering you got information from">Others (church, name of person/number, ...) (specify)</option>
                                 </select>
                             </div>
@@ -383,7 +383,7 @@ $em_key = time().random_int(3000, 3099);
                         <div class="col-sm-12 col-md-12 col-lg-12 py-2 px-2">
                             <div class="py-2 border card px-2">
                                 <h5 style="text-transform: uppercase; font-weight: 700; margin-bottom: 2rem;" class="text-primary text-center">@lang('text.ordinary_level_results')</h5>
-                                <span class="text-center text-danger" style="font-size: 1.4rem;"><b>Subject and Grade for General Education. Subject, Coef & Note*Coef for Technical Education</b></span>
+                                <span class="text-center text-danger" style="font-size: 1.4rem;"><b>Subject and Grade for General Education. <br>Subject, Coef & Note*Coef for Technical Education</b></span>
                                 <div class="row">
                                     <div class="col-sm-6 col-md-4">
                                         <input type="text" name="ol_center_number" class="form-control" value="{{ $application->ol_center_number }}" required>

@@ -820,7 +820,7 @@ return [
     'password_reset'=>'password has been reset to 12345678',
     'missing_student'=>'no student was found with the specified email and phone number',
     'error_email_exist'=>'A student already exist with this email',
-    'error_phone_exist'=>'A student already exist with this phone numner',
+    'error_phone_exist'=>'A student already exist with this phone number',
     'all_our_programs'=>'all our programs',
     'start_application'=>'start application',
     'payment_data'=>'payment data',
