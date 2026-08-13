@@ -17,7 +17,7 @@
                         <td class="border-left border-right">{{ ($appl->programFirstChoice==null ? null : $appl->programFirstChoice->name).' / '.($appl->programSecondChoice ==null ? null : $appl->programSecondChoice->name) }}</td>
                         <td class="border-left border-right d-flex flex-wrap">
                             <a class="btn btn-xs btn-primary mx-2" href="{{ route('student.application.start', [0, $appl->id]) }}">{{ __('text.word_fill') }}</a>
-                            @if($appl->degree != null)
+                            @if($appl->degree_id != null)
                                 <a class="btn btn-xs btn-success mx-2" href="{{ route('student.application.start', [5, $appl->id]) }}">{{ __('text.word_preview') }}</a>
                             @endif
                         </td>

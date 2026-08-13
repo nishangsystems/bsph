@@ -329,22 +329,24 @@
 
                         <b class="arrow"></b>
                     </li>
-                    <li>
-                        <a href="{{route('admin.applications.admit')}}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            {{__('text.admit_student')}}
-                        </a>
+                    @if (!auth()->user()->hasPermissionTo('limited_access'))
+                        <li>
+                            <a href="{{route('admin.applications.admit')}}" class="text-capitalize">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                {{__('text.admit_student')}}
+                            </a>
 
-                        <b class="arrow"></b>
-                    </li>
-                    <li>
-                        <a href="{{route('admin.applications.admitted_students')}}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            {{__('text.admitted_students')}}
-                        </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li>
+                            <a href="{{route('admin.applications.admitted_students')}}" class="text-capitalize">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                {{__('text.admitted_students')}}
+                            </a>
 
-                        <b class="arrow"></b>
-                    </li>
+                            <b class="arrow"></b>
+                        </li>
+                    @endif
                     <li>
                         <a href="{{route('admin.applications.uncompleted')}}" class="text-capitalize">
                             <i class="menu-icon fa fa-caret-right"></i>
@@ -353,30 +355,32 @@
 
                         <b class="arrow"></b>
                     </li>
-                    <li>
-                        <a href="{{route('admin.applications.admission_letter')}}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            {{__('text.admission_letters')}}
-                        </a>
+                    @if (!auth()->user()->hasPermissionTo('limited_access'))
+                        <li>
+                            <a href="{{route('admin.applications.admission_letter')}}" class="text-capitalize">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                {{__('text.admission_letters')}}
+                            </a>
 
-                        <b class="arrow"></b>
-                    </li>
-                    <li>
-                        <a href="{{route('admin.applications.change_program')}}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            {{__('text.change_program')}}
-                        </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li>
+                            <a href="{{route('admin.applications.change_program')}}" class="text-capitalize">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                {{__('text.change_program')}}
+                            </a>
 
-                        <b class="arrow"></b>
-                    </li>
-                    <li>
-                        <a href="{{route('admin.students.index')}}" class="text-capitalize">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            {{__('text.reset_password')}}
-                        </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li>
+                            <a href="{{route('admin.students.index')}}" class="text-capitalize">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                {{__('text.reset_password')}}
+                            </a>
 
-                        <b class="arrow"></b>
-                    </li>
+                            <b class="arrow"></b>
+                        </li>
+                    @endif
                    
                 </ul>
             </li>
