@@ -155,9 +155,15 @@ class HomeController extends Controller
         # code...
         $data['title'] = "Our programs";
         $data['campuses'] = json_decode($this->api_service->campuses())->data??[];
+        $data['degrees'] = collect(json_decode($this->api_service->degrees())->data??[]);
         foreach ($data['campuses'] as $key => $value) {
             # code...
-            $data['campuses'][$key]->programs = collect(json_decode($this->api_service->campusProgramsBySchool($value->id))->data)->where('appliable', 1)->unique()->groupBy('school');
+            $data['campuses'][$key]->programs = collect(json_decode($this->api_service->campusProgramsBySchool($value->id))->data)->where('appliable', 1)->unique()
+                ->map(function($item)use($data){
+                    $item->application_fee = $data['degrees']->where('id', $item->degree_id)->first()?->amount??0;
+                    return $item;
+                })
+                ->groupBy('school');
         }
         // dd($data);
         return view('student.online.programs', $data);

@@ -7,6 +7,7 @@
                     <thead><tr class="text-capitalize border-bottom">
                         <th class="border-left border-right">{{ __('text.sn') }}</th>
                         <th class="border-left border-right">{{ __('text.word_program') }}</th>
+                        <th class="border-left border-right">{{ __('text.application_fee') }} (@lang('text.currency_cfa'))</th>
                         <th class="border-left border-right"></th>
                     </tr></thead>
                     <tbody>
@@ -17,6 +18,7 @@
                         <tr class="border-bottom">  
                             <td class="border-left border-right">{{ $k++ }}</td>
                             <td class="border-left border-right">{{ $program->name }}</td>
+                            <td class="border-left border-right">{{ $program->application_fee }}</td>
                             <td class="border-left border-right">
                                 {{-- @if ($program->appliable == 1) --}}
                                     <a href="{{ route('student.application.start', 0) }}?_prg={{ $program->id }}" class="btn btn-sm rounded btn-primary">apply</a>
