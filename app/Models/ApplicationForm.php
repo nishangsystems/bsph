@@ -26,7 +26,7 @@ class ApplicationForm extends Model
         'emergency_name', 'emergency_address', 'emergency_tel', 'emergency_email', 
         'fee_payment_channel', 'emergency_personality', 'previous_training', 'level', 
         'marital_status', 'bypass_reason', 'admitted_at', 'info_source', 'info_source_identity',
-        'payment_method', 'payment_proof',
+        'payment_method', 'payment_proof', 'submitted'
     ];
 
     public function firstName(){

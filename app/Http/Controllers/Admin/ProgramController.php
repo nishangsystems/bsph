@@ -1539,7 +1539,10 @@ class ProgramController extends Controller
         $transaction = new Transaction($data);
         $transaction->save();
 
-        $application->update(['transaction_id'=>$transaction->id, 'bypass_reason'=>$request->bypass_reason, 'submitted' => now()]);
+        $application->transaction_id = $transaction->id;
+        $application->bypass_reason = $request->bypass_reason;
+        $application->submitted = now();
+        $application->save();
         return redirect(route('admin.applications.uncompleted'))->with('success', __('text.word_done'));
     }
 
