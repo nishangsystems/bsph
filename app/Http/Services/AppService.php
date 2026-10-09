@@ -29,6 +29,7 @@ class AppService{
             $degree = collect(json_decode($this->api_service->degrees())->data)->where('id', $appl->degree_id)->first()??null;
             $config = Config::where('year_id', Helpers::instance()->getCurrentAccademicYear())->first();
             $duration = collect(json_decode($this->api_service->campusProgramLevels($appl->campus_id, $appl->program_first_choice))->data)->count();
+            $page2 = AdmissionLetterPage2::where(['program_id' => $program?->id])->first();
             $data['appl'] = $appl;
             $data['year'] = substr($appl->year->name, -4);
             $data['_year'] = substr($appl->year->name, 2, 2);
@@ -64,6 +65,11 @@ class AppService{
             $data['matric_sn'] = substr($appl->matric, -3);
             $data['department'] = $department->name??'-------';
             $data['start_of_lectures'] = Config::where('year_id', Helpers::instance()->getCurrentAccademicYear())->first()->start_of_lectures?->format('F dS Y');
+            $data['page2'] = $page2;
+            $data['footerLogosPath'] = asset('assets/images/avatars/footer.png');
+            $data['letterhead'] = asset('assets/images/avatars/letterhead.png');
+            $data['seal'] = asset('assets/images/avatars/registrar-seal.png');
+            $data['logo'] = asset('assets/images/avatars/logo.png');
             // dd($data);
             if($data['degree'] ==  null){
                 session()->flash('error', 'Program Degree Name not set');

@@ -1,240 +1,402 @@
 @extends('admin.printable2')
+
 @section('style')
-    <style>
-        #page2{
-            page-break-before: always;
+<style>
+    /* @page {
+        size: A4;
+        margin: 12mm 14mm 20mm;
+    }*/
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .p-2.container-fluid {
+        width: 100%;
+        max-width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .admission-document {
+        position: relative;
+        width: 100%;
+        font-family: "Times New Roman", serif;
+        font-size: 12pt;
+        line-height: 1.55;
+        color: #111;
+        background: #fff;
+    }
+
+    /* Institutional watermark */
+    .admission-watermark {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 145mm;
+        height: 145mm;
+        transform: translate(-50%, -50%);
+        opacity: .055;
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    .admission-watermark img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .admission-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .admission-top-border {
+        border-top: 3px double #8889a7;
+        margin-bottom: 25px;
+    }
+
+    .service-note {
+        color: #8589a7;
+        font-style: italic;
+        font-size: 11pt;
+        margin-bottom: 15px;
+    }
+
+    .admission-title {
+        text-align: center;
+        font-size: 22pt;
+        font-weight: normal;
+        line-height: 1.3;
+        margin: 15px 0 5px;
+    }
+
+    .admission-date {
+        text-align: right;
+        font-family: Arial, sans-serif;
+        font-weight: bold;
+        font-size: 11pt;
+        margin-bottom: 8px;
+    }
+
+    .admission-details {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px 10px;
+        font-family: Arial, sans-serif;
+        font-size: 11pt;
+        font-weight: bold;
+    }
+
+    .admission-details .right {
+        text-align: right;
+    }
+
+    .student-greeting {
+        margin-top: 10px;
+        font-family: Arial, sans-serif;
+        font-size: 11pt;
+        font-weight: bold;
+    }
+
+    .student-greeting .placeholder {
+        color: red;
+    }
+
+    .admission-separator {
+        border: 0;
+        border-top: 5px solid #888;
+        margin: 10px 0 25px;
+    }
+
+    .admission-body {
+        font-size: 12pt;
+        line-height: 1.65;
+        text-align: justify;
+    }
+
+    .admission-body p {
+        margin: 0 0 7px;
+    }
+
+    .admission-conditions {
+        padding-left: 25px;
+        margin: 5px 0 10px;
+    }
+
+    .admission-conditions li {
+        padding-left: 7px;
+        margin-bottom: 5px;
+        text-align: justify;
+    }
+
+    /* Combined seal and signature */
+    .registrar-block {
+        display: flex;
+        align-items: flex-start;
+        margin-top: 18px;
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .registrar-combined-image {
+        display: block;
+        width: 105mm;
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
+        object-position: left top;
+    }
+
+
+    /* Page two content */
+    #page2 {
+        page-break-before: always;
+        page-break-inside: auto;
+        page-break-after: auto;
+        position: relative;
+        width: 100%;
+        max-width: 100%;
+        padding-bottom: 20mm;
+        word-wrap: break-word;
+    }
+
+    .pstart{
+        page-break-before: always;
+        page-break-inside: auto;
+        page-break-after: auto;
+    }
+
+    #page2 * {
+        max-width: 100% !important;
+    }
+
+    #page2 table {
+        width: 100% !important;
+        table-layout: fixed;
+    }
+
+    #page2 table td,
+    #page2 table th {
+        padding-block: 0;
+    }
+
+    @media screen {
+        .admission-document {
+            /* max-width: 182mm; */
+            margin: 0 auto;
+            padding-bottom: 4mm;
+        }
+
+    }
+
+    @media print {
+        html,
+        body {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: #fff !important;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .p-2.container-fluid {
+            padding: 0 !important;
+            margin: 0 !important;
+            width: 100% !important;
+        }
+
+        .admission-document {
+            width: 100%;
+            margin: 0;
+        }
+
+        .admission-body p,
+        .admission-conditions li {
+            orphans: 3;
+            widows: 3;
+        }
+
+        .registrar-block {
+            break-inside: avoid;
             page-break-inside: avoid;
-            page-break-after: auto;
         }
 
-        #page2 table td, #page2 table th{
+        #page2 {
+            page-break-before: always;
+            page-break-inside: auto;
+        }
+
+        #page2 table td,
+        #page2 table th {
             padding-block: 0;
+            word-wrap: break-word;
         }
-
-        @media print {
-            #page2{
-                page-break-before: always;
-                page-break-inside: avoid;
-                page-break-after: auto;
-            }
-
-            #page2 table td, #page2 table th{
-                padding-block: 0;
-            }
-        }
-
-    </style>
+    }
+</style>
 @endsection
+
 @section('section')
-    <div class="p-2 container-fluid" style="padding-inline: 4.5rem !important;">
-        <div style="text-align: center; text-transform: uppercase; font-weight: 600; font-size: large;">Provisional admission letter</div>
-        <table style="table-layout: fixed;" cellpadding="5px;" cellspacing="0">
-            <thead>
-                <tr>
-                    <th style="padding: 0.3rem auto; maring: 0;" colspan="">Ref: </th>
-                    <th style="padding: 0.3rem auto; maring: 0;" colspan="3"><b>{{ $auth_no }}</b> </th>
-                    <th style="padding: 0.3rem auto; maring: 0;" colspan="2">Date: <b>{{ $appl->admitted_at->format('M dS Y') }}</b></th>
-                </tr>
-                <tr>
-                    <th style="padding: 0.3rem auto; maring: 0;" colspan="">Program of Study:</th>
-                    <th style="padding: 0.3rem auto; maring: 0;" colspan="3"><b>{{ $program??'' }}</b></th>
-                    <th style="padding: 0.3rem auto; maring: 0;" colspan="2">Duration: <b>{{ $filters->where('program', $_program->id)->first()['duration']??'#' }} years</b></th>
-                </tr>
-                <tr>
-                    <th style="padding: 0.3rem auto; maring: 0;" colspan="">Accademic Year:</th>
-                    <th style="padding: 0.3rem auto; maring: 0;" colspan="3"><b>{{ $appl->year?->name??'' }}</b></th>
-                    <th style="padding: 0.3rem auto; maring: 0;" colspan="2"></th>
-                </tr>
-                <tr>
-                    <th style="padding: 0.3rem auto; maring: 0;" colspan="5">Dear {{ $name??'' }} [{{ $matric??'' }}]</th>
-                    <th style="padding: 0.3rem auto; maring: 0;" colspan=""></th>
-                </tr>
-                <tr>
-                    <th style="padding: 0.3rem auto; maring: 0;" colspan="6" style="text-align: center; font-weight: 600; font-size: large; text-transform: uppercase;"> admission into {{ $_program->name??'' }} </th>
-                </tr>
-            </thead>
-        </table>
-        <hr style="border: 2px solid gray;">
-        <p>With reference to your application, to offer you admission into the BSPH to pursue a <span style="text-transform: lowercase;">({{ $duration??'#' }}) {{ \App\Helpers\Helpers::instance()->numToWord($duration??0) }}-year</span> <b style="text-transform: capitalize;"> {{ $_program->name }}</b></p>
-        <p>This selection is based on available information that you have satisfied the Entry Requirements for the above-mentioned program of study. Should the information you have provided be found at any time to be false or should you be found to be deficient in the entry requirements during your study, you will be dismissed from the Institution.</p>
-        <p>You are required to be of good character for the full duration of your program of study. You may be withdrawn from the Institution at any time for unsatisfactory academic work or gross misconduct, pursuant to the statutes of the Institution.</p>
-        <p>The admission is subject to your ability to pay all fees in full promptly. You are required to pay  the 1st installment according to the fee structure attached on or  before the day of resumption of classes. The amount to be paid is detailed in the schedule of fees attached.</p>
-        <p>The fees for subsequent academic years are subject to change (as the need arises). Should you default at any time during study you would be withdrawn. Note that Fees paid are NOT REFUNDABLE.  Your final un-conditional admission offer will be subject to a review Jury of the <b>{{ $filters->where('program', $_program->id)->first()['mentor']??'' }}</b></p>
-        <p>You are expected to have the student’s handbook.</p>
-        <p>Resumption date is {{ $start_of_lectures }}. </p>
-        <p>Yours sincerely,</p>
-        <p>Dr. Nkuoh Godlove <br> Academic Dean </p>
-        <p>Baptist School of Public Health</p>
 
-        <div style="position: absolute; bottom: 0; top: auto; right: 0; font-size: large; font-weight: 900; font-style: italic;">Nuturing Excellence, Exemplifying Professionalism</div>
+<div class="p-2 container-fluid">
 
-        <div id="page2">
-            <table cellspacing="0" style="table-layout: fixed; font-size: 1rem;" cellpadding="0">
-                <tbody>
-                    {{-- 9 columns in total --}}
-                    <tr>
-                        <th style="padding: 0.1rem auto; border: 1px solid gray; text-transform: uppercase;" colspan="3">@lang('text.academic_year')</th>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: uppercase;" colspan="6">{{ $appl->year?->name??'' }}</td>
-                    </tr>
-                    <tr>
-                        <th style="padding: 0.1rem auto; border: 1px solid gray; text-transform: uppercase;" colspan="3">student’s name</th>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: uppercase;" colspan="6">{{ $appl->name??'' }}</td>
-                    </tr>
-                    <tr>
-                        <th style="padding: 0.1rem auto; border: 1px solid gray; text-transform: uppercase;" colspan="3">@lang('text.word_matricule')#</th>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: uppercase;" colspan="6">{{ $appl->matric??'' }}</td>
-                    </tr>
-                    <tr>
-                        <th style="padding: 0.1rem auto; border: 1px solid gray; text-transform: uppercase;" colspan="3">Program admitted into</th>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: uppercase;" colspan="6">{{ $program??'' }}</td>
-                    </tr>
-                    <tr>
-                        <th style="padding: 0.1rem auto; border: 0px; text-transform: uppercase; padding-block: 1rem;" colspan="9">fee structure</th>
-                    </tr>
-                    <tr>
-                        <th style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;">@lang('text.sn')</th>
-                        <th style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="4">Item description</th>
-                        <th style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">Price (@lang('text.currency_cfa'))</th>
-                        <th style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">Total (Inc.) (@lang('text.currency_cfa'))</th>
-                    </tr>
-                    <tr>
-                        <th style="padding: 0.1rem auto; border: 1px solid gray; text-transform: uppercase;"></th>
-                        <th style="padding: 0.1rem auto; border: 1px solid gray; text-transform: uppercase;" colspan="4">breakdown of fees</th>
-                        <th style="padding: 0.1rem auto; border: 1px solid gray; text-transform: uppercase;" colspan="4"></th>
-                    </tr>
-                    <tr>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;">1</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="4">Academic Fees / Tuition</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">{{ number_format($fee_structure['amount']??0) }}</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">{{ number_format($fee_structure['amount']??0) }}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;"></td>
-                        <th style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="4">total</th>
-                        <th style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">{{ number_format($fee_structure['amount']??0) }}</th>
-                        <th style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">{{ number_format($fee_structure['amount']??0) }}</th>
-                    </tr>
-                    <tr>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;"></td>
-                        <th style="padding: 0.1rem auto; border: 1px solid gray; text-transform: uppercase;" colspan="4">other fees</th>
-                        <th style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2"></th>
-                        <th style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2"></th>
-                    </tr>
-                    <tr>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;">1</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="4">Sport Waer</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">5,000</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">5,000</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;">2</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="4">T-Shirts</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">5,000</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">5,000</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;">3</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="4">Maintenance Fees</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">10,000</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">10,000</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;">4</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="4">Library fees</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">5,000</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">5,000</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;">5</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="4">Medical insurance</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">5,000</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">5,000</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;">6</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="4">Student Union Dues</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">2,000</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">2,000</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;">7</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="4">Student ID Card</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">1,500</td>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">1,500</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;"></td>
-                        <th style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="4">total</th>
-                        <th style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">33,500</th>
-                        <th style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">33,500</th>
-                    </tr>
-                    <tr>
-                        <td style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;"></td>
-                        <th style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="4">Grand total</th>
-                        <th style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">{{ number_format(($fee_structure['amount']??0) + 33500) }}</th>
-                        <th style="padding: 0.1rem auto; border: 1px solid gray; text-transform: capitalize;" colspan="2">{{ number_format(($fee_structure['amount']??0) + 33500) }}</th>
-                    </tr>
-                    <tr>
-                        <th colspan="9">NB: Students who are opportune to lodge in the school hostel will be asked to pay a separate amount. <br><br>STATEMENT OF FEES <br> Dear student, Baptist School of Public Health is Pleased to issue you a fee statement as below:  </th>
-                    </tr>
-                    <tr>
-                        <th style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2">fee type</th>
-                        <th style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2">actual fee</th>
-                        <th style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2">Other payments</th>
-                        <th style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="1">total fee</th>
-                        <th style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2">payment date</th>
-                    </tr>
-                    <tr>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2">Admission processing fees</td>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2"></td>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2"></td>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="1"></td>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2">At the time of admission</td>
-                    </tr>
-                    <tr>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2">Tuition Fees - Year 1</td>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2">{{ number_format($fee_structure['amount']??0) }}</td>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2">33,500</td>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="1">{{ number_format(($fee_structure['amount']??0) + 33500) }}</td>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2">As per respective installments</td>
-                    </tr>
-                    <tr>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2">1st installment</td>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2"></td>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2"></td>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="1">{{ number_format( $fee_structure['first_instalment']??0) }}</td>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2">On or before 31st October of {{ $year + $instalments[0]['year']}}</td>
-                    </tr>
-                    <tr>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2">2nd installment</td>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2"></td>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2"></td>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="1">{{ number_format( $fee_structure['second_instalment']??0) }}</td>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2">28TH January {{ $year + $instalments[1]['year']}}</td>
-                    </tr>
-                    <tr>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2">3rd installment</td>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2"></td>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2"></td>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="1">{{ number_format( intval($fee_structure['third_instalment']??0)+33500) }}</td>
-                        <td style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2">30TH March {{ $year + $instalments[2]['year']}}</td>
-                    </tr>
-                    <tr>
-                        <th style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2">total</th>
-                        <th style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2"></th>
-                        <th style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2"></th>
-                        <th style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="1">{{ number_format( ($fee_structure['amount']??0) + 33500) }}</th>
-                        <th style="text-transform: uppercase; padding: 0.1rem auto; border: 1px solid gray;" colspan="2"></th>
-                    </tr>
-                    <tr>
-                        <th style="padding: 0.1rem auto; border: 0;" colspan="9">
-                            PAYMENT INTO UNION BANK OF CAMEROON (UBC) ACCOUNT#: 10023-00030-00313014774-68 ACCOUNT <br> NAME: BAPTIST SCHOOL OF PUBLIC HEALTH (BSPH) OR	 IN ANY CBC BURSARY INTO ACCOUNT # 705200/638
-                        </th>
-                    </tr>
-                    <tr><td colspan="9" style="padding: 0.1rem auto; border: 0;"><br> NOTE:  FEES PAID IN IS NON-REFUNDABLE</td></tr>
-                </tbody>
-            </table>
-            <div style="position: absolute; bottom: 0; top: auto; right: 0; font-size: large; font-weight: 900; font-style: italic;">Nuturing Excellence, Exemplifying Professionalism</div>
+
+    {{-- FIRST PAGE: PROVISIONAL ADMISSION LETTER --}}
+    <div class="admission-document">
+
+        <div class="admission-watermark">
+            <img src="{{ $logo }}" alt="">
+        </div>
+
+        <div class="admission-content">
+
+            <div class="admission-top-border"></div>
+
+            <div class="service-note">
+                Service Note No.:
+                {{ $auth_no ?: '...........................................................' }}
+            </div>
+
+            <h1 class="admission-title">
+                PROVISIONAL ADMISSION LETTER
+            </h1>
+
+            <div class="admission-date">
+                Date: {{ $appl->admitted_at->format('M dS Y') }}
+            </div>
+
+            <div class="admission-details">
+                <div>
+                    Programme of Study: {{ $program }}
+                </div>
+
+                <div></div>
+
+                <div>
+                    Academic Year: {{ $appl->year?->name??'' }}
+                </div>
+
+                <div class="right">
+                    Duration: {{ $duration }} @lang('text.word_years')
+                </div>
+            </div>
+
+            <div class="student-greeting">
+                Dear
+                <span class="placeholder">{{ $name }}</span>,
+                <span class="placeholder">{{ $matric }}</span>
+            </div>
+
+            <hr class="admission-separator">
+
+            <div class="admission-body">
+
+                <p>
+                    Congratulations! We are pleased to inform you of your
+                    admission into the <strong>{{ $duration }}-year</strong>
+                    {{ $_degree->deg_name }}, <strong>{{ $program }}</strong> at the School of
+                    Public Health (BSPH), Cameroon Baptist University
+                    Institute (CBUI), Mutengene, for the
+                    {{ $appl->year?->name??'' }} academic year.
+                </p>
+
+                <p>
+                    You have been selected following a review of your
+                    academic credentials. Resumption date is
+                    <strong>{{ $start_of_lectures }}</strong> at
+                    <strong>7:00am prompt</strong>. This will begin with a
+                    <strong>compulsory</strong> orientation, which is
+                    crucial to your stay at BSPH.
+                </p>
+
+                <p>
+                    Your acceptance to the school is
+                    <strong>conditional</strong> upon fulfilling the
+                    following:
+                </p>
+
+                <ol class="admission-conditions">
+                    <li>
+                        Payment of a non-refundable first installment fee
+                        deposit of <strong>{{ \App\Helpers\Helpers::instance()->numToWord(intval($fee_structure['first_instalment'])) }} CFA
+                        ({{ number_format($fee_structure['first_instalment']) }})</strong> on or before
+                        <strong>November 15, {{ substr($appl->year?->name??'', 0, 4) }}</strong>. You may make
+                        this payment as well as any other payments into
+                        the following bank accounts: Union Bank of
+                        Cameroon (UBC), Account number:
+                        <strong>10023-00030-00313014774-68</strong>,
+                        Account Name: Baptist School of Public Health
+                        (BSPH), or at any CBC Bursary, into Account
+                        <strong>705200/638</strong>. Attached is your fee
+                        payment schedule that must be strictly respected.
+                    </li>
+
+                    <div style="position: absolute; bottom: 0; top: auto; right: 0; font-size: large; font-weight: 900; font-style: italic;">
+                        <img src="{{ $footerLogosPath }}" alt="Institutional logos" style="width: 100%; height: auto; max-height: 11rem;">
+                    </div>
+
+                    <li class="pstart">
+                        Submission of all original copies of your
+                        academic certificates, transcripts/slips and
+                        other relevant documents to the Registrar's
+                        office for verification. Any case of falsification
+                        will lead to withdrawal of this admission.
+                    </li>
+
+                    <li>
+                        Completion of a medical examination by an
+                        authorized Physician of the CBC Health Services.
+                        A Medical Examination Form should be collected
+                        from the school secretariat upon resumption.
+                    </li>
+                </ol>
+
+                <p class="">
+                    CBUI is a Christian Institution of higher learning
+                    dedicated to academic excellence and godly character.
+                    You may therefore be withdrawn from the school at
+                    any time in case of unsatisfactory academic progress
+                    or misconduct.
+                </p>
+
+                <p>
+                    If you have any concerns about this offer, do not
+                    hesitate to contact the School Administration.
+                </p>
+
+                <p>
+                    On behalf of our Faculty, Staff and Students, we
+                    heartily welcome you to the Cameroon Baptist
+                    University Institute and we wish you great success
+                    in your stay here.
+                </p>
+
+            </div>
+
+            {{-- Single combined registrar image --}}
+            <div class="registrar-block">
+                <img
+                    class="registrar-combined-image"
+                    src="{{ $seal }}"
+                    alt="Registrar's seal and signature"
+                >
+            </div>
+
         </div>
     </div>
+    <div style="position: absolute; bottom: 0; top: auto; right: 0; font-size: large; font-weight: 900; font-style: italic;">
+        <img src="{{ $footerLogosPath }}" alt="Institutional logos" style="width: 100%; height: auto; max-height: 11rem;">
+    </div>
+
+    {{-- SECOND PAGE: EXISTING DYNAMIC CONTENT --}}
+    <div id="page2" class="pstart">
+        {!! $page2->content ?? '' !!}
+    </div>
+
+    <div style="position: absolute; bottom: 0; top: auto; right: 0; font-size: large; font-weight: 900; font-style: italic;">
+        <img src="{{ $footerLogosPath }}" alt="Institutional logos" style="width: 100%; height: auto; max-height: 11rem;">
+    </div>
+
+</div>
 @endsection

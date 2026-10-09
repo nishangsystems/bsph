@@ -220,7 +220,7 @@ class Helpers
     public function getHeader()
     {
         # code...
-        return asset('assets/images/avatars/letterhead.jpg');
+        return asset('assets/images/avatars/letterhead.png');
     }
 
     public function getBackground()
