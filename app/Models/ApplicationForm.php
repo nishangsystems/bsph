@@ -31,7 +31,7 @@ class ApplicationForm extends Model
 
     public function firstName(){
         if($this->name != null){
-            $tokens = explode(' ', $this->name);
+            $tokens = collect(explode(' ', $this->name))->filter(function($item){return strlen($item) != 0;})->values()->toArray();
             if(count($tokens) > 3){
                 $first_name = $tokens[0]." ".$tokens[1];
             }else{

@@ -1064,9 +1064,10 @@ class ProgramController extends Controller
         $data['programs'] = collect(json_decode($this->api_service->campusPrograms($data['application']->campus_id))->data)->where('degree_id', $data['application']->degree_id);
         $data['all_programs'] = collect(json_decode($this->api_service->programs())->data);
         $data['levels'] = collect(json_decode($this->api_service->levels())->data);
+        $data['degrees'] = collect(json_decode($this->api_service->degrees())->data);
 
         if($data['application']->degree_id != null){
-            $data['degree'] = collect(json_decode($this->api_service->degrees())->data)->where('id', $data['application']->degree_id)->first();
+            $data['degree'] = $data['degrees']->where('id', $data['application']->degree_id)->first();
         }
         if($data['application']->campus_id != null){
             $data['campus'] = collect($data['campuses'])->where('id', $data['application']->campus_id)->first();

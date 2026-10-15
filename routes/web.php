@@ -305,7 +305,7 @@ Route::prefix('student')->name('student.')->middleware('isStudent')->middleware(
     Route::get('campus/program/levels/{campus_id}/{program_id}', [Controller::class, 'campusProgramLevels'])->name('campus.program.levels');
     Route::get('campus/programs/{campus_id}', [Controller::class, 'campusPrograms'])->name('campus.programs');
     Route::get('campus/degrees/{campus_id}', [Controller::class, 'campusDegrees'])->name('campus.degrees');
-    Route::get('region/divisions/{region_id}', [Controller::class, 'regionDivisions'])->name('region.divisions');
+    Route::get('region/divisions/{region_id}', [Controller::class, 'regionDivisions'])->name('region.divisions')->withoutMiddleware(['isStudent', 'plcharge']);
     Route::get('programs/all', [StudentHomeController::class, 'all_programs'])->name('programs.index');
     Route::get('payment/data', [StudentHomeController::class, 'payment_data'])->name('payment.data');
     Route::get('application/start/{step}/{id?}', [StudentHomeController::class, 'start_application'])->name('application.start');

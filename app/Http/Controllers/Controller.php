@@ -239,7 +239,7 @@ class Controller extends BaseController
     public function regionDivisions($region_id)
     {
         # code...
-        return Region::find($region_id)->divisions;
+        return Region::find($region_id)->divisions->unique();
     }
 
     public function create_api_root()

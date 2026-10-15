@@ -14,10 +14,11 @@ $em_key = time().random_int(3000, 3099);
                 <input type="hidden" name="campus_id" value="{{ $campuses[0]->id }}">
                 <div class="col-sm-12 col-md-12">
                     <label class="text-capitalize"><span style="font-weight: 700;">{{ __('text.applying_for_phrase') }}</span><i class="text-danger text-xs">*</i></label>
-                    <select name="degree_id" class="form-control text-primary"  id="degree_types">  
-                        @if($application->degree_id != null)
-                            <option value="{{ $degree->id }}" selected>{{ $degree->deg_name }}</option>                                        
-                        @endif                                  
+                    <select name="degree_id" class="form-control text-primary"  id="degree_types">
+                        <option value=""></option>  
+                        @foreach($degrees as $deg)
+                            <option value="{{ $deg->id }}" {{ $deg->id == $application->degree_id ? 'selected' : '' }}>{{ $deg->deg_name }}</option>                                        
+                        @endforeach                                  
                     </select>
                 </div>
             </div>
@@ -819,7 +820,7 @@ $em_key = time().random_int(3000, 3099);
 
         let loadDivisions = function(event){
             let region = event.target.value;
-            console.log("regionregionregion",region);
+            console.log("region: "+region);
             setDivisions(region);
         }
 
@@ -829,6 +830,7 @@ $em_key = time().random_int(3000, 3099);
             $.ajax({
                 method: 'get', url: url, 
                 success: function(data){
+                    console.log(data);
                     let html = `<option></option>`
                     data.forEach(element => {
                         html+=`<option value="${element.id}" ${'{{ $application->division}}' == element.id ? 'selected' : '' }>${element.name}</option>`.replace('region_id', element.id)
