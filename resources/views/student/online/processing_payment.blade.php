@@ -31,23 +31,27 @@
         gap += 3;
     }, 200);
 
-    // check for the transaction status every 3s
-    set_interval = setInterval(() => {
-        _url = "{{config('tranzak.base').config('tranzak.transaction_details').$transaction->requestId}}";
-        headers = { 'Access-Control-Allow-Origin': '*',  'Authorization' : "Bearer {{ cache($tranzak_credentials->cache_token_key) }}"};
+    // check for the transaction status every 5s
+    let statusCheckInProgress = false;
+    let set_interval = setInterval(() => {
+        if (statusCheckInProgress) {
+            return;
+        }
+        statusCheckInProgress = true;
         $.ajax({
-            method: 'get',
-            url: _url,
-            headers: headers,
+            method: 'post',
+            url: "{{ route('student.application.payment.status') }}",
+            data: {
+                _token: "{{ csrf_token() }}",
+                requestId: @json($transaction->requestId),
+                tranzak_credentials_id: @json($tranzak_credentials->id)
+            },
             success: function(data){
-                // check if status is completed or failed
-                response_data = data.data
-                console.log(response_data);
+                let response_data = data.data;
                 if((response_data.status == "SUCCESSFUL") || (response_data.status == "CANCELLED") || (response_data.status == "FAILED") || (response_data.status == "REVERSED")){
-                    url = "{{route('student.application.payment.complete', $form_id)}}";
+                    let url = "{{route('student.application.payment.complete', $form_id)}}";
                     let form_markup = `<form method="post" id="_temp_form" action="${url}" enctype="application/json">
                         @csrf`;
-                    console.log(Object.entries(response_data));
                     Object.entries(response_data).forEach(element => {
                         if(element[1] !=null && typeof element[1] === "object"){
                             Object.entries(element[1]).forEach(sub_el =>{
@@ -58,12 +62,15 @@
                         }
                     });
                     form_markup += `</form>`;
-                    
-                    let form = $('#_temp_use').html(form_markup);
+                    $('#_temp_use').html(form_markup);
                     clearInterval(set_interval);
                     $('#_temp_form').submit();
-                    // window.location = url;
                 }
+                statusCheckInProgress = false;
+            },
+            error: function(xhr, status, error){
+                console.error('Unable to check Tranzak transaction status.', error);
+                statusCheckInProgress = false;
             }
         });
     }, 5000);

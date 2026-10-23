@@ -552,6 +552,60 @@ class HomeController extends Controller
         
     }
 
+    public function tranzak_transaction_status(Request $request)
+    {
+        $validated = $request->validate([
+            'requestId' => 'required|string',
+            'tranzak_credentials_id' => 'required|integer',
+        ]);
+
+        $transaction = json_decode(session()->get('processing_tranzak_transaction_details'));
+        $sessionCredentials = json_decode(session()->get('tranzak_credentials'));
+        abort_unless(
+            isset($transaction->requestId, $sessionCredentials->id) &&
+            $transaction->requestId === $validated['requestId'] &&
+            (int) $sessionCredentials->id === (int) $validated['tranzak_credentials_id'],
+            403
+        );
+
+        $tranzakCredentials = TranzakCredential::findOrFail($validated['tranzak_credentials_id']);
+        $token = cache($tranzakCredentials->cache_token_key);
+        $tokenExpiry = cache($tranzakCredentials->cache_token_expiry_key);
+
+        if ($token === null || $tokenExpiry === null || Carbon::parse($tokenExpiry)->isPast()) {
+            $tokenResponse = Http::post(config('tranzak.base') . config('tranzak.token'), [
+                'appId' => $tranzakCredentials->app_id,
+                'appKey' => $tranzakCredentials->api_key,
+            ]);
+
+            if (!$tokenResponse->successful()) {
+                return response()->json(['message' => 'Unable to authenticate with Tranzak.'], 502);
+            }
+
+            $tokenData = $tokenResponse->json('data');
+            if (!is_array($tokenData) || empty($tokenData['token']) || !isset($tokenData['expiresIn'])) {
+                return response()->json(['message' => 'Tranzak returned an invalid authentication response.'], 502);
+            }
+
+            $token = $tokenData['token'];
+            cache([
+                $tranzakCredentials->cache_token_key => $token,
+                $tranzakCredentials->cache_token_expiry_key => Carbon::createFromTimestamp(time() + (int) $tokenData['expiresIn']),
+            ]);
+        }
+
+        $response = Http::withToken($token)->get(
+            config('tranzak.base') . config('tranzak.transaction_details') . rawurlencode($validated['requestId'])
+        );
+        $responseData = $response->json();
+
+        if (!is_array($responseData)) {
+            return response()->json(['message' => 'Tranzak returned an invalid transaction status response.'], 502);
+        }
+
+        return response()->json($responseData, $response->status());
+    }
+
     public function pending_complete(Request $request, $appl_id)
     {
         # code...

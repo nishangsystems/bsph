@@ -317,6 +317,7 @@ Route::prefix('student')->name('student.')->middleware('isStudent')->middleware(
     Route::get('application/admission_letter/download/{id?}', [StudentHomeController::class, 'download_admission_letter'])->name('application.admission_letter.download');
     Route::post('application/admission_letter/download/{id?}', [StudentHomeController::class, 'download_admission_letter_save']);
     Route::get('application/payment/processing/{form_id}', [StudentHomeController::class, 'pending_payment'])->name('application.payment.processing');
+    Route::post('application/payment/status', [StudentHomeController::class, 'tranzak_transaction_status'])->name('application.payment.status');
     Route::get('application/payment/complete/{form_id}', [StudentHomeController::class, 'pending_complete'])->name('application.payment.complete');
     Route::post('application/payment/complete/{form_id}', [StudentHomeController::class, 'pending_complete']);
     
@@ -409,4 +410,3 @@ Route::get('mode/{locale}', function ($batch) {
 
     return redirect()->back();
 })->name('mode');
-
